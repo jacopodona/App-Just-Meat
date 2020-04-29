@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     private ArrayList<ProductItem> pList;
+
     public static class ProductViewHolder extends RecyclerView.ViewHolder{
         public ImageView imgP;
         public TextView nome;
@@ -22,7 +23,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             super(itemView);
             imgP = itemView.findViewById(R.id.productImg);
             nome = itemView.findViewById(R.id.productName);
-            price = itemView.findViewById(R.id.poductPrice);
+            price = itemView.findViewById(R.id.productPrice);
         }
     }
     public ProductAdapter(ArrayList<ProductItem> xPL){
@@ -39,7 +40,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         ProductItem currentItem= pList.get(position);
-        holder.price.setText(currentItem.getPrezzo()+"/"+currentItem.getSize() );
+        holder.price.setText(currentItem.getPrezzo()+" €");
         holder.imgP.setImageResource(currentItem.getImgProd());
         holder.nome.setText(currentItem.getNome());
     }

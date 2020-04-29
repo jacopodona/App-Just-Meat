@@ -2,50 +2,61 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:id="@+id/product_card_id"
+    android:layout_width="112dp"
+    android:layout_height="180dp"
+    android:layout_margin="10dp"
     app:cardCornerRadius="10dp"
-    android:layout_marginBottom="20dp">
+    app:cardElevation="6dp">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="112dp"
-        android:layout_height="180dp"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/productImg"
-            android:layout_width="112dp"
+            android:layout_width="match_parent"
             android:layout_height="84dp"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:layout_conversion_absoluteHeight="84dp"
-            tools:layout_conversion_absoluteWidth="112dp" />
+            tools:layout_editor_absoluteX="0dp" />
 
         <TextView
             android:id="@+id/productName"
-            android:textSize="13sp"
-            android:layout_width="wrap_content"
-            android:maxWidth="70dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:textColor="@android:color/black"
             android:text="TextView"
-            app:layout_constraintEnd_toEndOf="@+id/productImg"
-            app:layout_constraintStart_toStartOf="@+id/productImg"
-            app:layout_constraintTop_toBottomOf="@+id/productImg" />
+            android:textSize="15sp"
+            app:layout_constraintTop_toBottomOf="@+id/productImg"
+            tools:layout_editor_absoluteX="16dp" />
 
         <TextView
-            android:id="@+id/poductPrice"
-            android:layout_width="wrap_content"
+            android:textColor="@android:color/black"
+            android:id="@+id/productPrice"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textSize="13sp"
-            android:text="TextView"
             android:gravity="center"
-            app:layout_constraintEnd_toEndOf="@+id/productImg"
-            app:layout_constraintStart_toStartOf="@+id/productImg"
-            app:layout_constraintTop_toBottomOf="@id/productName" />
+            android:paddingHorizontal="10dp"
+            android:text="TextView"
+            android:textSize="15sp"
+            app:layout_constraintTop_toBottomOf="@+id/productName"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginBottom="7dp"
+            android:background="@drawable/btnrectangle"
+            android:text="aggiungi"
+            android:textColor="#ffffff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
