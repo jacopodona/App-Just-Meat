@@ -18,7 +18,8 @@ import java.util.ArrayList;
 
 public class CategoriaAdapter extends RecyclerView.Adapter<CategoriaViewHolder> {
     private ArrayList<CategoriaItem> cIL;
-    private MainActivity main;
+    public MainActivity main;
+    CategoriaViewHolder currentActive;
 
     //inizilizza categoriaAdapter, copia l'arraylist
     public CategoriaAdapter(ArrayList<CategoriaItem> cIL, MainActivity mainActivity){
@@ -29,7 +30,7 @@ public class CategoriaAdapter extends RecyclerView.Adapter<CategoriaViewHolder> 
     @Override
     public CategoriaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.categoria_item, parent, false);
-        CategoriaViewHolder cVH = new CategoriaViewHolder(v, this.main);
+        CategoriaViewHolder cVH = new CategoriaViewHolder(v, this);
         return cVH;
     }
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     app:cardElevation="0dp"
@@ -10,24 +11,29 @@
     android:clickable="true">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_width="55dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:backgroundTint="@android:color/transparent">
 
+
         <ImageView
             android:id="@+id/catIcona"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:background="@drawable/circle"/>
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/circle"
+            android:scaleType="center" />
 
         <TextView
+            android:maxLines="1"
             android:id="@+id/catNome"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Bibite"
             android:textSize="15sp"
+            android:layout_marginTop="2dp"
             android:backgroundTint="@android:color/transparent"/>
 
     </LinearLayout>

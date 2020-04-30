@@ -4,10 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
 
 import java.util.ArrayList;
 import com.example.justmeat.categoria.*;
@@ -25,9 +24,17 @@ public class MainActivity extends AppCompatActivity {
         listProd = new ArrayList<ProductItem>();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+       // Toolbar myTB =(Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(myTB);
         //inizializzazione barra categoria
-        for (int i= 0;i<10; i++){
-            catList.add(new CategoriaItem(R.drawable.ic_whatshot, "cat"+i, i));
+        {
+            catList.add(new CategoriaItem(R.drawable.ic_frutta, "frutta", 0));
+            catList.add(new CategoriaItem(R.drawable.ic_carne, "carne", 1));
+            catList.add(new CategoriaItem(R.drawable.ic_lattine, "Lattine", 2));
+            catList.add(new CategoriaItem(R.drawable.ic_verdura, "verdura", 3));
+            catList.add(new CategoriaItem(R.drawable.ic_pesce, "pesce", 4));
+            catList.add(new CategoriaItem(R.drawable.ic_sapone, "sapone", 5));
+            catList.add(new CategoriaItem(R.drawable.ic_alcool, "alcoolici", 6));
         }
         //alcuni esempi di inizializzazione
         {

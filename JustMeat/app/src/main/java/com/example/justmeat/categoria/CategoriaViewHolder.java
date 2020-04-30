@@ -15,31 +15,40 @@ public class CategoriaViewHolder extends RecyclerView.ViewHolder implements View
     public ImageView img;
     public TextView nome;
     public int id;
-    MainActivity main;
-    public CategoriaViewHolder(@NonNull View itemView, MainActivity main) {
+    CategoriaAdapter adapter;
+
+    public CategoriaViewHolder(@NonNull View itemView, CategoriaAdapter adapter) {
         super(itemView);
         itemView.setOnClickListener(this);
         img = itemView.findViewById(R.id.catIcona);
+        img.setColorFilter(Color.parseColor("#7f7f7f"));
         nome = itemView.findViewById(R.id.catNome);
-        this.main = main;
+        this.adapter = adapter;
     }
+
     @Override
     public void onClick(View v) {
-        if(main.activeFilter != id){
-            main.filter(id);
-            main.activeFilter= id;
+        if(adapter.currentActive != null){
+            adapter.currentActive.decolor();
+        }
+        adapter.currentActive = this;
+        if(adapter.main.activeFilter != id){
+            adapter.main.filter(id);
+            adapter.main.activeFilter= id;
             color();
         }
         else{
             decolor();
-            main.removeFilter();
-            main.activeFilter =-1;
+            adapter.main.removeFilter();
+            adapter.main.activeFilter =-1;
         }
     }
     public void color(){
-        this.img.setColorFilter(Color.parseColor("#aa2233"));
+        this.img.setColorFilter(Color.parseColor("#ffffff"));
+        this.img.setSelected(true);
     }
     public void decolor(){
-        this.img.setColorFilter(Color.parseColor("#000000"));
+        this.img.setColorFilter(Color.parseColor("#7f7f7f"));
+        this.img.setSelected(false);
     }
 }
