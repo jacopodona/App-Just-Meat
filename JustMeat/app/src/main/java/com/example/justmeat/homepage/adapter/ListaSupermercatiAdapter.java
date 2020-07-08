@@ -14,7 +14,7 @@ import com.example.justmeat.homepage.Supermercato;
 
 import java.util.List;
 
-public class ListaSupermercatiAdapter extends RecyclerView.Adapter<ListaSupermercatiHolder> {
+public class ListaSupermercatiAdapter extends RecyclerView.Adapter<ListaSupermercatiHolder>{
 
     private List<Supermercato> listaSupermercati;
 
@@ -34,6 +34,10 @@ public class ListaSupermercatiAdapter extends RecyclerView.Adapter<ListaSupermer
         if (listaSupermercati != null && position < listaSupermercati.size()) {
             Supermercato supermercato = listaSupermercati.get(position);
 
+            if(position==0){
+                //holder.itemView.setTranslationY(150);
+            }
+            //holder.itemView.setY(150);
 
             holder.logoSupermercato.setImageResource(R.drawable.aldi);
             holder.nomeSupermercato.setText(supermercato.getNome());

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -54,19 +55,25 @@ public class TrovaSupermercatiFragment extends Fragment {
         List lista= new LinkedList();
         Supermercato m= new Supermercato("Aldi","Via Roma 12b");
         lista.add(m);
-        m= new Supermercato("Aldi","Via Roma 12b");
-        lista.add(m);
+        for (int i=10 ; i>0;i--){
+            m= new Supermercato("Aldi","Via Roma 12b");
+            lista.add(m);
+        }
+
 
         RecyclerView recyclerView = view.findViewById(R.id.homepage_recyclerview_listasupermercati);
         recyclerView.setHasFixedSize(true);
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false);
+
+        //RecyclerView.LayoutManager layoutManager = (LinearLayout)view.findViewById(R.id.homepage_linearlayout_listasupermercati);
 
         recyclerView.setLayoutManager(layoutManager);
 
 
         ListaSupermercatiAdapter adapter = new ListaSupermercatiAdapter(lista);
         recyclerView.setAdapter(adapter);
-        recyclerView.setNestedScrollingEnabled(false);
+        //recyclerView.setNestedScrollingEnabled(false);
 
         return view;
     }

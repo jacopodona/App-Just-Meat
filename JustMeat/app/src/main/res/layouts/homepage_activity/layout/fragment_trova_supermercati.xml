@@ -1,12 +1,13 @@
-<LinearLayout
-
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
 
 
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:translationZ="90dp">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -49,50 +50,64 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Distanza: " />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Distanza: " />
+            <TextView
+                android:id="@+id/homepage_textview_distanza"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:text="1 km"/>
 
-        <TextView
-            android:id="@+id/homepage_textview_distanza"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:text="1 km"/>
+            <SeekBar
+                android:id="@+id/homepage_seekbar_distanza"
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:min="1"
+                android:max="100"
+                />
 
-        <SeekBar
-            android:id="@+id/homepage_seekbar_distanza"
-            android:layout_width="150dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:min="1"
-            android:max="100"
+
+
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/homepage_recyclerview_listasupermercati"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="0dp"
+
             />
-
-
-
 
     </LinearLayout>
 
 
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/homepage_recyclerview_listasupermercati"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"/>
 
 
 
-</LinearLayout>
+
+
+
+
+
+
+
+
+
+
+

@@ -20,5 +20,6 @@ public class ListaSupermercatiHolder extends RecyclerView.ViewHolder {
         nomeSupermercato = itemView.findViewById(R.id.homepage_imageview_nomesupermercato_listasupermercati);
         indirizzoSupermercato = itemView.findViewById(R.id.homepage_imageview_indirizzosupermercato_listasupermercati);
         logoSupermercato = itemView.findViewById(R.id.homepage_imageview_logosupermercato_listasupermercati);
+
     }
 }
