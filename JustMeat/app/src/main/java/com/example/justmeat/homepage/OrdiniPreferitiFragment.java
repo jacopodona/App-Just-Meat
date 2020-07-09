@@ -38,7 +38,7 @@ public class OrdiniPreferitiFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
 
-        OrdiniPreferitiAdapter adapter =  new OrdiniPreferitiAdapter(lista);
+        OrdiniPreferitiAdapter adapter =  new OrdiniPreferitiAdapter(lista, getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setNestedScrollingEnabled(false);
 

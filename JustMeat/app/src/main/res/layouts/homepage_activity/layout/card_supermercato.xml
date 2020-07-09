@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:layout_marginTop="20dp"
-    android:layout_marginHorizontal="10dp"
     >
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -51,15 +50,7 @@
 
                 </TextView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/primaryColor"
-                    android:textSize="15dp"
-                    android:text="Visualizza sulla mappa">
 
-                </TextView>
 
 
 
@@ -81,7 +72,7 @@
             android:layout_marginEnd="0dp"
             android:layout_marginRight="0dp"
             android:layout_marginTop="0dp"
-            android:src="@drawable/carrello"
+            android:src="@drawable/location"
             android:background="@color/primaryColor">
 
 

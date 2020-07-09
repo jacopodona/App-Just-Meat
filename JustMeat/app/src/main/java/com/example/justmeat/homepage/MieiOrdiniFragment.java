@@ -40,7 +40,7 @@ public class MieiOrdiniFragment extends Fragment {
 
 
         MieiOrdiniAdapter adapter = null;
-        adapter = new MieiOrdiniAdapter(lista);
+        adapter = new MieiOrdiniAdapter(lista, getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setNestedScrollingEnabled(false);
 

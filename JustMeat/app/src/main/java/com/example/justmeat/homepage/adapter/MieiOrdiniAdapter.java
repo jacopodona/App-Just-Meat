@@ -1,5 +1,6 @@
 package com.example.justmeat.homepage.adapter;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.justmeat.R;
+import com.example.justmeat.homepage.DettagliMieiOrdiniFragment;
+import com.example.justmeat.homepage.DettagliOrdinePreferitoFragment;
+import com.example.justmeat.homepage.HomepageActivity;
 import com.example.justmeat.homepage.MieiOrdini;
 
 import java.text.ParseException;
@@ -18,9 +22,11 @@ import java.util.List;
 public class MieiOrdiniAdapter extends RecyclerView.Adapter<MieiOrdiniHolder> {
 
     private List<MieiOrdini> listaOrdini;
+    private Activity activity;
 
-    public MieiOrdiniAdapter(List<MieiOrdini> listaOrdini) {
+    public MieiOrdiniAdapter(List<MieiOrdini> listaOrdini, Activity activity) {
         this.listaOrdini = listaOrdini;
+        this.activity=activity;
     }
 
     @NonNull
@@ -40,7 +46,12 @@ public class MieiOrdiniAdapter extends RecyclerView.Adapter<MieiOrdiniHolder> {
             holder.nomeSupermercato.setText(ordine.getNomeSupermercato());
             holder.statoOrdine.setText(ordine.getStato());
 
-
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((HomepageActivity)activity).navigateTo(new DettagliMieiOrdiniFragment(),true);
+                }
+            });
 
 
 
