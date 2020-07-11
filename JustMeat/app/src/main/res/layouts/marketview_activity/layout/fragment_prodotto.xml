@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/marketview_btn_add"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/cerise"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="@+id/marketview_txt_descrizione"
+        app:layout_constraintStart_toStartOf="@+id/marketview_txt_descrizione"
+        app:layout_constraintTop_toBottomOf="@+id/marketview_txt_title_qt">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingVertical="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/card_prodotto_btn"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@android:color/white" />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/marketview_img_prodotto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/tagliata" />
+
+    <ImageView
+        android:id="@+id/marketview_btn_pref"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitEnd"
+        app:layout_constraintBottom_toBottomOf="@+id/marketview_txt_produttore"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/marketview_txt_produttore"
+        app:srcCompat="@drawable/love" />
+
+    <TextView
+        android:id="@+id/marketview_txt_produttore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/marketview_img_prodotto" />
+
+    <TextView
+        android:id="@+id/marketview_txt_prodotto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/marketview_txt_produttore"
+        app:layout_constraintTop_toBottomOf="@+id/marketview_txt_produttore" />
+
+    <TextView
+        android:id="@+id/marketview_txt_prezzo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintStart_toStartOf="@+id/marketview_txt_prodotto"
+        app:layout_constraintTop_toBottomOf="@+id/marketview_txt_prodotto" />
+
+    <TextView
+        android:id="@+id/marketview_txt_title_descrizione"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/fragment_prodotto_descrizione"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintStart_toStartOf="@+id/marketview_txt_prezzo"
+        app:layout_constraintTop_toBottomOf="@+id/marketview_txt_prezzo" />
+
+    <TextView
+        android:id="@+id/marketview_txt_descrizione"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:maxLines="6"
+        android:minLines="3"
+        android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintEnd_toEndOf="@+id/marketview_btn_pref"
+        app:layout_constraintStart_toStartOf="@+id/marketview_txt_title_descrizione"
+        app:layout_constraintTop_toBottomOf="@+id/marketview_txt_title_descrizione" />
+
+    <ImageView
+        android:id="@+id/marketview_btn_more"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toBottomOf="@+id/marketview_btn_less"
+        app:layout_constraintStart_toEndOf="@+id/marketview_btn_less"
+        app:layout_constraintTop_toTopOf="@+id/marketview_btn_less"
+        app:srcCompat="@drawable/add_pruduct" />
+
+    <ImageView
+        android:id="@+id/marketview_btn_less"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="64dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toBottomOf="@+id/marketview_txt_title_qt"
+        app:layout_constraintStart_toEndOf="@+id/marketview_txt_title_qt"
+        app:layout_constraintTop_toTopOf="@+id/marketview_txt_title_qt"
+        app:srcCompat="@drawable/remove_product" />
+
+    <TextView
+        android:id="@+id/marketview_txt_qt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toBottomOf="@+id/marketview_btn_less"
+        app:layout_constraintEnd_toStartOf="@+id/marketview_btn_more"
+        app:layout_constraintStart_toEndOf="@+id/marketview_btn_less"
+        app:layout_constraintTop_toTopOf="@+id/marketview_btn_less" />
+
+    <TextView
+        android:id="@+id/marketview_txt_title_qt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/fragment_prodotto_quantita"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintStart_toStartOf="@+id/marketview_txt_descrizione"
+        app:layout_constraintTop_toBottomOf="@+id/marketview_txt_descrizione" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

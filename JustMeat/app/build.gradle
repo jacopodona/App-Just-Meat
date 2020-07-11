@@ -23,7 +23,9 @@ android {
     sourceSets {
         main {
             res {
-                srcDirs 'src/main/res', 'src/main/res/layouts', 'src/main/res/layouts/welcome_activity'
+                srcDirs 'src/main/res', 'src/main/res/layouts',
+                        'src/main/res/layouts/welcome_activity',
+                        'src/main/res/layouts/marketview_activity'
             }
         }
     }
