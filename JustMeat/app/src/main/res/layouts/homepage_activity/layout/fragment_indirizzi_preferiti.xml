@@ -45,6 +45,7 @@
         app:cardCornerRadius="64dp">
 
         <ImageView
+            android:id="@+id/homepage_imageview_plusbutton_indirizzi"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:scaleType="centerCrop"

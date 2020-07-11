@@ -68,11 +68,13 @@
             android:layout_height="25dp"
             android:src="@drawable/modify"
             android:layout_marginRight="10dp"></ImageView>
-        <ImageView
+        <ImageButton
+            android:id="@+id/homepage_imagebutton_delete_indirizzo_preferito"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:src="@drawable/delete"
-            android:layout_marginRight="15dp"></ImageView>
+            android:layout_marginRight="15dp"
+            android:background="@color/white"></ImageButton>
 
     </LinearLayout>
 

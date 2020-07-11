@@ -42,6 +42,8 @@ public class ListaSupermercatiAdapter extends RecyclerView.Adapter<ListaSupermer
             holder.logoSupermercato.setImageResource(R.drawable.aldi);
             holder.nomeSupermercato.setText(supermercato.getNome());
             holder.indirizzoSupermercato.setText(supermercato.getIndirizzo());
+
+
         }
     }
 

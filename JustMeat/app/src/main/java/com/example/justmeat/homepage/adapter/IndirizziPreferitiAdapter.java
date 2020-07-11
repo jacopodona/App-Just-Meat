@@ -29,12 +29,21 @@ public class IndirizziPreferitiAdapter extends RecyclerView.Adapter<IndirizziPre
     }
 
     @Override
-    public void onBindViewHolder(@NonNull IndirizziPreferitiHolder holder, int position) {
+    public void onBindViewHolder(@NonNull IndirizziPreferitiHolder holder, final int position) {
         if (listaIndirizziPreferiti != null && position < listaIndirizziPreferiti.size()) {
             IndirizzoPreferito indirizzoPreferito = listaIndirizziPreferiti.get(position);
 
             holder.indirizzo.setText(indirizzoPreferito.getIndirizzo());
             holder.nomeIndirizzo.setText(indirizzoPreferito.getNome());
+
+            holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listaIndirizziPreferiti.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, listaIndirizziPreferiti.size());
+                }
+            });
          }
     }
 
