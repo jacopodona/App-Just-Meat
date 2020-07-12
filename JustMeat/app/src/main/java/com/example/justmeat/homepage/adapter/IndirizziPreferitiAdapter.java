@@ -3,6 +3,7 @@ package com.example.justmeat.homepage.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,18 +50,29 @@ public class IndirizziPreferitiAdapter extends RecyclerView.Adapter<IndirizziPre
                     AlertDialog.Builder builder=new AlertDialog.Builder(context).
                             setTitle("Conferma Rimozione")
                             .setMessage("Vuoi veramente rimuovere l'indirizzo preferito?")
-                            .setPositiveButton("Conferma", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    listaIndirizziPreferiti.remove(position);
-                                    notifyItemRemoved(position);
-                                    notifyItemRangeChanged(position, listaIndirizziPreferiti.size());
-                                }
-                            })
-                            .setNeutralButton("Annulla",null);
+
+                            .setNeutralButton("Annulla",null)
+                    .setPositiveButton("Conferma", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            listaIndirizziPreferiti.remove(position);
+                            notifyItemRemoved(position);
+                            notifyItemRangeChanged(position, listaIndirizziPreferiti.size());
+                        }
+                    });
                     dialog=builder.create();
                     dialog.show();
-                    dialog.getButton(DialogInterface.BUTTON_POSITIVE).setBackgroundColor(Color.WHITE);
+
+                    ColorStateList myColorStateList = new ColorStateList(
+                            new int[][]{
+                                    new int[]{android.R.attr.state_pressed} //1
+                            },
+                            new int[] {
+                                    Color.WHITE//1
+                            }
+                    );
+                    dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+                    dialog.getButton(DialogInterface.BUTTON_POSITIVE).setBackgroundTintList(myColorStateList);
                     dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setBackgroundColor(Color.WHITE);
 
                 }
