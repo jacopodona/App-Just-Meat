@@ -1,5 +1,9 @@
 package com.example.justmeat.homepage.adapter;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +20,7 @@ import java.util.List;
 public class IndirizziPreferitiAdapter extends RecyclerView.Adapter<IndirizziPreferitiHolder> {
 
     private List<IndirizzoPreferito> listaIndirizziPreferiti;
+    Context context;
 
     public IndirizziPreferitiAdapter(List<IndirizzoPreferito> listaIndirizziPreferiti) {
         this.listaIndirizziPreferiti = listaIndirizziPreferiti;
@@ -25,6 +30,7 @@ public class IndirizziPreferitiAdapter extends RecyclerView.Adapter<IndirizziPre
     @Override
     public IndirizziPreferitiHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_indirizzirpeferiti, parent, false);//era shr_product_card
+        context=parent.getContext();
         return new IndirizziPreferitiHolder(layoutView);
     }
 
@@ -39,9 +45,24 @@ public class IndirizziPreferitiAdapter extends RecyclerView.Adapter<IndirizziPre
             holder.deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listaIndirizziPreferiti.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemRangeChanged(position, listaIndirizziPreferiti.size());
+                    AlertDialog dialog;
+                    AlertDialog.Builder builder=new AlertDialog.Builder(context).
+                            setTitle("Conferma Rimozione")
+                            .setMessage("Vuoi veramente rimuovere l'indirizzo preferito?")
+                            .setPositiveButton("Conferma", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    listaIndirizziPreferiti.remove(position);
+                                    notifyItemRemoved(position);
+                                    notifyItemRangeChanged(position, listaIndirizziPreferiti.size());
+                                }
+                            })
+                            .setNeutralButton("Annulla",null);
+                    dialog=builder.create();
+                    dialog.show();
+                    dialog.getButton(DialogInterface.BUTTON_POSITIVE).setBackgroundColor(Color.WHITE);
+                    dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setBackgroundColor(Color.WHITE);
+
                 }
             });
          }
