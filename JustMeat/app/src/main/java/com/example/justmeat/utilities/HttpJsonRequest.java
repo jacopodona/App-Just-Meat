@@ -62,26 +62,24 @@ public class HttpJsonRequest {
 
 
 /*  Usage example
+    try {
+        JSONObject body = new JSONObject();
+        body.put("test", "Hello");
 
-try {
-    JSONObject body = new JSONObject();
-    body.put("test", "Hello");
-
-    new HttpJsonRequest(this, "/test", Request.Method.POST, body,
-        new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                // Do something within context
+        new HttpJsonRequest(this, "/test", Request.Method.POST, body,
+            new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    // Do something within context
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // An error occurred
+                }
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // An error occurred
-            }
-        }
-    ).run();
-} catch(JSONException ex) {
-   return;
-}
-
+        ).run();
+    } catch(JSONException ex) {
+       return;
+    }
 */

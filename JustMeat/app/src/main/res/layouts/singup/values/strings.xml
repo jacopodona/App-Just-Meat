@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="signup_registrati_fb">Registrati con Facebook</string>
+    <string name="signup_registrati_go">Registrati con Google</string>
+    <string name="signup_registrati_email">Registrati con Email</string>
+    <string name="signup_text_1">Hai già un account?</string>
+    <string name="signup_text_2">Accedi</string>
+    <string name="signup_email_text">Registrati</string>
+    <string name="signup_nome">Nome</string>
+    <string name="signup_cognome">Cognome</string>
+    <string name="signup_password">Conferma password</string>
+    <string name="signup_send">Iniziamo!</string>
+</resources>
