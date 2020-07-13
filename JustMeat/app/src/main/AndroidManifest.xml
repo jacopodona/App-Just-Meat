@@ -15,5 +15,7 @@
                 </intent-filter>
             </activity>
         <activity android:name=".marketview.MarketViewActivity"/>
+        <activity android:name=".carrello.CarrelloActivity"/>
+        <activity android:name=".checkout.CheckoutActivity"/>
     </application>
 </manifest>

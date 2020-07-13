@@ -25,7 +25,9 @@ android {
             res {
                 srcDirs 'src/main/res', 'src/main/res/layouts',
                         'src/main/res/layouts/welcome_activity',
-                        'src/main/res/layouts/marketview_activity'
+                        'src/main/res/layouts/marketview_activity',
+                        'src/main/res/layouts/checkout',
+                        'src/main/res/layouts/carrello'
             }
         }
     }

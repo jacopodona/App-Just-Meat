@@ -8,8 +8,8 @@ import android.widget.ImageView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-//import com.example.justmeat.Carrello.CarrelloActivity;
 import com.example.justmeat.R;
+import com.example.justmeat.carrello.CarrelloActivity;
 
 public class MarketViewActivity extends AppCompatActivity {
     @Override
@@ -36,13 +36,13 @@ public class MarketViewActivity extends AppCompatActivity {
     }
     private void setCarrelloButton() {
         ImageView cart = findViewById(R.id.marketview_btn_cart);
-        /*cart.setOnClickListener(new View.OnClickListener() {
+        cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), CarrelloActivity.class);
                 startActivity(intent);
             }
-        });*/
+        });
     }
 
 }
