@@ -52,6 +52,34 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="40dp">
 
+        <Button
+            android:id="@+id/main_btn_marketview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentEnd="false"
+            android:layout_centerHorizontal="true"
+            android:text="market view" />
+
+        <Button
+            android:id="@+id/main_btn_carrello"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/main_btn_marketview"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="carrello" />
+
+        <Button
+            android:id="@+id/main_btn_checkout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/main_btn_carrello"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="checkout" />
+
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="match_parent"
