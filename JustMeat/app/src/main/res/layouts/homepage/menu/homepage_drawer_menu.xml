@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/homepage_nav_trova_supermercati"
+            android:icon="@drawable/ic_trova"
+            android:title="Trova Supermercati" />
+        <item android:id="@+id/homepage_nav_miei_ordini"
+            android:icon="@drawable/ic_miei_ordini"
+            android:title="I miei Ordini" />
+        <item android:id="@+id/homepage_nav_ordini_preferiti"
+            android:icon="@drawable/ic_star"
+            android:title="Ordini Preferiti" />
+        <item android:id="@+id/homepage_nav_indirizzi_preferiti"
+            android:icon="@drawable/ic_indirizzi"
+            android:title="Indirizzi preferiti" />
+        <item android:id="@+id/homepage_nav_impostazioni"
+            android:icon="@drawable/ic_impostazioni"
+            android:title="Impostazioni" />
+    </group>
+</menu>
