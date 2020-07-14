@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="card_prodotto_btn">Aggiungi</string>
+    <string name="fragment_prodotto_descrizione">Descrizione</string>
+    <string name="fragment_prodotto_quantita">Seleziona quantità:</string>
+</resources>

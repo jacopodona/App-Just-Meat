@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_day">Seleziona il giorno di ritiro</string>
+    <string name="title_time">Imposta l\'orario di ritiro</string>
+</resources>

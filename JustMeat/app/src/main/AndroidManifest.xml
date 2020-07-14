@@ -8,13 +8,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".welcome.WelcomeActivity"></activity>
+            <activity android:name=".welcome.WelcomeActivity">
+                <intent-filter>
+                    <action android:name="android.intent.action.MAIN"/>
+                    <category android:name="android.intent.category.LAUNCHER"/>
+                </intent-filter>
+            </activity>
+        <activity android:name=".marketview.MarketViewActivity"/>
+        <activity android:name=".carrello.CarrelloActivity"/>
+        <activity android:name=".checkout.CheckoutActivity"/>
         <activity android:name=".signup.SignupActivity"></activity>
-        <activity android:name=".login.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
+        <activity android:name=".login.LoginActivity"></activity>
     </application>
 </manifest>

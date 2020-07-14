@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_dialog_preferiti">Vuoi aggiungerlo ai preferiti?</string>
+    <string name="body_dialog_preferiti">Potrai selezionare questa lista direttamente dalla sezione "Preferiti" nel menù</string>
+    <string name="help_dialog_preferiti">inserisci il nome della lista</string>
+    <string name="neutral_dialog_preferiti">CANCEL</string>
+    <string name="positive_dialog_preferiti">CONFERMA</string>
+    <string name="title_dialog_coupon">COUPON</string>
+    <string name="body_dialog_coupon">Inserisci il codice del coupon o scannerizza il QRcode presente sul retro</string>
+</resources>

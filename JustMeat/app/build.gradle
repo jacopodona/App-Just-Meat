@@ -23,7 +23,15 @@ android {
     sourceSets {
         main {
             res {
-                srcDirs 'src/main/res', 'src/main/res/layouts', 'src/main/res/layouts/welcome', 'src/main/res/layouts/login', 'src/main/res/layouts/singup', 'src/main/res/layouts/shoppingcart'
+                srcDirs 'src/main/res',
+                        'src/main/res/layouts',
+                        'src/main/res/layouts/welcome',
+                        'src/main/res/layouts/login',
+                        'src/main/res/layouts/singup',
+                        'src/main/res/layouts/shoppingcart',
+                        'src/main/res/layouts/marketview',
+                        'src/main/res/layouts/checkout',
+                        'src/main/res/layouts/carrello'
             }
         }
     }
