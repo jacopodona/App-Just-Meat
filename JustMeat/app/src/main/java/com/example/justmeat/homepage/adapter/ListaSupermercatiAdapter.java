@@ -51,4 +51,15 @@ public class ListaSupermercatiAdapter extends RecyclerView.Adapter<ListaSupermer
     public int getItemCount() {
         return listaSupermercati.size();
     }
+
+    public void clear(){
+        int size = listaSupermercati.size();
+        if (size > 0) {
+            for (int i = 0; i < size; i++) {
+                listaSupermercati.remove(0);
+            }
+
+            notifyItemRangeRemoved(0, size);
+        }
+    }
 }
