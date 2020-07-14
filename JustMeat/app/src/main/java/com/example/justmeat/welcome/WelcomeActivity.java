@@ -6,11 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.justmeat.R;
 import com.example.justmeat.carrello.CarrelloActivity;
 import com.example.justmeat.checkout.CheckoutActivity;
+import com.example.justmeat.login.LoginActivity;
 import com.example.justmeat.marketview.MarketViewActivity;
+import com.example.justmeat.signup.SignupActivity;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -44,5 +47,24 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button accedi_btn = findViewById(R.id.welcome_button_accedi);
+        accedi_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        TextView registrati_btn = findViewById(R.id.welcome_button_registrati);
+        registrati_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), SignupActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }
