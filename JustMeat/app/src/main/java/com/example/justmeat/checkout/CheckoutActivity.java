@@ -12,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,7 +32,6 @@ public class CheckoutActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
-
         productList = ((MyApplication)this.getApplication()).getCarrelloListProduct();
 
         setConfirmLayout();
@@ -102,7 +103,6 @@ public class CheckoutActivity extends AppCompatActivity {
 
             @Override
             public void onSlide(@NonNull View view, float v) {
-
             }
         });
     }

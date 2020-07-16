@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.justmeat.R;
+import com.example.justmeat.checkout.CheckoutActivity;
 import com.example.justmeat.marketview.ProductItem;
 import com.example.justmeat.utilities.MyApplication;
 import com.example.justmeat.whithdrawal.WithdrawalActivity;
