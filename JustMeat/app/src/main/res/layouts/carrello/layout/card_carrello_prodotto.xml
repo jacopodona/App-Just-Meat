@@ -43,7 +43,7 @@
             app:layout_constraintTop_toBottomOf="@+id/carrello_txt_produttore" />
 
         <TextView
-            android:id="@+id/carrello_txt_tot"
+            android:id="@+id/carrello_txt_totproduct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -80,9 +80,9 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:adjustViewBounds="true"
-            app:layout_constraintBottom_toBottomOf="@+id/carrello_txt_tot"
+            app:layout_constraintBottom_toBottomOf="@+id/carrello_txt_totproduct"
             app:layout_constraintEnd_toEndOf="@+id/carrello_btn_pref"
-            app:layout_constraintTop_toTopOf="@+id/carrello_txt_tot"
+            app:layout_constraintTop_toTopOf="@+id/carrello_txt_totproduct"
             app:srcCompat="@drawable/add_pruduct" />
 
         <TextView
@@ -103,7 +103,7 @@
             android:layout_marginStart="16dp"
             app:cardBackgroundColor="#A13C3C"
             app:cardCornerRadius="10dp"
-            app:layout_constraintBottom_toBottomOf="@+id/carrello_txt_tot"
+            app:layout_constraintBottom_toBottomOf="@+id/carrello_txt_totproduct"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/carrello_txt_prodotto">
 

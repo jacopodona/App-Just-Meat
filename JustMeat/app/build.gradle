@@ -25,9 +25,10 @@ android {
             res {
                 srcDirs 'src/main/res', 'src/main/res/layouts',
                         'src/main/res/layouts/welcome_activity',
-                        'src/main/res/layouts/marketview_activity',
+                        'src/main/res/layouts/marketview',
                         'src/main/res/layouts/checkout',
-                        'src/main/res/layouts/carrello'
+                        'src/main/res/layouts/carrello',
+                        'src/main/res/layouts/withdrawal'
             }
         }
     }
@@ -36,7 +37,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.android.volley:volley:1.1.1'

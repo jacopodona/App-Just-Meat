@@ -1,6 +1,7 @@
 package com.example.justmeat.carrello;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.justmeat.R;
+import com.example.justmeat.checkout.CheckoutActivity;
 import com.example.justmeat.marketview.ProductItem;
 
 import java.util.ArrayList;
@@ -32,6 +34,15 @@ public class CarrelloActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        Button gotoCheckout = findViewById(R.id.carrello_btn_checkout);
+        gotoCheckout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), CheckoutActivity.class);
+                startActivity(intent);
             }
         });
 

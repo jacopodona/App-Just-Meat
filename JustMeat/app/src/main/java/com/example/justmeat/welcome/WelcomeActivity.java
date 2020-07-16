@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.example.justmeat.R;
 import com.example.justmeat.marketview.MarketViewActivity;
+import com.example.justmeat.whithdrawal.WithdrawalActivity;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -24,5 +25,6 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 }
