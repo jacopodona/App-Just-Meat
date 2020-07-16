@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.justmeat.R;
 import com.example.justmeat.homepage.IndirizzoPreferito;
-import com.example.justmeat.homepage.MieiOrdini;
 
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class IndirizziPreferitiAdapter extends RecyclerView.Adapter<IndirizziPre
     @Override
     public IndirizziPreferitiHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_indirizzirpeferiti, parent, false);//era shr_product_card
-        context=parent.getContext();
+        context = parent.getContext();
         return new IndirizziPreferitiHolder(layoutView);
     }
 

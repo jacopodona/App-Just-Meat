@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -16,9 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.justmeat.R;
 import com.example.justmeat.homepage.adapter.ListaSupermercatiAdapter;
-import com.example.justmeat.homepage.adapter.MieiOrdiniAdapter;
 
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 

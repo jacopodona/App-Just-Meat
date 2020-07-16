@@ -1,4 +1,4 @@
-package com.example.justmeat.checkout;
+package com.example.justmeat.whithdrawal;
 
 import android.content.res.ColorStateList;
 import android.text.format.DateFormat;
@@ -22,10 +22,10 @@ class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayViewHolder> {
     final int NDAY = 6; //totale giorni visualizzati = NDAY+1
     ArrayList<Date> calendario = new ArrayList<>();
     DayViewHolder currentActive;
-    CheckoutActivity checkoutActivity;
+    WithdrawalActivity withdrawalActivity;
 
-    public DayAdapter(CheckoutActivity checkoutActivity){
-        this.checkoutActivity = checkoutActivity;
+    public DayAdapter(WithdrawalActivity withdrawalActivity){
+        this.withdrawalActivity = withdrawalActivity;
         Calendar calendar = Calendar.getInstance();
         if (calendar.getTime().getHours()<20){
             calendario.add(calendar.getTime());
@@ -50,7 +50,7 @@ class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull DayViewHolder holder, int position) {
-        String month_txt, day_txt, numb_txt;
+        String  day_txt, numb_txt, month_txt;
         Date currentDate = this.calendario.get(position);
         month_txt = (String) DateFormat.format("MMMM", currentDate );
         holder.month.setText(month_txt);
@@ -74,11 +74,11 @@ class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayViewHolder> {
 
         public DayViewHolder(@NonNull View itemView) {
             super(itemView);
-            numb = itemView.findViewById(R.id.checkout_txt_numb);
-            month = itemView.findViewById(R.id.checkout_txt_month);
-            day = itemView.findViewById(R.id.checkout_txt_day);
-            cardView = itemView.findViewById(R.id.checkout_card_day);
-            defaultColor = month.getTextColors();
+            numb = itemView.findViewById(R.id.withdrawal_txt_numb);
+            day = itemView.findViewById(R.id.withdrawal_txt_day);
+            month = itemView.findViewById(R.id.withdrawal_txt_month);
+            cardView = itemView.findViewById(R.id.withdrawal_card_day);
+            defaultColor = day.getTextColors();
 
             cardView.setOnClickListener(this);
         }
@@ -89,11 +89,11 @@ class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayViewHolder> {
                 currentActive.DayUnactive(v);
             }
             currentActive = this;
-            if(checkoutActivity.currentActiveId != id){
-                checkoutActivity.currentActiveId = this.id;
+            if(withdrawalActivity.currentActiveId != id){
+                withdrawalActivity.currentActiveId = this.id;
                 this.DayActive(v);
             } else {
-                checkoutActivity.currentActiveId = -1;
+                withdrawalActivity.currentActiveId = -1;
                 this.DayUnactive(v);
             }
         }
