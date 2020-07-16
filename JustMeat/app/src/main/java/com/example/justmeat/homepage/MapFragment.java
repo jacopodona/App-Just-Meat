@@ -1,15 +1,8 @@
 package com.example.justmeat.homepage;
 
-import android.Manifest;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.justmeat.R;
@@ -35,20 +28,26 @@ public class MapFragment extends FragmentActivity implements OnMapReadyCallback 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.homepage_map);
         mapFragment.getMapAsync(this);
-
-
-
+        Log.e("fuuuuuuuck", "double fuuuuuck");
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        try {
+            mMap = googleMap;
 
-        LatLng firenze = new LatLng(43.776366, 11.247822);
-        mMap.addMarker(new MarkerOptions().position(firenze).title("Siamo a Firenze!"));
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(firenze).zoom(15).build();
+            LatLng firenze = new LatLng(43.776366, 11.247822);
+            mMap.addMarker(new MarkerOptions().position(firenze).title("Siamo a Firenze!"));
+            CameraPosition cameraPosition = new CameraPosition.Builder().target(firenze).zoom(15).build();
 
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+            Log.e("fuuuuuuuck", "double fuuuuuck");
+
+        }catch (Exception e){
+            Log.e("Exception",e.toString());
+        }
+
     }
 }
 
