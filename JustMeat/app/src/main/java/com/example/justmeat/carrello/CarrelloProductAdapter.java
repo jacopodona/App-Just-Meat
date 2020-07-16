@@ -93,7 +93,7 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
             nome = itemView.findViewById(R.id.carrello_txt_prodotto);
             produttore = itemView.findViewById(R.id.carrello_txt_produttore);
             prezzo = itemView.findViewById(R.id.carrello_txt_prezzo);
-            totale = itemView.findViewById(R.id.carrello_txt_tot);
+            totale = itemView.findViewById(R.id.carrello_txt_totproduct);
             imgProduct = itemView.findViewById(R.id.carrello_img_prodotto);
             txt_qt = itemView.findViewById(R.id.carrello_txt_qt);
             more = itemView.findViewById(R.id.carrello_btn_more);

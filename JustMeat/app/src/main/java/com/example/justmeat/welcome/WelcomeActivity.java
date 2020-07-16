@@ -29,7 +29,6 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         Button carrello_btn = findViewById(R.id.main_btn_carrello);
         carrello_btn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -32,6 +32,7 @@ android {
                         'src/main/res/layouts/marketview',
                         'src/main/res/layouts/checkout',
                         'src/main/res/layouts/carrello',
+                        'src/main/res/layouts/withdrawal',
                         'src/main/res/layouts/homepage'
             }
         }
@@ -41,7 +42,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation group: 'com.google.android.material', name: 'material', version: '1.0.0-rc01'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

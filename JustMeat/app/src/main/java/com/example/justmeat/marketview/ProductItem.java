@@ -6,7 +6,7 @@ public class ProductItem {
     private String nome;
     private int categoria;
     boolean pref = false;
-    int qt;
+    public int qt;
 
     public ProductItem(int img, double prezzo,  String nome, int categoria){
         this.img= img;

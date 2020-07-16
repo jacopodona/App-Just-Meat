@@ -5,6 +5,9 @@
     <string name="help_dialog_preferiti">inserisci il nome della lista</string>
     <string name="neutral_dialog_preferiti">CANCEL</string>
     <string name="positive_dialog_preferiti">CONFERMA</string>
-    <string name="title_dialog_coupon">COUPON</string>
-    <string name="body_dialog_coupon">Inserisci il codice del coupon o scannerizza il QRcode presente sul retro</string>
+    <string name="title_dialog_coupon">Coupon</string>
+    <string name="body_dialog_coupon">Inserisci il codice del coupon o scannerizza il QRcode presente sul buono</string>
+    <string name="totale">Totale</string>
+    <string name="goto_withdrawal">Seleziona l\'orario di ritiro</string>
+    <string name="goto_checkout">Procedi al checkout</string>
 </resources>
