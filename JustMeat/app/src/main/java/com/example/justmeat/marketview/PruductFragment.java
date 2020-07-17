@@ -38,7 +38,7 @@ public class PruductFragment extends Fragment {
         nome.setText(prodotto.getNome());
 
         final TextView prezzo = view.findViewById(R.id.marketview_txt_prezzo);
-        prezzo.setText(prodotto.getPrezzo()+" €");
+        prezzo.setText(String.format("%.2f",prodotto.getPrezzo())+" €");
 
         final TextView txt_qt = view.findViewById(R.id.marketview_txt_qt);
         txt_qt.setText(""+counter);
@@ -90,7 +90,8 @@ public class PruductFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 prodotto.qt = counter;
-                System.out.println("in totale hai "+prodotto.qt);
+                MarketViewActivity marketViewActivity = (MarketViewActivity) PruductFragment.super.getActivity();
+                marketViewActivity.carrello.add(prodotto);
             }
         });
     }

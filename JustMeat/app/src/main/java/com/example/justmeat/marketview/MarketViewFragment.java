@@ -1,7 +1,5 @@
 package com.example.justmeat.marketview;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,14 +27,19 @@ import java.util.ArrayList;
 
 public class MarketViewFragment extends Fragment {
     public int activeFilter = -1;
-    ArrayList<ProductItem> pList = new ArrayList<>();
+    public int visualizeProduct = 3;
+    public ArrayList<ProductItem> pList = new ArrayList<>();
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_marketview,container, false);
         setCategoryBar(view);
-        getProduct(view);
+        if(pList.isEmpty()){
+            getProduct(view);
+        } else {
+            showProduct(view,3);
+        }
         setView(view);
         setCategoryFilter(view);
         return view;
@@ -52,22 +55,24 @@ public class MarketViewFragment extends Fragment {
             }
         });
     }
-    private void setView(View view) {
+    private void setView(final View view) {
         final ImageView viewmode = view.findViewById(R.id.marketview_btn_viewmode);
         viewmode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (viewmode.isActivated()){
-                    System.out.println("1");
+                    visualizeProduct = 3;
                     viewmode.setActivated(false);
                     viewmode.setSelected(false);
                 } else if (viewmode.isSelected()) {
-                    System.out.println("2");
+                    visualizeProduct = 1;
                     viewmode.setActivated(true);
                 } else {
-                    System.out.println("3");
+                    visualizeProduct = 2;
                     viewmode.setSelected(true);
                 }
+                showProduct(view, visualizeProduct);
+                System.out.println(visualizeProduct);
             }
         });
     }
@@ -97,9 +102,7 @@ public class MarketViewFragment extends Fragment {
         cRV.setLayoutManager(cRVLM);
         cRV.setAdapter(cRVA);
     }
-    private void showProduct(View view){
-
-        System.out.println("3");
+    private void showProduct(View view, int column){
 
         RecyclerView pRV;
         RecyclerView.Adapter pRVA;
@@ -108,24 +111,30 @@ public class MarketViewFragment extends Fragment {
         pRV = view.findViewById(R.id.marketview_rv_product);
         pRV.setHasFixedSize(true);
         pRV.setNestedScrollingEnabled(false);
-        pRVLM = new GridLayoutManager(getContext(), 3);
-        pRVA = new MarketViewProductAdapter(this, pList);
+
+        if(column>1){
+            pRVLM = new GridLayoutManager(getContext(), column);
+            pRVA = new MarketViewProductGridAdapter(this);
+        } else{
+            pRVLM= new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false );
+            pRVA = new MarketViewProductListAdapter(this);
+        }
+
+
 
         pRV.setLayoutManager(pRVLM);
         pRV.setAdapter(pRVA);
     }
     private void getProduct(final View view){
-
-        new HttpJsonRequest(getContext(), "/api/v1/get_products/2" , Request.Method.GET, new Response.Listener<JSONObject>() {
+        new HttpJsonRequest(getContext(), "/api/v1/get_products/4" , Request.Method.GET, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                System.out.println("1");
                 try {
                     parseProduct(response);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                showProduct(view);
+                showProduct(view,3);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -138,15 +147,15 @@ public class MarketViewFragment extends Fragment {
 
     private void parseProduct(JSONObject jsonObject) throws JSONException {
         JSONArray results = jsonObject.getJSONArray("results");
-        System.out.println("2");
+
         for (int i = 0; i< results.length(); i++){
             double prezzo;
             String nome;
-            String categoria;
+            int categoria;
             JSONObject currentJSONObj = results.getJSONObject(i);
             prezzo = currentJSONObj.getDouble("price");
             nome = currentJSONObj.getString("name");
-            categoria = currentJSONObj.getString("category");
+            categoria = currentJSONObj.getInt("department");
             pList.add(new ProductItem(prezzo, nome, 1));
         }
 
