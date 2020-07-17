@@ -1,12 +1,14 @@
 package com.example.justmeat.marketview;
 
-public class ProductItem {
+import java.io.Serializable;
+
+public class ProductItem implements Serializable {
     private int img;
     private double prezzo;
     private String nome;
     private int categoria;
     boolean pref = false;
-    public int qt;
+    public int qt = 0;
 
     public ProductItem(int img, double prezzo,  String nome, int categoria){
         this.img= img;

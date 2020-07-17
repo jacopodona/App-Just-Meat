@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/product_card_id"
+    android:id="@+id/product_card_grid"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
@@ -15,7 +15,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/marketview_img_prodcard"
+            android:id="@+id/marketview_img_prodcard_grid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
@@ -25,7 +25,7 @@
             tools:layout_editor_absoluteX="0dp" />
 
         <TextView
-            android:id="@+id/marketview_txt_prodcard_nome"
+            android:id="@+id/marketview_txt_prodcard_nome_grid"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:gravity="center"
@@ -34,11 +34,11 @@
             android:text=""
             android:textColor="@android:color/black"
             android:textSize="15sp"
-            app:layout_constraintTop_toBottomOf="@+id/marketview_img_prodcard"
+            app:layout_constraintTop_toBottomOf="@+id/marketview_img_prodcard_grid"
             tools:layout_editor_absoluteX="16dp" />
 
         <TextView
-            android:id="@+id/marketview_txt_prodcard_prezzo"
+            android:id="@+id/marketview_txt_prodcard_prezzo_grid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -46,23 +46,22 @@
             android:text=""
             android:textColor="@android:color/black"
             android:textSize="15sp"
-            app:layout_constraintTop_toBottomOf="@+id/marketview_txt_prodcard_nome"
+            app:layout_constraintTop_toBottomOf="@+id/marketview_txt_prodcard_nome_grid"
             tools:layout_editor_absoluteX="0dp" />
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/marketview_btn_prodcard_add"
+            android:id="@+id/marketview_btn_prodcard_add_grid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="5dp"
             android:layout_marginVertical="5dp"
             android:backgroundTint="@color/cerise"
-            app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="10dp"
             app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/marketview_txt_prodcard_prezzo">
+            app:layout_constraintTop_toBottomOf="@id/marketview_txt_prodcard_prezzo_grid">
 
             <RelativeLayout
                 android:layout_width="match_parent"

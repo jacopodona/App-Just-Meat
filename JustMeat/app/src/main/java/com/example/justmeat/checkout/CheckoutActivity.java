@@ -3,49 +3,35 @@ package com.example.justmeat.checkout;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.justmeat.R;
 import com.example.justmeat.marketview.ProductItem;
+import com.example.justmeat.utilities.MyApplication;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.util.ArrayList;
 
 public class CheckoutActivity extends AppCompatActivity {
     public double subtotal = 0;
-    ArrayList<ProductItem> productList = new ArrayList<>();
+    ArrayList<ProductItem> productList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
 
-
-        ProductItem prod1 = new ProductItem(3.33,"ciccia",  1);
-            prod1.qt = 3;
-        ProductItem prod2 = new ProductItem(4.21,"insalata",  2);
-            prod2.qt = 12;
-
-        productList.add(prod1);
-        productList.add(prod2);
+        productList = ((MyApplication)this.getApplication()).getCarrelloListProduct();
 
         setConfirmLayout();
         setProdList();

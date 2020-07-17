@@ -17,18 +17,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.justmeat.R;
 import com.example.justmeat.checkout.CheckoutActivity;
 import com.example.justmeat.marketview.ProductItem;
+import com.example.justmeat.utilities.MyApplication;
 
 import java.util.ArrayList;
 
 public class CarrelloActivity extends AppCompatActivity {
+    ArrayList<ProductItem> carrello;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carrello);
+        carrello = ((MyApplication) this.getApplication()).getCarrelloListProduct();
         setLayoutCarrello();
     }
 
     private void setLayoutCarrello() {
+
         ImageView back_btn = findViewById(R.id.carrello_btn_back);
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,17 +69,18 @@ public class CarrelloActivity extends AppCompatActivity {
             }
         });
 
-        //lista che viene creata nella marketview activity
-        ArrayList<ProductItem> carrello = new ArrayList<>();
-        carrello.add(new ProductItem(14.32, "Tagliata di Manzo",0));
-        carrello.add(new ProductItem( 14.32, "Tagliata di Manzo",5));
-        carrello.add(new ProductItem(14.32, "Tagliata di Manzo",0));
-
         RecyclerView rv = findViewById(R.id.carrello_rv);
         RecyclerView.LayoutManager rvLM = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false );
-        RecyclerView.Adapter rvAdapter = new CarrelloProductAdapter(carrello);
+        RecyclerView.Adapter rvAdapter = new CarrelloProductAdapter(this);
 
         rv.setLayoutManager(rvLM);
         rv.setAdapter(rvAdapter);
+    }
+
+
+    @Override
+    public void onBackPressed(){
+        ((MyApplication) this.getApplication()).setCarrelloListProduct(carrello);
+        super.onBackPressed();
     }
 }
