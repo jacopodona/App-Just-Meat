@@ -46,7 +46,8 @@
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/carrello_btn_checkout"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/carrello_txt_totaletitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/carrello_txt_nomenegozio" />
@@ -69,7 +70,7 @@
         android:layout_marginBottom="8dp"
         android:text="@string/totale"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toBottomOf="@+id/carrello_rv"
+        app:layout_constraintBottom_toTopOf="@+id/carrello_btn_checkout"
         app:layout_constraintStart_toStartOf="@+id/carrello_rv" />
 
     <TextView

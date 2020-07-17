@@ -16,11 +16,12 @@ import com.example.justmeat.marketview.ProductItem;
 import java.util.ArrayList;
 
 class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter.ProductViewHolder>{
-
+    CarrelloActivity carrelloActivity;
     ArrayList<ProductItem> carrello;
 
-    public CarrelloProductAdapter(ArrayList<ProductItem> carrello){
-        this.carrello = carrello;
+    public CarrelloProductAdapter(CarrelloActivity carrelloActivity){
+        this.carrello = carrelloActivity.carrello;
+        this.carrelloActivity = carrelloActivity;
     }
 
     @NonNull
@@ -33,13 +34,20 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final CarrelloProductAdapter.ProductViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final CarrelloProductAdapter.ProductViewHolder holder, final int position) {
         final ProductItem currentItem = carrello.get(position);
         //holder.imgProduct.setImageResource(currentItem.getImgProd());
         holder.nome.setText(currentItem.getNome());
         //holder.produttore.setText(currentItem.getProduttore());
-        holder.prezzo.setText(currentItem.getPrezzo()+" €");
-        holder.totale.setText((currentItem.getPrezzo()*holder.counter)+" €");
+        if(currentItem.qt > 1){
+            holder.counter = currentItem.qt;
+        } else {
+            holder.counter = 1;
+        }
+
+        holder.prezzo.setText(String.format("%.2f",currentItem.getPrezzo())+" €");
+        double price = currentItem.getPrezzo()*holder.counter;
+        holder.totale.setText(String.format("%.2f",price)+" €");
 
         holder.txt_qt.setText(""+holder.counter);
 
@@ -47,8 +55,10 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
             @Override
             public void onClick(View v) {
                 holder.counter++;
+                currentItem.qt = holder.counter;
                 holder.txt_qt.setText(""+holder.counter);
-                holder.totale.setText((currentItem.getPrezzo()*holder.counter)+" €");
+                double price = currentItem.getPrezzo()*holder.counter;
+                holder.totale.setText(String.format("%.2f",price)+" €");
             }
         });
 
@@ -57,8 +67,10 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
             public void onClick(View v) {
                 if(holder.counter>1){
                     holder.counter--;
+                    currentItem.qt = holder.counter;
                     holder.txt_qt.setText(""+holder.counter);
-                    holder.totale.setText((currentItem.getPrezzo()*holder.counter)+" €");
+                    double price = currentItem.getPrezzo()*holder.counter;
+                    holder.totale.setText(String.format("%.2f",price)+" €");
                 }
             }
         });
@@ -71,6 +83,16 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
                 } else {
                     holder.pref.setSelected(true);
                 }
+            }
+        });
+        holder.cardView.setOnTouchListener(new OnSwipeTouchListener(carrelloActivity){
+            @Override
+            public void onSwipeLeft() {
+                System.out.println("rem item");
+                currentItem.qt = 0;
+                carrelloActivity.carrello.remove(currentItem);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, carrello.size());
             }
         });
 
@@ -99,14 +121,6 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
             more = itemView.findViewById(R.id.carrello_btn_more);
             less = itemView.findViewById(R.id.carrello_btn_less);
             pref = itemView.findViewById(R.id.carrello_btn_pref);
-            counter = 1;
-
-            cardView.setOnTouchListener(new OnSwipeTouchListener(itemView.getContext()){
-                @Override
-                public void onSwipeLeft() {
-
-                }
-            });
         }
     }
 }
