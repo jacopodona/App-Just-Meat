@@ -1,7 +1,5 @@
 package com.example.justmeat.marketview;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,7 +87,6 @@ public class MarketViewFragment extends Fragment {
             }
         });
     }
-
     private void setView(final View view) {
         final ImageView viewmode = view.findViewById(R.id.marketview_btn_viewmode);
         viewmode.setOnClickListener(new View.OnClickListener() {
@@ -185,7 +182,6 @@ public class MarketViewFragment extends Fragment {
                 pList = new ArrayList<>(pListFull);
                 productGridAdapter = new MarketViewProductGridAdapter(marketViewFragment);
                 productListAdapter = new MarketViewProductListAdapter(marketViewFragment);
-
                 showProduct(view,3);
             }
         }, new Response.ErrorListener() {
@@ -198,7 +194,6 @@ public class MarketViewFragment extends Fragment {
     }
     private void parseProduct(JSONObject jsonObject) throws JSONException {
         JSONArray results = jsonObject.getJSONArray("results");
-
         for (int i = 0; i < results.length(); i++){
             double prezzo;
             String nome;

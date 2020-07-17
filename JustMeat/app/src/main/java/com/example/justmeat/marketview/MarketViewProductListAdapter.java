@@ -93,7 +93,6 @@ class MarketViewProductListAdapter extends RecyclerView.Adapter<MarketViewProduc
     public int getItemCount() {
         return pList.size();
     }
-
     @Override
     public Filter getFilter() {
         return productFilter;
@@ -141,7 +140,6 @@ class MarketViewProductListAdapter extends RecyclerView.Adapter<MarketViewProduc
             notifyDataSetChanged();
         }
     };
-
     public class ProductViewHolder extends RecyclerView.ViewHolder {
         ImageView imgProduct, more, less;
         TextView nome, produttore, prezzo, totale, txt_qt;
