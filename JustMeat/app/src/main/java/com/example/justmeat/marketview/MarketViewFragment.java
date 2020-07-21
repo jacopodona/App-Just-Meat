@@ -40,9 +40,7 @@ public class MarketViewFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_marketview,container, false);
-
         if(catList.isEmpty()){
-            System.out.println("ee");
             getCategory(view);
         } else {
             setCategoryBar(view);
@@ -169,7 +167,6 @@ public class MarketViewFragment extends Fragment {
         pRV.setLayoutManager(pRVLM);
     }
     private void getProduct(final View view){
-        System.out.println("ass");
         final MarketViewFragment marketViewFragment = this;
         new HttpJsonRequest(getContext(), "/api/v1/get_products/"+id_negozio , Request.Method.GET, new Response.Listener<JSONObject>() {
             @Override
@@ -182,7 +179,6 @@ public class MarketViewFragment extends Fragment {
                 pList = new ArrayList<>(pListFull);
                 productGridAdapter = new MarketViewProductGridAdapter(marketViewFragment);
                 productListAdapter = new MarketViewProductListAdapter(marketViewFragment);
-
                 showProduct(view,3);
             }
         }, new Response.ErrorListener() {
