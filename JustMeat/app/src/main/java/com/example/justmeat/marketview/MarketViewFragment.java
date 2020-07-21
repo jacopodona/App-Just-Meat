@@ -42,7 +42,6 @@ public class MarketViewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_marketview,container, false);
 
         if(catList.isEmpty()){
-            System.out.println("ee");
             getCategory(view);
         } else {
             setCategoryBar(view);
@@ -169,7 +168,6 @@ public class MarketViewFragment extends Fragment {
         pRV.setLayoutManager(pRVLM);
     }
     private void getProduct(final View view){
-        System.out.println("ass");
         final MarketViewFragment marketViewFragment = this;
         new HttpJsonRequest(getContext(), "/api/v1/get_products/"+id_negozio , Request.Method.GET, new Response.Listener<JSONObject>() {
             @Override

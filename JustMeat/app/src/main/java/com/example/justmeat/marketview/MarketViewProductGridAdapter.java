@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,26 +17,12 @@ import com.example.justmeat.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MarketViewProductGridAdapter extends RecyclerView.Adapter<MarketViewProductGridAdapter.ProductViewHolder> {
-    private ArrayList<ProductItem> pList;
+public class MarketViewProductGridAdapter extends RecyclerView.Adapter<MarketViewProductGridAdapter.ProductViewHolder> implements Filterable {
     private ArrayList<ProductItem> pListFull;
+    private ArrayList<ProductItem> pList;
     private MarketViewFragment marketViewFragment;
 
-    public static class ProductViewHolder extends RecyclerView.ViewHolder{
-        public ImageView imgProduct;
-        public TextView nome, price;
-        CardView cardView, add_btn;
-
-        public ProductViewHolder(View itemView) {
-            super(itemView);
-            imgProduct = itemView.findViewById(R.id.marketview_img_prodcard_grid);
-            nome = itemView.findViewById(R.id.marketview_txt_prodcard_nome_grid);
-            price = itemView.findViewById(R.id.marketview_txt_prodcard_prezzo_grid);
-            cardView = (CardView) itemView.findViewById(R.id.product_card_grid);
-            add_btn = itemView.findViewById(R.id.marketview_btn_prodcard_add_grid);
-        }
-    }
-
+    @Override
     public Filter getFilter() {
         return productFilter;
     }
@@ -43,28 +30,28 @@ public class MarketViewProductGridAdapter extends RecyclerView.Adapter<MarketVie
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<ProductItem> filteredList = new ArrayList<>();
-            if (marketViewFragment.activeFilter == -1) {
-                if (constraint == null || constraint.length() == 0) {
-                    filteredList.addAll(pListFull);
-                } else {
-                    String filterPattern = constraint.toString().toLowerCase().trim();
-                    for (ProductItem productItem : pListFull) {
-                        if (productItem.getNome().toLowerCase().contains(filterPattern)) {
-                            filteredList.add(productItem);
+            if (marketViewFragment.activeFilter == -1){
+                if(constraint == null || constraint.length() == 0 ){
+                        filteredList.addAll(pListFull);
+                    }  else {
+                        String filterPattern = constraint.toString().toLowerCase().trim();
+                        for (ProductItem productItem : pListFull) {
+                            if (productItem.getNome().toLowerCase().contains(filterPattern)){
+                                filteredList.add(productItem);
+                            }
                         }
-                    }
                 }
             } else {
-                if (constraint == null || constraint.length() == 0) {
+                if(constraint == null || constraint.length() == 0 ){
                     for (ProductItem productItem : pListFull) {
-                        if (productItem.getIdCategoria() == marketViewFragment.activeFilter) {
+                        if (productItem.getIdCategoria() == marketViewFragment.activeFilter){
                             filteredList.add(productItem);
                         }
                     }
-                } else {
+                }  else {
                     String filterPattern = constraint.toString().toLowerCase().trim();
                     for (ProductItem productItem : pListFull) {
-                        if (productItem.getNome().toLowerCase().contains(filterPattern) && productItem.getIdCategoria() == marketViewFragment.activeFilter) {
+                        if (productItem.getNome().toLowerCase().contains(filterPattern) && productItem.getIdCategoria() == marketViewFragment.activeFilter){
                             filteredList.add(productItem);
                         }
                     }
@@ -82,6 +69,21 @@ public class MarketViewProductGridAdapter extends RecyclerView.Adapter<MarketVie
             notifyDataSetChanged();
         }
     };
+
+    public static class ProductViewHolder extends RecyclerView.ViewHolder{
+        public ImageView imgProduct;
+        public TextView nome, price;
+        CardView cardView, add_btn;
+
+        public ProductViewHolder(View itemView) {
+            super(itemView);
+            imgProduct = itemView.findViewById(R.id.marketview_img_prodcard_grid);
+            nome = itemView.findViewById(R.id.marketview_txt_prodcard_nome_grid);
+            price = itemView.findViewById(R.id.marketview_txt_prodcard_prezzo_grid);
+            cardView = (CardView) itemView.findViewById(R.id.product_card_grid);
+            add_btn = itemView.findViewById(R.id.marketview_btn_prodcard_add_grid);
+        }
+    }
 
     public MarketViewProductGridAdapter(MarketViewFragment marketViewFragment){
         this.marketViewFragment = marketViewFragment;
@@ -118,9 +120,9 @@ public class MarketViewProductGridAdapter extends RecyclerView.Adapter<MarketVie
             public void onClick(View v) {
                 MarketViewActivity marketViewActivity = (MarketViewActivity) marketViewFragment.getActivity();
                 if (currentItem.qt>0){
-                    currentItem.qt +=1;
+                    currentItem.qt += 1;
                 } else{
-                    currentItem.qt =1;
+                    currentItem.qt = 1;
                     marketViewActivity.carrello.add(currentItem);
                 }
 
