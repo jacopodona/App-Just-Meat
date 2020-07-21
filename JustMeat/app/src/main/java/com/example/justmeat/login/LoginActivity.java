@@ -4,13 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.example.justmeat.R;
-import com.example.justmeat.carrello.CarrelloActivity;
 import com.example.justmeat.homepage.HomepageActivity;
 import com.example.justmeat.signup.SignupActivity;
+import com.example.justmeat.utilities.HttpJsonRequest;
 import com.google.android.material.button.MaterialButton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -23,8 +30,29 @@ public class LoginActivity extends AppCompatActivity {
         accedi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), HomepageActivity.class);
-                startActivity(intent);
+                try {
+                    JSONObject body = new JSONObject();
+                    body.put("mail", "davide.farina@gmail.com");
+                    body.put("psw", "ciscocisco");
+
+                    new HttpJsonRequest(getBaseContext(), "/auth/login/local", Request.Method.POST, body,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    Intent intent = new Intent(getApplicationContext(), HomepageActivity.class);
+                                    intent.putExtra("user", response.toString());
+                                    startActivity(intent);
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Log.d("asd", error.toString());
+                                }
+                            }
+                    ).run();
+                } catch(JSONException ex) {
+                    return;
+                }
             }
         });
 

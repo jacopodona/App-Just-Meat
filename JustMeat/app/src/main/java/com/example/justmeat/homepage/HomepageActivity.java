@@ -9,11 +9,20 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.example.justmeat.R;
+import com.example.justmeat.utilities.HttpJsonRequest;
 import com.google.android.material.navigation.NavigationView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class HomepageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -41,6 +50,32 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
             getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new TrovaSupermercatiFragment()).commit();
             navigationview.setCheckedItem(R.id.homepage_nav_trova_supermercati);
         }
+
+        JSONObject user = null;
+        String httpToken = null;
+        try {
+            JSONObject rawData = new JSONObject(getIntent().getStringExtra("user"));
+            user = new JSONObject(rawData.getJSONObject("user").toString());
+            httpToken = rawData.getString("token");
+        } catch (JSONException ex) {
+            Log.d("asd", ex.toString());
+        }
+
+        Log.d("asd", user.toString());
+        Log.d("asd", httpToken);
+        Log.d("asd", "----------------------- Test autenticazione -----------------------");
+        new HttpJsonRequest(getBaseContext(), "/authenticationtest", Request.Method.GET, httpToken,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("asd", response.toString());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("asd", error.toString());
+            }
+        }).run();
     }
 
     @Override

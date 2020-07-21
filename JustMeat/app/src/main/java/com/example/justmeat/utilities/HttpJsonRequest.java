@@ -26,16 +26,16 @@ public class HttpJsonRequest {
      * @param onResponse what to do when server has responded
      * @param onError what to do then an error occurs
      */
-    public HttpJsonRequest(Context context, String partialUrl, int method, JSONObject body, Response.Listener<JSONObject> onResponse, Response.ErrorListener onError) {
+    public HttpJsonRequest(Context context, String partialUrl, int method, JSONObject body, final String token, Response.Listener<JSONObject> onResponse, Response.ErrorListener onError) {
         request = new JsonObjectRequest(method, Constants.CONNECTION_STRING + partialUrl, body, onResponse, onError) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String,String> params = new HashMap<>();
                 params.put("Content-Type", "application/json");
 
-                // Get bearer token from storage if exists
-                String token = "null";
-                params.put("Authorization", ("Bearer " + token));
+                if(token != null) {
+                    params.put("Authorization", ("Bearer " + token));
+                }
                 return params;
             }
         };
@@ -51,7 +51,15 @@ public class HttpJsonRequest {
      * @param onError what to do then an error occurs
      */
     public HttpJsonRequest(Context context, String partialUrl, int method, Response.Listener<JSONObject> onResponse, Response.ErrorListener onError) {
-        this(context, partialUrl, method, null, onResponse, onError);
+        this(context, partialUrl, method, null, null, onResponse, onError);
+    }
+
+    public HttpJsonRequest(Context context, String partialUrl, int method, JSONObject body, Response.Listener<JSONObject> onResponse, Response.ErrorListener onError) {
+        this(context, partialUrl, method, body, null, onResponse, onError);
+    }
+
+    public HttpJsonRequest(Context context, String partialUrl, int method, String token, Response.Listener<JSONObject> onResponse, Response.ErrorListener onError) {
+        this(context, partialUrl, method, null, token, onResponse, onError);
     }
 
     public void run() {
