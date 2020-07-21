@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,15 +16,16 @@ import com.example.justmeat.utilities.MyApplication;
 import java.util.ArrayList;
 
 public class MarketViewActivity extends AppCompatActivity{
-    ArrayList<ProductItem> carrello;
+    MarketViewActivity.CustomArray carrello ;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marketview);
-        carrello = ((MyApplication) this.getApplication()).getCarrelloListProduct();
+        carrello = new CustomArray(((MyApplication) this.getApplication()).getCarrelloListProduct());
         setBackButton();
         setCarrelloButton();
+        quantityOnCart();
         this.getSupportFragmentManager().beginTransaction().replace(R.id.marketview_frame_container, new MarketViewFragment()).commit();
     }
 
@@ -52,5 +54,34 @@ public class MarketViewActivity extends AppCompatActivity{
             }
         });
     }
+    private void quantityOnCart() {
+        TextView cartQt = findViewById(R.id.marketview_txt_cartqt);
+        int qt = carrello.size();
+        System.out.println(""+qt);
+        if(qt == 0){
+            cartQt.setVisibility(View.INVISIBLE);
+        } else {
+            cartQt.setVisibility(View.VISIBLE);
+            cartQt.setText(""+qt);
+        }
+    }
+    public class CustomArray extends ArrayList<ProductItem>{
+        CustomArray(ArrayList<ProductItem> pList){
+            super(pList);
+        }
 
+        @Override
+        public boolean add(ProductItem productItem) {
+            Boolean b = super.add(productItem);
+            quantityOnCart();
+            return b;
+        }
+
+        @Override
+        public boolean remove(@Nullable Object o) {
+            boolean b = super.remove(o);
+            quantityOnCart();
+            return b;
+        }
+    }
 }

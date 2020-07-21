@@ -15,9 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.justmeat.R;
-import com.example.justmeat.checkout.CheckoutActivity;
 import com.example.justmeat.marketview.ProductItem;
 import com.example.justmeat.utilities.MyApplication;
+import com.example.justmeat.whithdrawal.WithdrawalActivity;
 
 import java.util.ArrayList;
 
@@ -46,7 +46,7 @@ public class CarrelloActivity extends AppCompatActivity {
         gotoCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), CheckoutActivity.class);
+                Intent intent = new Intent(v.getContext(), WithdrawalActivity.class);
                 startActivity(intent);
             }
         });
