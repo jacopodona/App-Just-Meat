@@ -51,4 +51,19 @@
         app:layout_constraintTop_toTopOf="@id/marketview_txt_nomenegozio"
         app:srcCompat="@drawable/ic_cart" />
 
+    <TextView
+        android:id="@+id/marketview_txt_cartqt"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/categorybackground"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="1"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/marketview_btn_cart"
+        app:layout_constraintStart_toStartOf="@+id/marketview_btn_cart" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

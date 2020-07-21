@@ -3,6 +3,8 @@ package com.example.justmeat.marketview;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,14 +15,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.justmeat.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
-class MarketViewProductListAdapter extends RecyclerView.Adapter<MarketViewProductListAdapter.ProductViewHolder>{
+class MarketViewProductListAdapter extends RecyclerView.Adapter<MarketViewProductListAdapter.ProductViewHolder> implements Filterable {
     private ArrayList<ProductItem> pList;
+    private ArrayList<ProductItem> pListFull;
     private MarketViewFragment marketViewFragment;
 
     public MarketViewProductListAdapter(MarketViewFragment marketViewFragment) {
         this.marketViewFragment = marketViewFragment;
         this.pList = marketViewFragment.pList;
+        this.pListFull = marketViewFragment.pListFull;
     }
 
     @NonNull
@@ -88,6 +93,54 @@ class MarketViewProductListAdapter extends RecyclerView.Adapter<MarketViewProduc
     public int getItemCount() {
         return pList.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return productFilter;
+    }
+    private Filter productFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<ProductItem> filteredList = new ArrayList<>();
+            if (marketViewFragment.activeFilter == -1) {
+                if (constraint == null || constraint.length() == 0) {
+                    filteredList.addAll(pListFull);
+                } else {
+                    String filterPattern = constraint.toString().toLowerCase().trim();
+                    for (ProductItem productItem : pListFull) {
+                        if (productItem.getNome().toLowerCase().contains(filterPattern)) {
+                            filteredList.add(productItem);
+                        }
+                    }
+                }
+            } else {
+                if (constraint == null || constraint.length() == 0) {
+                    for (ProductItem productItem : pListFull) {
+                        if (productItem.getIdCategoria() == marketViewFragment.activeFilter) {
+                            filteredList.add(productItem);
+                        }
+                    }
+                } else {
+                    String filterPattern = constraint.toString().toLowerCase().trim();
+                    for (ProductItem productItem : pListFull) {
+                        if (productItem.getNome().toLowerCase().contains(filterPattern) && productItem.getIdCategoria() == marketViewFragment.activeFilter) {
+                            filteredList.add(productItem);
+                        }
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            pList.clear();
+            pList.addAll((List)results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public class ProductViewHolder extends RecyclerView.ViewHolder {
         ImageView imgProduct, more, less;

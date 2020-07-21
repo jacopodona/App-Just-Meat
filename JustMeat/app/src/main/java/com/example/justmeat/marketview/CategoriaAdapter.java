@@ -19,9 +19,10 @@ public class CategoriaAdapter extends RecyclerView.Adapter<CategoriaAdapter.Cate
     public MarketViewFragment marketViewFragment;
     CategoriaViewHolder currentActive;
 
-    public CategoriaAdapter(ArrayList<CategoriaItem> cIL, MarketViewFragment marketViewFragment) {
-        this.cIL= cIL;
+
+    public CategoriaAdapter( MarketViewFragment marketViewFragment) {
         this.marketViewFragment = marketViewFragment;
+        cIL = marketViewFragment.catList;
     }
 
     @Override
@@ -37,6 +38,11 @@ public class CategoriaAdapter extends RecyclerView.Adapter<CategoriaAdapter.Cate
         holder.img.setImageResource(currentItem.getIcona());
         holder.id = currentItem.getId();
         holder.nome = currentItem.getNome();
+        if(marketViewFragment.activeFilter != currentItem.getId()){
+            holder.img.setSelected(false);
+        } else {
+            holder.img.setSelected(true);
+        }
     }
 
     @Override
@@ -62,7 +68,6 @@ public class CategoriaAdapter extends RecyclerView.Adapter<CategoriaAdapter.Cate
             }
             currentActive = this;
             if(marketViewFragment.activeFilter != id) {
-                //marketViewFragment.filter(id);
                 txt.setText(nome);
                 marketViewFragment.activeFilter = id;
                 this.img.setSelected(true);
@@ -70,9 +75,9 @@ public class CategoriaAdapter extends RecyclerView.Adapter<CategoriaAdapter.Cate
             else {
                 txt.setText("");
                 this.img.setSelected(false);
-                //marketViewFragment.removeFilter();
                 marketViewFragment.activeFilter = -1;
             }
+            marketViewFragment.filter();
         }
     }
 }

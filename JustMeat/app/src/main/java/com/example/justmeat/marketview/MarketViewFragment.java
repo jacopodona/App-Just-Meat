@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,23 +27,52 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class MarketViewFragment extends Fragment {
-    public int activeFilter = -1;
-    public int visualizeProduct = 3;
-    public ArrayList<ProductItem> pList = new ArrayList<>();
+    public int activeFilter = -1; //indica che categoria è selezionata al momento, -1 è utilizzato per indicare che nessuna cat è selezionata
+    public int visualizeProduct = 3; // tipo di visualizzazione prodotti 3->griglia 3 colonne; 2-> 2colonne; 1->lista
+    int id_negozio = 4; //indica quale negozio è stato selezionato, al momento la scelta è statica poi verrà utilizzato intentExtra
+    public ArrayList<ProductItem> pListFull = new ArrayList<>(); //array contente tutti i prodotti del supermercato
+    public ArrayList<ProductItem> pList; //array contente la lista dei prodotti filtrati attraverso la search view
+    ArrayList<CategoriaItem> catList = new ArrayList<>(); //array contente i departments del supermercato
+    MarketViewProductGridAdapter productGridAdapter;
+    MarketViewProductListAdapter productListAdapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_marketview,container, false);
-        setCategoryBar(view);
-        if(pList.isEmpty()){
+        if(catList.isEmpty()){
+            getCategory(view);
+        } else {
+            setCategoryBar(view);
+        }
+        if(pListFull.isEmpty()){
             getProduct(view);
         } else {
-            showProduct(view,3);
+            showProduct(view,3, pList);
         }
         setView(view);
         setCategoryFilter(view);
+        setSearchView(view);
         return view;
+    }
+
+    private void setSearchView(View view) {
+        SearchView searchView = (SearchView) view.findViewById(R.id.marketview_search);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (visualizeProduct > 1){
+                    productGridAdapter.getFilter().filter(newText);
+                } else{
+                    productListAdapter.getFilter().filter(newText);
+                }
+                return false;
+            }
+        });
     }
 
     private void setCategoryFilter(View view) {
@@ -71,38 +101,53 @@ public class MarketViewFragment extends Fragment {
                     visualizeProduct = 2;
                     viewmode.setSelected(true);
                 }
-                showProduct(view, visualizeProduct);
+                showProduct(view, visualizeProduct, pList);
                 System.out.println(visualizeProduct);
             }
         });
     }
-
     private void setCategoryBar(View view){
-        ArrayList<CategoriaItem> catList = new ArrayList<>();
-        catList.add(new CategoriaItem(R.drawable.category_frutta, "Frutta", 0));
-        catList.add(new CategoriaItem(R.drawable.category_carne, "Carne", 1));
-        catList.add(new CategoriaItem(R.drawable.category_lattine, "Lattine", 2));
-        catList.add(new CategoriaItem(R.drawable.category_verdura, "Verdura", 3));
-        catList.add(new CategoriaItem(R.drawable.category_pesce, "Pesce", 4));
-        catList.add(new CategoriaItem(R.drawable.category_sapone, "Sapone", 5));
-        catList.add(new CategoriaItem(R.drawable.category_alcool, "Bibite", 6));
-        catList.add(new CategoriaItem(R.drawable.category_congelati, "Congelati", 7));
-        catList.add(new CategoriaItem(R.drawable.category_condimenti, "Condimenti",8));
-        catList.add(new CategoriaItem(R.drawable.category_pasta, "Pasta e Riso", 9));
-
         RecyclerView cRV;
         RecyclerView.Adapter cRVA;
         RecyclerView.LayoutManager cRVLM;
 
         cRV = view.findViewById(R.id.marketview_rv_categorie);
-        cRV.setHasFixedSize(true );
         cRVLM= new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
 
-        cRVA = new CategoriaAdapter(catList, this);
+        cRVA = new CategoriaAdapter(this);
         cRV.setLayoutManager(cRVLM);
         cRV.setAdapter(cRVA);
     }
-    private void showProduct(View view, int column){
+    private void getCategory(final View view){
+        new HttpJsonRequest(getContext(), "/api/v1/get_departments/" + id_negozio, Request.Method.GET, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try{
+                    parseCategory(response);
+                } catch (JSONException e){
+                    e.printStackTrace();
+                } setCategoryBar(view);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println(error.toString());
+            }
+        }).run();
+    }
+    private void parseCategory(JSONObject jsonObject) throws JSONException{
+        JSONArray results = jsonObject.getJSONArray("results");
+        for (int i = 0; i < results.length(); i++){
+            String name;
+            int id;
+            JSONObject currentJSONObj = results.getJSONObject(i);
+            name = currentJSONObj.getString("name");
+            id = currentJSONObj.getInt("id");
+            catList.add(new CategoriaItem(R.drawable.category_carne, name, id));
+        }
+    }
+
+    private void showProduct(View view, int column, ArrayList<ProductItem> productItemArrayList){
 
         RecyclerView pRV;
         RecyclerView.Adapter pRVA;
@@ -114,19 +159,17 @@ public class MarketViewFragment extends Fragment {
 
         if(column>1){
             pRVLM = new GridLayoutManager(getContext(), column);
-            pRVA = new MarketViewProductGridAdapter(this);
+            pRV.setAdapter(productGridAdapter);
         } else{
             pRVLM= new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false );
-            pRVA = new MarketViewProductListAdapter(this);
+            pRV.setAdapter(productListAdapter);
         }
 
-
-
         pRV.setLayoutManager(pRVLM);
-        pRV.setAdapter(pRVA);
     }
     private void getProduct(final View view){
-        new HttpJsonRequest(getContext(), "/api/v1/get_products/4" , Request.Method.GET, new Response.Listener<JSONObject>() {
+        final MarketViewFragment marketViewFragment = this;
+        new HttpJsonRequest(getContext(), "/api/v1/get_products/"+id_negozio , Request.Method.GET, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -134,7 +177,11 @@ public class MarketViewFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                showProduct(view,3);
+                pList = new ArrayList<>(pListFull);
+                productGridAdapter = new MarketViewProductGridAdapter(marketViewFragment);
+                productListAdapter = new MarketViewProductListAdapter(marketViewFragment);
+
+                showProduct(view,3, pList);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -144,20 +191,28 @@ public class MarketViewFragment extends Fragment {
         }).run();
 
     }
-
     private void parseProduct(JSONObject jsonObject) throws JSONException {
         JSONArray results = jsonObject.getJSONArray("results");
 
-        for (int i = 0; i< results.length(); i++){
+        for (int i = 0; i < results.length(); i++){
             double prezzo;
             String nome;
-            int categoria;
+            int department;
             JSONObject currentJSONObj = results.getJSONObject(i);
             prezzo = currentJSONObj.getDouble("price");
             nome = currentJSONObj.getString("name");
-            categoria = currentJSONObj.getInt("department");
-            pList.add(new ProductItem(prezzo, nome, 1));
+            department = currentJSONObj.getInt("department");
+            pListFull.add(new ProductItem(prezzo, nome, department));
         }
 
+    }
+    public void filter(){
+        System.out.println(this.activeFilter);
+        SearchView searchView = (SearchView) this.getView().findViewById(R.id.marketview_search);
+        if (visualizeProduct > 1){
+            productGridAdapter.getFilter().filter(searchView.getQuery());
+        } else{
+            productListAdapter.getFilter();
+        }
     }
 }
