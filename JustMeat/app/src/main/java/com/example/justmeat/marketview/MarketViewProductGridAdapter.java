@@ -72,7 +72,7 @@ public class MarketViewProductGridAdapter extends RecyclerView.Adapter<MarketVie
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder{
         public ImageView imgProduct;
-        public TextView nome, price;
+        public TextView nome, price, discount;
         CardView cardView, add_btn;
 
         public ProductViewHolder(View itemView) {
@@ -82,6 +82,7 @@ public class MarketViewProductGridAdapter extends RecyclerView.Adapter<MarketVie
             price = itemView.findViewById(R.id.marketview_txt_prodcard_prezzo_grid);
             cardView = (CardView) itemView.findViewById(R.id.product_card_grid);
             add_btn = itemView.findViewById(R.id.marketview_btn_prodcard_add_grid);
+            discount = itemView.findViewById(R.id.marketview_txt_prodcard_discount_grid);
         }
     }
 
@@ -129,6 +130,12 @@ public class MarketViewProductGridAdapter extends RecyclerView.Adapter<MarketVie
 
             }
         });
+
+        if(currentItem.getDiscount()>0){
+            holder.discount.setText((currentItem.getDiscount()*100) +"%");
+        } else {
+            holder.discount.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

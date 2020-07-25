@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,12 +24,22 @@ import java.util.ArrayList;
 
 public class CarrelloActivity extends AppCompatActivity {
     ArrayList<ProductItem> carrello;
+    public TextView totale_txt;
+    double tot;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        tot = 0.00;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carrello);
         carrello = ((MyApplication) this.getApplication()).getCarrelloListProduct();
+
+        this.totale_txt = findViewById(R.id.carrello_txt_totale);
+        for(ProductItem currentItem : carrello){
+            tot += currentItem.getPrezzo()*currentItem.qt;
+        }
+        totale_txt.setText(String.format("%.2f",tot)+" €");
+
         setLayoutCarrello();
     }
 
