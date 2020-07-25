@@ -105,7 +105,6 @@
             android:id="@+id/checkout_rv_coupons"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="@+id/checkout_rv_product"
             app:layout_constraintStart_toStartOf="@+id/checkout_rv_product"
             app:layout_constraintTop_toBottomOf="@+id/checkout_txt_title_coupons" />

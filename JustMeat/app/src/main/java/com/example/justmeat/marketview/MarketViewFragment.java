@@ -52,7 +52,7 @@ public class MarketViewFragment extends Fragment {
             showProduct(view,3);
         }
         setView(view);
-        setCategoryFilter(view);
+        setSorting(view);
         setSearchView(view);
         return view;
     }
@@ -76,13 +76,14 @@ public class MarketViewFragment extends Fragment {
         });
     }
 
-    private void setCategoryFilter(View view) {
+    private void setSorting(View view) {
+        final MarketViewFragment marketViewFragment = this;
         final ImageView filter_btn = view.findViewById(R.id.marketview_btn_filter);
         filter_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SortModal sortModal = new SortModal();
-                sortModal.show(getActivity().getSupportFragmentManager(), "filtri");
+                SortModal sortModal = new SortModal(marketViewFragment);
+                sortModal.show(getActivity().getSupportFragmentManager(), "sort");
             }
         });
     }
@@ -193,14 +194,15 @@ public class MarketViewFragment extends Fragment {
     private void parseProduct(JSONObject jsonObject) throws JSONException {
         JSONArray results = jsonObject.getJSONArray("results");
         for (int i = 0; i < results.length(); i++){
-            double prezzo;
+            double prezzo, discount;
             String nome;
             int department;
             JSONObject currentJSONObj = results.getJSONObject(i);
             prezzo = currentJSONObj.getDouble("price");
             nome = currentJSONObj.getString("name");
             department = currentJSONObj.getInt("department");
-            pListFull.add(new ProductItem(prezzo, nome, department));
+            discount = currentJSONObj.getDouble("discount");
+            pListFull.add(new ProductItem(prezzo, nome, department, discount));
         }
 
     }
@@ -210,7 +212,7 @@ public class MarketViewFragment extends Fragment {
         if (visualizeProduct > 1){
             productGridAdapter.getFilter().filter(searchView.getQuery());
         } else{
-            productListAdapter.getFilter();
+            productListAdapter.getFilter().filter(searchView.getQuery());
         }
     }
 }

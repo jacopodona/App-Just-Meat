@@ -59,6 +59,8 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
                 holder.txt_qt.setText(""+holder.counter);
                 double price = currentItem.getPrezzo()*holder.counter;
                 holder.totale.setText(String.format("%.2f",price)+" €");
+                carrelloActivity.tot += currentItem.getPrezzo();
+                carrelloActivity.totale_txt.setText(String.format("%.2f",carrelloActivity.tot)+" €");
             }
         });
 
@@ -71,6 +73,8 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
                     holder.txt_qt.setText(""+holder.counter);
                     double price = currentItem.getPrezzo()*holder.counter;
                     holder.totale.setText(String.format("%.2f",price)+" €");
+                    carrelloActivity.tot -= currentItem.getPrezzo();
+                    carrelloActivity.totale_txt.setText(String.format("%.2f",carrelloActivity.tot)+" €");
                 }
             }
         });
@@ -88,14 +92,16 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
         holder.cardView.setOnTouchListener(new OnSwipeTouchListener(carrelloActivity){
             @Override
             public void onSwipeLeft() {
-                System.out.println("rem item");
+                double gigi = (currentItem.getPrezzo()*holder.counter);
+                System.out.println(gigi);
+                carrelloActivity.tot -= gigi;
+                carrelloActivity.totale_txt.setText(String.format("%.2f",carrelloActivity.tot)+" €");
                 currentItem.qt = 0;
                 carrelloActivity.carrello.remove(currentItem);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, carrello.size());
             }
         });
-
     }
 
     @Override

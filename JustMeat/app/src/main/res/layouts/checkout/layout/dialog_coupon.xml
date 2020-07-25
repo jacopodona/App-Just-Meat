@@ -55,20 +55,20 @@
         </RelativeLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout"
+            android:id="@+id/checkout_intxt_dialogcoupon"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
             app:boxBackgroundColor="#70FFFFFF"
             app:boxCornerRadiusBottomEnd="10dp"
             app:boxCornerRadiusBottomStart="10dp"
             app:boxCornerRadiusTopEnd="10dp"
             app:boxCornerRadiusTopStart="10dp"
             app:boxStrokeColor="#FFFFFF"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/checkout_btn_scanqr_dialogcoupon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/checkout_rel">
 
@@ -85,8 +85,21 @@
             android:layout_marginBottom="16dp"
             android:text="Inserisci"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+            app:layout_constraintEnd_toEndOf="@+id/checkout_btn_scanqr_dialogcoupon"
+            app:layout_constraintTop_toBottomOf="@+id/checkout_intxt_dialogcoupon" />
+
+        <ImageView
+            android:id="@+id/checkout_btn_scanqr_dialogcoupon"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:adjustViewBounds="true"
+            app:layout_constraintBottom_toBottomOf="@+id/checkout_intxt_dialogcoupon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/checkout_intxt_dialogcoupon"
+            app:layout_constraintTop_toTopOf="@+id/checkout_intxt_dialogcoupon"
+            app:srcCompat="@drawable/ic_add_coupons" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

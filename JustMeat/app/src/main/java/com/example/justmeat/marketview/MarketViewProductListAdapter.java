@@ -74,9 +74,6 @@ class MarketViewProductListAdapter extends RecyclerView.Adapter<MarketViewProduc
             @Override
             public void onClick(View v) {
                 //reset the card counter to 1
-                holder.counter = 1;
-                holder.txt_qt.setText(""+holder.counter);
-                holder.totale.setText(String.format("%.2f",currentItem.getPrezzo())+" €");
                 MarketViewActivity marketViewActivity = (MarketViewActivity) marketViewFragment.getActivity();
                 if(currentItem.qt>0){
                     currentItem.qt += holder.counter;
@@ -84,7 +81,9 @@ class MarketViewProductListAdapter extends RecyclerView.Adapter<MarketViewProduc
                     currentItem.qt = holder.counter;
                     marketViewActivity.carrello.add(currentItem);
                 }
-
+                holder.counter = 1;
+                holder.txt_qt.setText(""+holder.counter);
+                holder.totale.setText(String.format("%.2f",currentItem.getPrezzo())+" €");
             }
         });
     }
