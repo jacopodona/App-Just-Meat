@@ -139,6 +139,7 @@ class MarketViewProductListAdapter extends RecyclerView.Adapter<MarketViewProduc
             notifyDataSetChanged();
         }
     };
+
     public class ProductViewHolder extends RecyclerView.ViewHolder {
         ImageView imgProduct, more, less;
         TextView nome, produttore, prezzo, totale, txt_qt;

@@ -44,7 +44,6 @@ public class MarketViewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_marketview,container, false);
 
         this.httpToken = ((MyApplication)this.getActivity().getApplication()).getHttpToken();
-
         if(catList.isEmpty()){
             getCategory(view);
         } else {
@@ -208,7 +207,6 @@ public class MarketViewFragment extends Fragment {
             discount = currentJSONObj.getDouble("discount");
             pListFull.add(new ProductItem(prezzo, nome, department, discount));
         }
-
     }
     public void filter(){
         System.out.println(this.activeFilter);
