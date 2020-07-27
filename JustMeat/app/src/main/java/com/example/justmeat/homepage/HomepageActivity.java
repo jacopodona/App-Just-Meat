@@ -51,6 +51,8 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
             navigationview.setCheckedItem(R.id.homepage_nav_trova_supermercati);
         }
 
+
+        // Get httpToken
         JSONObject user = null;
         String httpToken = null;
         try {
@@ -70,12 +72,28 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
                     public void onResponse(JSONObject response) {
                         Log.d("asd", response.toString());
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("asd", error.toString());
-            }
-        }).run();
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("asd", error.toString());
+                    }
+                }).run();
+
+
+        new HttpJsonRequest(getBaseContext(), "/api/v1/get_supermarkets", Request.Method.GET, httpToken,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("asd", response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("asd", error.toString());
+                    }
+                }).run();
     }
 
     @Override
