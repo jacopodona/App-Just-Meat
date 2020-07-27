@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.example.justmeat.R;
 import com.example.justmeat.utilities.HttpJsonRequest;
+import com.example.justmeat.utilities.MyApplication;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,11 +36,14 @@ public class MarketViewFragment extends Fragment {
     ArrayList<CategoriaItem> catList = new ArrayList<>(); //array contente i departments del supermercato
     MarketViewProductGridAdapter productGridAdapter;
     MarketViewProductListAdapter productListAdapter;
+    String httpToken;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_marketview,container, false);
+
+        this.httpToken = ((MyApplication)this.getActivity().getApplication()).getHttpToken();
 
         if(catList.isEmpty()){
             getCategory(view);
@@ -121,7 +125,7 @@ public class MarketViewFragment extends Fragment {
         cRV.setAdapter(cRVA);
     }
     private void getCategory(final View view){
-        new HttpJsonRequest(getContext(), "/api/v1/get_departments/" + id_negozio, Request.Method.GET, new Response.Listener<JSONObject>() {
+        new HttpJsonRequest(getContext(), "/api/v1/get_departments/" + id_negozio, Request.Method.GET, httpToken,new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try{
@@ -170,7 +174,7 @@ public class MarketViewFragment extends Fragment {
     }
     private void getProduct(final View view){
         final MarketViewFragment marketViewFragment = this;
-        new HttpJsonRequest(getContext(), "/api/v1/get_products/"+id_negozio , Request.Method.GET, new Response.Listener<JSONObject>() {
+        new HttpJsonRequest(getContext(), "/api/v1/get_products/"+id_negozio, Request.Method.GET, httpToken, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {

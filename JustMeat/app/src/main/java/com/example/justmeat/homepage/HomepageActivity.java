@@ -1,5 +1,9 @@
 package com.example.justmeat.homepage;
 
+import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,16 +13,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.example.justmeat.R;
 import com.example.justmeat.utilities.HttpJsonRequest;
+import com.example.justmeat.utilities.MyApplication;
 import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONException;
@@ -59,6 +59,7 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
             JSONObject rawData = new JSONObject(getIntent().getStringExtra("user"));
             user = new JSONObject(rawData.getJSONObject("user").toString());
             httpToken = rawData.getString("token");
+            ((MyApplication)this.getApplication()).setHttpToken(httpToken);
         } catch (JSONException ex) {
             Log.d("asd", ex.toString());
         }
