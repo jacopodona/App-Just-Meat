@@ -42,23 +42,32 @@ public class MarketViewFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_marketview,container, false);
-
+        //save user token
         this.httpToken = ((MyApplication)this.getActivity().getApplication()).getHttpToken();
+        //avoid useless http call
         if(catList.isEmpty()){
             getCategory(view);
         } else {
             setCategoryBar(view);
         }
         if(pListFull.isEmpty()){
-            getProduct(view);
+             getProduct(view);
         } else {
             showProduct(view,3);
         }
+
         setView(view);
         setSorting(view);
         setSearchView(view);
         return view;
     }
+
+   /* @Override
+    public void onStart() {
+        super.onStart();
+        MarketViewActivity marketViewActivity = (MarketViewActivity) getActivity();
+        marketViewActivity.marketImage.setImageResource(R.drawable.placeholder);
+    }*/
 
     private void setSearchView(View view) {
         SearchView searchView = (SearchView) view.findViewById(R.id.marketview_search);
@@ -154,7 +163,6 @@ public class MarketViewFragment extends Fragment {
 
     private void showProduct(View view, int column){
         RecyclerView pRV;
-        RecyclerView.Adapter pRVA;
         RecyclerView.LayoutManager pRVLM;
 
         pRV = view.findViewById(R.id.marketview_rv_product);
@@ -164,11 +172,10 @@ public class MarketViewFragment extends Fragment {
         if(column>1){
             pRVLM = new GridLayoutManager(getContext(), column);
             pRV.setAdapter(productGridAdapter);
-        } else{
+        } else {
             pRVLM= new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false );
             pRV.setAdapter(productListAdapter);
         }
-
         pRV.setLayoutManager(pRVLM);
     }
     private void getProduct(final View view){

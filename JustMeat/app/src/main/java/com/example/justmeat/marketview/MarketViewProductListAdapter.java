@@ -49,6 +49,14 @@ class MarketViewProductListAdapter extends RecyclerView.Adapter<MarketViewProduc
 
         holder.txt_qt.setText(""+holder.counter);
 
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                marketViewFragment.getActivity().getSupportFragmentManager().
+                        beginTransaction().replace(R.id.marketview_frame_container, new PruductFragment(currentItem)).addToBackStack("product").commit();
+            }
+        });
+
         holder.more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

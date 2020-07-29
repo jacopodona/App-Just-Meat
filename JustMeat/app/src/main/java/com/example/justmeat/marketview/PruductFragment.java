@@ -30,9 +30,14 @@ public class PruductFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        MarketViewActivity marketViewActivity = (MarketViewActivity) getActivity();
+        marketViewActivity.marketImage.setImageResource(R.drawable.tagliata);
+    }
+
     private void setLayout(View view){
-        //ImageView img = view.findViewById(R.id.marketview_img_prodotto);
-        //img.setImageDrawable();
 
         TextView nome = view.findViewById(R.id.marketview_txt_prodotto);
         nome.setText(prodotto.getNome());

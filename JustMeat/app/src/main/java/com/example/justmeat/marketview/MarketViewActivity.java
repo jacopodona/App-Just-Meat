@@ -17,11 +17,13 @@ import java.util.ArrayList;
 
 public class MarketViewActivity extends AppCompatActivity{
     MarketViewActivity.CustomArray carrello ;
+    ImageView marketImage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marketview);
+        marketImage = findViewById(R.id.marketview_img_appbar);
         carrello = new CustomArray(((MyApplication) this.getApplication()).getCarrelloListProduct());
         setBackButton();
         setCarrelloButton();
