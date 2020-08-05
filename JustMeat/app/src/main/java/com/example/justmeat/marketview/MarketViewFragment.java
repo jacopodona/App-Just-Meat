@@ -1,5 +1,7 @@
 package com.example.justmeat.marketview;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,9 @@ import com.android.volley.VolleyError;
 import com.example.justmeat.R;
 import com.example.justmeat.utilities.HttpJsonRequest;
 import com.example.justmeat.utilities.MyApplication;
+import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,11 +42,16 @@ public class MarketViewFragment extends Fragment {
     MarketViewProductGridAdapter productGridAdapter;
     MarketViewProductListAdapter productListAdapter;
     String httpToken;
+    private ShimmerFrameLayout shimmerFrameLayout;
+    private RecyclerView pRV;
+    SearchView searchView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_marketview,container, false);
+        //create shimmmer effect
+        shimmerFrameLayout = view.findViewById(R.id.marketview_shim_placeholder);
         //save user token
         this.httpToken = ((MyApplication)this.getActivity().getApplication()).getHttpToken();
         //avoid useless http call
@@ -59,18 +69,61 @@ public class MarketViewFragment extends Fragment {
         setView(view);
         setSorting(view);
         setSearchView(view);
+        setBarcodeReader(view);
         return view;
     }
 
-   /* @Override
+    private void setBarcodeReader(View view) {
+        final Activity activity = this.getActivity();
+        final Fragment fragment = this;
+        ImageView barcodeBtn = view.findViewById(R.id.marketview_btn_barcode);
+        barcodeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentIntegrator intentIntegrator = new IntentIntegrator(activity);
+                intentIntegrator.setOrientationLocked(false);
+                intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
+                intentIntegrator.setPrompt("Inquadra il Barcode del prodotto");
+                intentIntegrator.setBarcodeImageEnabled(true);
+                intentIntegrator.setCameraId(0);
+                intentIntegrator.forSupportFragment(fragment).initiateScan();
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null) {
+            if(result.getContents() == null) {
+                System.out.println("canc");
+            } else {
+                searchView.setQuery(result.getContents(), true);
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         MarketViewActivity marketViewActivity = (MarketViewActivity) getActivity();
         marketViewActivity.marketImage.setImageResource(R.drawable.placeholder);
-    }*/
+    }
+
+    public void onResume() {
+        super.onResume();
+        shimmerFrameLayout.startShimmerAnimation();
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        shimmerFrameLayout.stopShimmerAnimation();
+    }
 
     private void setSearchView(View view) {
-        SearchView searchView = (SearchView) view.findViewById(R.id.marketview_search);
+        searchView = (SearchView) view.findViewById(R.id.marketview_search);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -99,6 +152,7 @@ public class MarketViewFragment extends Fragment {
             }
         });
     }
+
     private void setView(final View view) {
         final ImageView viewmode = view.findViewById(R.id.marketview_btn_viewmode);
         viewmode.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +174,7 @@ public class MarketViewFragment extends Fragment {
             }
         });
     }
+
     private void setCategoryBar(View view){
         RecyclerView cRV;
         RecyclerView.Adapter cRVA;
@@ -162,12 +217,11 @@ public class MarketViewFragment extends Fragment {
     }
 
     private void showProduct(View view, int column){
-        RecyclerView pRV;
         RecyclerView.LayoutManager pRVLM;
 
         pRV = view.findViewById(R.id.marketview_rv_product);
         pRV.setHasFixedSize(true);
-        pRV.setNestedScrollingEnabled(false);
+        pRV.setNestedScrollingEnabled(true);
 
         if(column>1){
             pRVLM = new GridLayoutManager(getContext(), column);
@@ -177,6 +231,8 @@ public class MarketViewFragment extends Fragment {
             pRV.setAdapter(productListAdapter);
         }
         pRV.setLayoutManager(pRVLM);
+        shimmerFrameLayout.setVisibility(View.GONE);
+        pRV.setVisibility(View.VISIBLE);
     }
     private void getProduct(final View view){
         final MarketViewFragment marketViewFragment = this;
@@ -205,14 +261,19 @@ public class MarketViewFragment extends Fragment {
         JSONArray results = jsonObject.getJSONArray("results");
         for (int i = 0; i < results.length(); i++){
             double prezzo, discount;
-            String nome;
-            int department;
+            String nome, manufacturer, description, um;
+            int department, id, weight;
             JSONObject currentJSONObj = results.getJSONObject(i);
-            prezzo = currentJSONObj.getDouble("price");
+            id = currentJSONObj.getInt("id");
             nome = currentJSONObj.getString("name");
-            department = currentJSONObj.getInt("department");
+            prezzo = currentJSONObj.getDouble("price");
             discount = currentJSONObj.getDouble("discount");
-            pListFull.add(new ProductItem(prezzo, nome, department, discount));
+            description = currentJSONObj.getString("description");
+            department = currentJSONObj.getInt("department");
+            manufacturer = currentJSONObj.getString("manufacturer");
+            um = currentJSONObj.getString("um");
+            weight = currentJSONObj.getInt("weight");
+            pListFull.add(new ProductItem(id, nome, prezzo, discount, description, department, manufacturer, um, weight));
         }
     }
     public void filter(){

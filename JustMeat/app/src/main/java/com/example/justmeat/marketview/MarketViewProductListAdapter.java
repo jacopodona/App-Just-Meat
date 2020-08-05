@@ -53,7 +53,7 @@ class MarketViewProductListAdapter extends RecyclerView.Adapter<MarketViewProduc
             @Override
             public void onClick(View v) {
                 marketViewFragment.getActivity().getSupportFragmentManager().
-                        beginTransaction().replace(R.id.marketview_frame_container, new PruductFragment(currentItem)).addToBackStack("product").commit();
+                        beginTransaction().replace(R.id.marketview_frame_container, new ProductFragment(currentItem)).addToBackStack("product").commit();
             }
         });
 
@@ -83,10 +83,16 @@ class MarketViewProductListAdapter extends RecyclerView.Adapter<MarketViewProduc
             public void onClick(View v) {
                 //reset the card counter to 1
                 MarketViewActivity marketViewActivity = (MarketViewActivity) marketViewFragment.getActivity();
-                if(currentItem.qt>0){
-                    currentItem.qt += holder.counter;
-                } else{
-                    currentItem.qt = holder.counter;
+                boolean check = false;
+
+                for(ProductItem carrelloItem : marketViewActivity.carrello){
+                    if(currentItem.getId() == carrelloItem.getId() && carrelloItem.getWeight() == currentItem.getWeight()){
+                        currentItem.qt += holder.counter;
+                        check = true;
+                        System.out.println("true");
+                    }
+                } if(!check){
+                    currentItem.qt = 1;
                     marketViewActivity.carrello.add(currentItem);
                 }
                 holder.counter = 1;
@@ -122,14 +128,14 @@ class MarketViewProductListAdapter extends RecyclerView.Adapter<MarketViewProduc
             } else {
                 if (constraint == null || constraint.length() == 0) {
                     for (ProductItem productItem : pListFull) {
-                        if (productItem.getIdCategoria() == marketViewFragment.activeFilter) {
+                        if (productItem.getCategoria() == marketViewFragment.activeFilter) {
                             filteredList.add(productItem);
                         }
                     }
                 } else {
                     String filterPattern = constraint.toString().toLowerCase().trim();
                     for (ProductItem productItem : pListFull) {
-                        if (productItem.getNome().toLowerCase().contains(filterPattern) && productItem.getIdCategoria() == marketViewFragment.activeFilter) {
+                        if (productItem.getNome().toLowerCase().contains(filterPattern) && productItem.getCategoria() == marketViewFragment.activeFilter) {
                             filteredList.add(productItem);
                         }
                     }

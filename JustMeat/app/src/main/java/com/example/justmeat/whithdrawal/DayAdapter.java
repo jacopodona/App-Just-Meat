@@ -14,13 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.justmeat.R;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayViewHolder> {
     final int NDAY = 6; //totale giorni visualizzati = NDAY+1
-    ArrayList<Date> calendario = new ArrayList<>();
     DayViewHolder currentActive;
     WithdrawalActivity withdrawalActivity;
 
@@ -28,14 +26,14 @@ class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayViewHolder> {
         this.withdrawalActivity = withdrawalActivity;
         Calendar calendar = Calendar.getInstance();
         if (calendar.getTime().getHours()<20){
-            calendario.add(calendar.getTime());
+            withdrawalActivity.calendario.add(calendar.getTime());
         } else {
             calendar.add(Calendar.DAY_OF_YEAR,1);
-            calendario.add(calendar.getTime());
+            withdrawalActivity.calendario.add(calendar.getTime());
         }
         for (int i = 0; i<NDAY; i++){
             calendar.add(Calendar.DAY_OF_YEAR,1);
-            calendario.add(calendar.getTime());
+            withdrawalActivity.calendario.add(calendar.getTime());
         }
 
     }
@@ -51,7 +49,8 @@ class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull DayViewHolder holder, int position) {
         String  day_txt, numb_txt, month_txt;
-        Date currentDate = this.calendario.get(position);
+
+        Date currentDate = withdrawalActivity.calendario.get(position);
         month_txt = (String) DateFormat.format("MMMM", currentDate );
         holder.month.setText(month_txt);
         numb_txt = (String) DateFormat.format("dd", currentDate);
@@ -59,11 +58,17 @@ class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayViewHolder> {
         day_txt = (String) DateFormat.format("EE", currentDate);
         holder.day.setText(day_txt);
         holder.id = position;
+
+        if(position == 0){
+            holder.DayActive(holder.itemView);
+            currentActive = holder;
+            withdrawalActivity.currentActiveId = holder.id;
+        }
     }
 
     @Override
     public int getItemCount() {
-        return calendario.size();
+        return withdrawalActivity.calendario.size();
     }
 
     public class DayViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -85,16 +90,13 @@ class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayViewHolder> {
 
         @Override
         public void onClick(View v) {
-            if(currentActive != null){
-                currentActive.DayUnactive(v);
-            }
-            currentActive = this;
-            if(withdrawalActivity.currentActiveId != id){
+            if(withdrawalActivity.currentActiveId != id) {
+                if (currentActive != null) {
+                    currentActive.DayUnactive(v);
+                }
+                currentActive = this;
                 withdrawalActivity.currentActiveId = this.id;
                 this.DayActive(v);
-            } else {
-                withdrawalActivity.currentActiveId = -1;
-                this.DayUnactive(v);
             }
         }
         public void DayActive(View v){

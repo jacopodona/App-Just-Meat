@@ -44,14 +44,14 @@ public class MarketViewProductGridAdapter extends RecyclerView.Adapter<MarketVie
             } else {
                 if(constraint == null || constraint.length() == 0 ){
                     for (ProductItem productItem : pListFull) {
-                        if (productItem.getIdCategoria() == marketViewFragment.activeFilter){
+                        if (productItem.getCategoria() == marketViewFragment.activeFilter){
                             filteredList.add(productItem);
                         }
                     }
                 }  else {
                     String filterPattern = constraint.toString().toLowerCase().trim();
                     for (ProductItem productItem : pListFull) {
-                        if (productItem.getNome().toLowerCase().contains(filterPattern) && productItem.getIdCategoria() == marketViewFragment.activeFilter){
+                        if (productItem.getNome().toLowerCase().contains(filterPattern) && productItem.getCategoria() == marketViewFragment.activeFilter){
                             filteredList.add(productItem);
                         }
                     }
@@ -112,7 +112,7 @@ public class MarketViewProductGridAdapter extends RecyclerView.Adapter<MarketVie
             @Override
             public void onClick(View v) {
                 marketViewFragment.getActivity().getSupportFragmentManager().
-                        beginTransaction().replace(R.id.marketview_frame_container, new PruductFragment(currentItem)).addToBackStack("product").commit();
+                        beginTransaction().replace(R.id.marketview_frame_container, new ProductFragment(currentItem)).addToBackStack("product").commit();
             }
         });
 
@@ -120,13 +120,16 @@ public class MarketViewProductGridAdapter extends RecyclerView.Adapter<MarketVie
             @Override
             public void onClick(View v) {
                 MarketViewActivity marketViewActivity = (MarketViewActivity) marketViewFragment.getActivity();
-                if (currentItem.qt>0){
-                    currentItem.qt += 1;
-                } else{
+                boolean check = false;
+                for(ProductItem carrelloItem : marketViewActivity.carrello){
+                    if(currentItem.getId() == carrelloItem.getId() && carrelloItem.getWeight() == currentItem.getWeight()){
+                        currentItem.qt += 1;
+                        check = true;
+                    }
+                } if(!check){
                     currentItem.qt = 1;
                     marketViewActivity.carrello.add(currentItem);
                 }
-
             }
         });
 

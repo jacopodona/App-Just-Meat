@@ -49,19 +49,24 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/carrello_txt_totaletitle"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:visibility ="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/carrello_txt_nomenegozio" />
+        app:layout_constraintTop_toBottomOf="@+id/carrello_txt_nomenegozio"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/carrello_btn_checkout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:padding="10dp"
         android:text="@string/goto_withdrawal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/carrello_rv"
-        app:layout_constraintStart_toStartOf="@+id/carrello_rv" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/carrello_txt_totaletitle"
@@ -69,6 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="@string/totale"
+        android:visibility ="gone"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toTopOf="@+id/carrello_btn_checkout"
         app:layout_constraintStart_toStartOf="@+id/carrello_rv" />
@@ -82,4 +88,19 @@
         app:layout_constraintBottom_toBottomOf="@+id/carrello_txt_totaletitle"
         app:layout_constraintEnd_toEndOf="@+id/carrello_rv"
         app:layout_constraintTop_toTopOf="@+id/carrello_txt_totaletitle" />
+
+    <ImageView
+        android:id="@+id/carrello_img_emptycart"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/carrello_btn_checkout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/carrello_txt_nomenegozio"
+        app:srcCompat="@drawable/empty_cart" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

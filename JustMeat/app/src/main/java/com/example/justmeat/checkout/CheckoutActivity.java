@@ -25,6 +25,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class CheckoutActivity extends AppCompatActivity {
@@ -35,11 +38,14 @@ public class CheckoutActivity extends AppCompatActivity {
     TextView tot_txt;
     ArrayList<Coupon> couponArrayList;
     CouponAdapter couponAdapter;
+    String pickup_date;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
+        Intent intent = getIntent();
+        pickup_date = intent.getStringExtra("pickup_date");
         couponArrayList = new ArrayList<>();
         productList = ((MyApplication)this.getApplication()).getCarrelloListProduct();
 
@@ -156,6 +162,18 @@ public class CheckoutActivity extends AppCompatActivity {
                         //la scelta migliore sarebbe disabilitare la possibilità di richiudere lo sheet
                         swipe.setText("");
                         swipeImg.setImageDrawable(null);
+                        confirmDialog.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+                            @Override
+                            public void onStateChanged(@NonNull View view, int i) {
+                                if(i == BottomSheetBehavior.STATE_DRAGGING){
+                                    confirmDialog.setState(BottomSheetBehavior.STATE_EXPANDED);
+                                }
+                            }
+                            @Override
+                            public void onSlide(@NonNull View view, float v) {
+                            }
+                        });
+                        SendOrder();
                         break;
                     }
 
@@ -166,5 +184,15 @@ public class CheckoutActivity extends AppCompatActivity {
             public void onSlide(@NonNull View view, float v) {
             }
         });
+    }
+
+    private void SendOrder() {
+        try{
+            JSONObject body = new JSONObject();
+            body.put("pickup_time", pickup_date);
+            //http post call
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
     }
 }

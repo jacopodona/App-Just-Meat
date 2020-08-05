@@ -45,4 +45,21 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/checkout_txt_prod_qt"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/checkout_txt_title_prod_discount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/sconto_articolo"
+        app:layout_constraintStart_toEndOf="@+id/checkout_txt_prod_name"
+        app:layout_constraintTop_toBottomOf="@+id/checkout_txt_prod_name" />
+
+    <TextView
+        android:id="@+id/checkout_txt_prod_discount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/checkout_txt_prod_price"
+        app:layout_constraintTop_toTopOf="@+id/checkout_txt_title_prod_discount" />
 </androidx.constraintlayout.widget.ConstraintLayout>
