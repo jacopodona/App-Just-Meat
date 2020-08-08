@@ -17,7 +17,9 @@ public class DettagliMieiOrdiniFragment  extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_stato_ordine,container,false);
 
-
+        CustomProgressBar pb;
+        pb=view.findViewById(R.id.homepage_customProgressBar);
+        pb.setProgress(40);//test
 
 
 

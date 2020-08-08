@@ -63,6 +63,14 @@
 
         </TextView>
 
+        <com.example.justmeat.homepage.CustomProgressBar
+            android:id="@+id/homepage_customProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp">
+
+        </com.example.justmeat.homepage.CustomProgressBar>
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
