@@ -115,6 +115,9 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
             case R.id.homepage_nav_impostazioni:
                 getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new ImpostazioniFragment()).commit();
                 break;
+            case R.id.homepage_nav_gestione_ordini:
+                getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new GestioneOrdiniFragment()).commit();
+                break;
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
