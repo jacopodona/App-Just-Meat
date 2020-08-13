@@ -40,7 +40,7 @@ public class GestioneOrdiniFragment extends Fragment {
 
         recyclerView=view.findViewById(R.id.homepage_recyclerview_gestioneordini);
         layoutManager=new LinearLayoutManager(getContext());
-        adapter=new OrdineSupermercatoAdapter(arrayList);
+        adapter=new OrdineSupermercatoAdapter(arrayList,getActivity());
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
