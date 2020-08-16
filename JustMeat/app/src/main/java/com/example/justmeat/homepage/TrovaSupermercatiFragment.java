@@ -1,9 +1,12 @@
 package com.example.justmeat.homepage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -49,6 +52,7 @@ public class TrovaSupermercatiFragment extends Fragment {
         });
 
 
+
         List lista= new LinkedList();
         Supermercato m= new Supermercato("Aldi","Via Roma 12b");
         lista.add(m);
@@ -58,7 +62,7 @@ public class TrovaSupermercatiFragment extends Fragment {
         }
 
 
-        RecyclerView recyclerView = view.findViewById(R.id.homepage_recyclerview_listasupermercati);
+        final RecyclerView recyclerView = view.findViewById(R.id.homepage_recyclerview_listasupermercati);
         recyclerView.setHasFixedSize(true);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false);
@@ -68,9 +72,24 @@ public class TrovaSupermercatiFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
 
-        ListaSupermercatiAdapter adapter = new ListaSupermercatiAdapter(lista, getActivity());
+
+        final ListaSupermercatiAdapter adapter = new ListaSupermercatiAdapter(lista, getActivity());
         recyclerView.setAdapter(adapter);
         //recyclerView.setNestedScrollingEnabled(false);
+
+        ImageButton searchOnMapsButton = view.findViewById(R.id.homepage_imagebutton_search_on_maps);
+        searchOnMapsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //adapter.clear();
+                //((HomepageActivity)getActivity()).navigateTo(new MapFragment(),true);
+
+                Intent i = new Intent(getActivity(), MapFragment.class);
+                getActivity().startActivity(i);
+
+            }
+        });
+
 
         return view;
     }

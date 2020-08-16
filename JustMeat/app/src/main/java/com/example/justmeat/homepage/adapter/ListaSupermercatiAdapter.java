@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.justmeat.R;
+import com.example.justmeat.homepage.MapFragment;
 import com.example.justmeat.homepage.MieiOrdini;
 import com.example.justmeat.homepage.Supermercato;
 import com.example.justmeat.marketview.MarketViewActivity;
@@ -23,6 +24,7 @@ public class ListaSupermercatiAdapter extends RecyclerView.Adapter<ListaSupermer
     private Activity activity;
 
     public ListaSupermercatiAdapter(List<Supermercato> listaOrdini, Activity activity) {
+        this.activity=activity;
         this.listaSupermercati = listaOrdini;
         this.activity=activity;
     }
@@ -35,9 +37,9 @@ public class ListaSupermercatiAdapter extends RecyclerView.Adapter<ListaSupermer
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ListaSupermercatiHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ListaSupermercatiHolder holder, final int position) {
         if (listaSupermercati != null && position < listaSupermercati.size()) {
-            Supermercato supermercato = listaSupermercati.get(position);
+            final Supermercato supermercato = listaSupermercati.get(position);
 
             if(position==0){
                 //holder.itemView.setTranslationY(150);
@@ -48,10 +50,14 @@ public class ListaSupermercatiAdapter extends RecyclerView.Adapter<ListaSupermer
             holder.nomeSupermercato.setText(supermercato.getNome());
             holder.indirizzoSupermercato.setText(supermercato.getIndirizzo());
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            
+            holder.posizioneButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(v.getContext(), MarketViewActivity.class);
+                    Intent i = new Intent(activity, MapFragment.class);
+                    i.putExtra("Latitudine", "43.776366");
+                    i.putExtra("Longitudine", "11.247822");
+                    i.putExtra("NomeSupermercato", supermercato.getNome());
                     activity.startActivity(i);
                 }
             });
@@ -63,5 +69,16 @@ public class ListaSupermercatiAdapter extends RecyclerView.Adapter<ListaSupermer
     @Override
     public int getItemCount() {
         return listaSupermercati.size();
+    }
+
+    public void clear(){
+        int size = listaSupermercati.size();
+        if (size > 0) {
+            for (int i = 0; i < size; i++) {
+                listaSupermercati.remove(0);
+            }
+
+            notifyItemRangeRemoved(0, size);
+        }
     }
 }

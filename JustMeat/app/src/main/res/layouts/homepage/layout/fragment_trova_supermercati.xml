@@ -60,6 +60,16 @@
                 android:max="100"
                 />
 
+            <ImageButton
+                android:id="@+id/homepage_imagebutton_search_on_maps"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/location"
+                android:backgroundTint="@color/primaryColor"
+                android:background="@color/primaryColor">
+
+            </ImageButton>
+
 
 
 
