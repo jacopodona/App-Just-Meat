@@ -17,6 +17,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapFragment extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private String latitudine, longitudine, nomeSupermercato;
 
 
     @Override
@@ -28,7 +29,11 @@ public class MapFragment extends FragmentActivity implements OnMapReadyCallback 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.homepage_map);
         mapFragment.getMapAsync(this);
-        Log.e("fuuuuuuuck", "double fuuuuuck");
+
+        latitudine= getIntent().getStringExtra("Longitudine");
+        longitudine= getIntent().getStringExtra("Latitudine");
+        nomeSupermercato= getIntent().getStringExtra("NomeSupermercato");
+
     }
 
     @Override
@@ -36,13 +41,13 @@ public class MapFragment extends FragmentActivity implements OnMapReadyCallback 
         try {
             mMap = googleMap;
 
-            LatLng firenze = new LatLng(43.776366, 11.247822);
-            mMap.addMarker(new MarkerOptions().position(firenze).title("Siamo a Firenze!"));
+            //LatLng firenze = new LatLng(43.776366, 11.247822);
+            LatLng firenze = new LatLng(Double.parseDouble(longitudine), Double.parseDouble(latitudine));
+            mMap.addMarker(new MarkerOptions().position(firenze).title(nomeSupermercato));
             CameraPosition cameraPosition = new CameraPosition.Builder().target(firenze).zoom(15).build();
 
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-            Log.e("fuuuuuuuck", "double fuuuuuck");
 
         }catch (Exception e){
             Log.e("Exception",e.toString());

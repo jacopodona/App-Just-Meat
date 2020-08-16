@@ -74,7 +74,7 @@ public class TrovaSupermercatiFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
 
-        final ListaSupermercatiAdapter adapter = new ListaSupermercatiAdapter(lista);
+        final ListaSupermercatiAdapter adapter = new ListaSupermercatiAdapter(lista, getActivity());
         recyclerView.setAdapter(adapter);
         //recyclerView.setNestedScrollingEnabled(false);
 

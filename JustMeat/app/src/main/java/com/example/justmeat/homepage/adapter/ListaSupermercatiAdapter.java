@@ -1,5 +1,7 @@
 package com.example.justmeat.homepage.adapter;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.justmeat.R;
+import com.example.justmeat.homepage.MapFragment;
 import com.example.justmeat.homepage.MieiOrdini;
 import com.example.justmeat.homepage.Supermercato;
 
@@ -17,8 +20,10 @@ import java.util.List;
 public class ListaSupermercatiAdapter extends RecyclerView.Adapter<ListaSupermercatiHolder>{
 
     private List<Supermercato> listaSupermercati;
+    private Activity activity;
 
-    public ListaSupermercatiAdapter(List<Supermercato> listaOrdini) {
+    public ListaSupermercatiAdapter(List<Supermercato> listaOrdini, Activity activity) {
+        this.activity=activity;
         this.listaSupermercati = listaOrdini;
     }
 
@@ -30,9 +35,9 @@ public class ListaSupermercatiAdapter extends RecyclerView.Adapter<ListaSupermer
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ListaSupermercatiHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ListaSupermercatiHolder holder, final int position) {
         if (listaSupermercati != null && position < listaSupermercati.size()) {
-            Supermercato supermercato = listaSupermercati.get(position);
+            final Supermercato supermercato = listaSupermercati.get(position);
 
             if(position==0){
                 //holder.itemView.setTranslationY(150);
@@ -42,6 +47,17 @@ public class ListaSupermercatiAdapter extends RecyclerView.Adapter<ListaSupermer
             holder.logoSupermercato.setImageResource(R.drawable.aldi);
             holder.nomeSupermercato.setText(supermercato.getNome());
             holder.indirizzoSupermercato.setText(supermercato.getIndirizzo());
+
+            holder.posizioneButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(activity, MapFragment.class);
+                    i.putExtra("Latitudine", "43.776366");
+                    i.putExtra("Longitudine", "11.247822");
+                    i.putExtra("NomeSupermercato", supermercato.getNome());
+                    activity.startActivity(i);
+                }
+            });
 
 
         }
