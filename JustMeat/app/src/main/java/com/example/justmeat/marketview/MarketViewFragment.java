@@ -35,12 +35,13 @@ import java.util.ArrayList;
 public class MarketViewFragment extends Fragment {
     public int activeFilter = -1; //indica che categoria è selezionata al momento, -1 è utilizzato per indicare che nessuna cat è selezionata
     public int visualizeProduct = 3; // tipo di visualizzazione prodotti 3->griglia 3 colonne; 2-> 2colonne; 1->lista
-    int id_negozio = 4; //indica quale negozio è stato selezionato, al momento la scelta è statica poi verrà utilizzato intentExtra
+    int id_negozio = 2; //indica quale negozio è stato selezionato, al momento la scelta è statica poi verrà utilizzato intentExtra
     public ArrayList<ProductItem> pListFull = new ArrayList<>(); //array contente tutti i prodotti del supermercato
     public ArrayList<ProductItem> pList; //array contente la lista dei prodotti filtrati attraverso la search view
     ArrayList<CategoriaItem> catList = new ArrayList<>(); //array contente i departments del supermercato
     MarketViewProductGridAdapter productGridAdapter;
     MarketViewProductListAdapter productListAdapter;
+    SortModal sortModal = new SortModal(this);
     String httpToken;
     private ShimmerFrameLayout shimmerFrameLayout;
     private RecyclerView pRV;
@@ -73,7 +74,7 @@ public class MarketViewFragment extends Fragment {
         return view;
     }
 
-    private void setBarcodeReader(View view) {
+    private void setBarcodeReader(View view) { //il barcode contiene il nome intero del prodotto, attraverso la stringa letta viene fatta una ricerca
         final Activity activity = this.getActivity();
         final Fragment fragment = this;
         ImageView barcodeBtn = view.findViewById(R.id.marketview_btn_barcode);
@@ -96,8 +97,9 @@ public class MarketViewFragment extends Fragment {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(result != null) {
             if(result.getContents() == null) {
-                System.out.println("canc");
+                System.out.println("cancel");
             } else {
+                ((MarketViewActivity)getActivity()).barcodeActive = true;
                 searchView.setQuery(result.getContents(), true);
             }
         } else {
@@ -121,6 +123,8 @@ public class MarketViewFragment extends Fragment {
         super.onPause();
         shimmerFrameLayout.stopShimmerAnimation();
     }
+
+
 
     private void setSearchView(View view) {
         searchView = (SearchView) view.findViewById(R.id.marketview_search);
@@ -147,7 +151,6 @@ public class MarketViewFragment extends Fragment {
         filter_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SortModal sortModal = new SortModal(marketViewFragment);
                 sortModal.show(getActivity().getSupportFragmentManager(), "sort");
             }
         });
@@ -239,6 +242,7 @@ public class MarketViewFragment extends Fragment {
         new HttpJsonRequest(getContext(), "/api/v1/get_products/"+id_negozio, Request.Method.GET, httpToken, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                System.out.println(response);
                 try {
                     parseProduct(response);
                 } catch (JSONException e) {
@@ -260,6 +264,7 @@ public class MarketViewFragment extends Fragment {
     private void parseProduct(JSONObject jsonObject) throws JSONException {
         JSONArray results = jsonObject.getJSONArray("results");
         for (int i = 0; i < results.length(); i++){
+            boolean favourite;
             double prezzo, discount;
             String nome, manufacturer, description, um;
             int department, id, weight;
@@ -273,7 +278,10 @@ public class MarketViewFragment extends Fragment {
             manufacturer = currentJSONObj.getString("manufacturer");
             um = currentJSONObj.getString("um");
             weight = currentJSONObj.getInt("weight");
-            pListFull.add(new ProductItem(id, nome, prezzo, discount, description, department, manufacturer, um, weight));
+            if( currentJSONObj.optInt("fk_user", 0) == 1){
+                favourite = true;
+            } else favourite = false;
+            pListFull.add(new ProductItem(id, nome, prezzo, discount, description, department, manufacturer, um, weight, favourite));
         }
     }
     public void filter(){

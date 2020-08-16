@@ -44,6 +44,7 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
         } else {
             holder.counter = 1;
         }
+        holder.weight.setText(currentItem.getWeight()+" ");
 
         holder.prezzo.setText(String.format("%.2f",currentItem.getPrezzo())+" €");
         double price = currentItem.getPrezzo()*holder.counter;
@@ -79,16 +80,6 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
             }
         });
 
-        holder.pref.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(holder.pref.isSelected()){
-                    holder.pref.setSelected(false);
-                } else {
-                    holder.pref.setSelected(true);
-                }
-            }
-        });
         holder.cardView.setOnTouchListener(new OnSwipeTouchListener(carrelloActivity){
             @Override
             public void onSwipeLeft() {
@@ -110,8 +101,8 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
     }
 
     public class ProductViewHolder extends RecyclerView.ViewHolder {
-        ImageView imgProduct, more, less, pref;
-        TextView nome, produttore, prezzo, totale, txt_qt;
+        ImageView imgProduct, more, less;
+        TextView nome, produttore, prezzo, totale, txt_qt, weight;
         CardView cardView;
         int counter;
 
@@ -126,7 +117,7 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
             txt_qt = itemView.findViewById(R.id.carrello_txt_qt);
             more = itemView.findViewById(R.id.carrello_btn_more);
             less = itemView.findViewById(R.id.carrello_btn_less);
-            pref = itemView.findViewById(R.id.carrello_btn_pref);
+            weight = itemView.findViewById(R.id.carrello_txt_weight);
         }
     }
 }

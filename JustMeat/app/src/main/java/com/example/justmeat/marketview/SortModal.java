@@ -21,13 +21,14 @@ import java.util.Collections;
 public class SortModal extends BottomSheetDialogFragment {
     ArrayList<String> sortingMethods = new ArrayList<>();
     MarketViewFragment marketViewFragment;
+    String activeSortingMethod = "Consigliato";
 
     public SortModal(MarketViewFragment marketViewFragment){
         this.marketViewFragment = marketViewFragment;
     }
 
     private void setSortingMethod() {
-        this.sortingMethods.add("Default");
+        this.sortingMethods.add("Consigliato");
         this.sortingMethods.add("Risparmio");
         this.sortingMethods.add("Prezzo più basso");
         this.sortingMethods.add("Prezzo più alto");
@@ -44,7 +45,8 @@ public class SortModal extends BottomSheetDialogFragment {
     }
 
     private void setRecyclerView(View v) {
-        setSortingMethod();
+        if(sortingMethods.isEmpty())
+            setSortingMethod();
         RecyclerView rv = v.findViewById(R.id.marketview_rv_modalsort);
         RecyclerView.LayoutManager rvLM = new LinearLayoutManager(v.getContext(), LinearLayoutManager.VERTICAL, false);
         RecyclerView.Adapter rvA = new SortAdapter(this);
@@ -53,6 +55,9 @@ public class SortModal extends BottomSheetDialogFragment {
     }
 
     public void sortBy(String sortMethod){
+
+        activeSortingMethod = sortMethod;
+        System.out.println(activeSortingMethod);
 
         ProductItem[] tempArray = new  ProductItem[marketViewFragment.pList.size()];
         ArrayList<ProductItem> sortArrayList = new ArrayList<>();

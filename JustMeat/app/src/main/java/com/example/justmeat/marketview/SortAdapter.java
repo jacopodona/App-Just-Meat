@@ -37,7 +37,7 @@ class SortAdapter extends RecyclerView.Adapter<SortAdapter.SortViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull SortAdapter.SortViewHolder holder, int position) {
         String currentItem = sortingMethods.get(position);
-        if(currentItem.equals("Default")){
+        if(currentItem.equals(sortModal.activeSortingMethod)){
             holder.sort_txt.setTextColor(ContextCompat.getColor(sortModal.getContext(), R.color.cerise));
             holder.sort_img.setSelected(true);
             currentActive = holder;

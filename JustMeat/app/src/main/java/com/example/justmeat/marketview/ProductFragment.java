@@ -110,13 +110,17 @@ public class ProductFragment extends Fragment {
         love.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MarketViewActivity marketViewActivity = (MarketViewActivity)getActivity();
                 if(prodotto.pref){
                     love.setSelected(false);
                     prodotto.pref = false;
-                    //informazione da salvare
                 } else {
                     love.setSelected(true);
                     prodotto.pref = true;
+                }
+                if (!marketViewActivity.editFavoriteProd.remove(prodotto)){
+                    marketViewActivity.editFavoriteProd.add(prodotto);
+                    System.out.println("add");
                 }
             }
         });
@@ -137,7 +141,7 @@ public class ProductFragment extends Fragment {
                         prodotto.qt = counter;
                         marketViewActivity.carrello.add(prodotto);
                     } else {
-                         ProductItem actualItem = new ProductItem(prodotto.getId(), prodotto.getNome(), actualPrezzo, prodotto.getDiscount(), prodotto.getDescription(), prodotto.getCategoria(), prodotto.getManufacturer(), prodotto.getUm(), actualWeight);
+                         ProductItem actualItem = new ProductItem(prodotto.getId(), prodotto.getNome(), actualPrezzo, prodotto.getDiscount(), prodotto.getDescription(), prodotto.getCategoria(), prodotto.getManufacturer(), prodotto.getUm(), actualWeight, false);
                          actualItem.qt = counter;
                          marketViewActivity.carrello.add(actualItem);
 
@@ -159,7 +163,6 @@ public class ProductFragment extends Fragment {
         new HttpJsonRequest(getContext(), "/api/v1/get_weights/" + prodotto.getId(), Request.Method.GET, ((MyApplication) this.getActivity().getApplication()).getHttpToken(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                System.out.println(response.toString());
                     try {
                        setWeight(view, parseWeight(response)); ;
                     }catch (JSONException e){

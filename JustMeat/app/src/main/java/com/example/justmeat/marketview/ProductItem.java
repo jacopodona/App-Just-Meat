@@ -8,7 +8,7 @@ public class ProductItem implements Serializable {
     private int img, categoria, id, weight;
     private double prezzo, discount;
     private String nome, manufacturer, description, um;
-    boolean pref = false;
+    boolean pref;
     public int qt = 0;
     ArrayList<Integer> allWeights;
 
@@ -46,7 +46,7 @@ public class ProductItem implements Serializable {
         }
     };
 
-    public ProductItem(int id, String nome, double prezzo, double discount, String description, int categoria, String manufacturer, String um, int weight){
+    public ProductItem(int id, String nome, double prezzo, double discount, String description, int categoria, String manufacturer, String um, int weight, boolean favourite){
         this.id = id;
         this.nome = nome;
         this.prezzo = prezzo;
@@ -57,6 +57,7 @@ public class ProductItem implements Serializable {
         this.um = um;
         this.weight = weight;
         this.allWeights = new ArrayList<>();
+        this.pref = favourite;
     }
 
     public int getWeight() {

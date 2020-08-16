@@ -22,7 +22,7 @@
             android:layout_marginEnd="4dp"
             android:text="TextView"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:layout_constraintEnd_toStartOf="@+id/carrello_btn_pref"
+            app:layout_constraintEnd_toStartOf="@+id/carrello_txt_totproduct"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@id/carrello_card_image"
             app:layout_constraintTop_toTopOf="parent" />
@@ -37,7 +37,7 @@
             app:layout_constraintTop_toBottomOf="@+id/carrello_txt_prodotto" />
 
         <TextView
-            android:id="@+id/carrello_txt_prezzo"
+            android:id="@+id/carrello_txt_weight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -46,7 +46,7 @@
             app:layout_constraintTop_toBottomOf="@+id/carrello_txt_produttore" />
 
         <TextView
-            android:id="@+id/carrello_txt_totproduct"
+            android:id="@+id/carrello_txt_prezzo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -57,19 +57,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/carrello_btn_less"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/carrello_txt_prezzo"
-            app:layout_constraintTop_toBottomOf="@+id/carrello_txt_prezzo" />
-
-        <ImageView
-            android:id="@+id/carrello_btn_pref"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginEnd="16dp"
-            android:adjustViewBounds="true"
-            app:layout_constraintBottom_toBottomOf="@+id/carrello_txt_prodotto"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/carrello_txt_prodotto"
-            app:srcCompat="@drawable/love" />
+            app:layout_constraintStart_toStartOf="@+id/carrello_txt_weight"
+            app:layout_constraintTop_toBottomOf="@+id/carrello_txt_weight" />
 
         <ImageView
             android:id="@+id/carrello_btn_less"
@@ -86,9 +75,9 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:adjustViewBounds="true"
-            app:layout_constraintBottom_toBottomOf="@+id/carrello_txt_totproduct"
-            app:layout_constraintEnd_toEndOf="@+id/carrello_btn_pref"
-            app:layout_constraintTop_toTopOf="@+id/carrello_txt_totproduct"
+            app:layout_constraintBottom_toBottomOf="@+id/carrello_txt_prezzo"
+            app:layout_constraintEnd_toEndOf="@+id/carrello_txt_totproduct"
+            app:layout_constraintTop_toTopOf="@+id/carrello_txt_prezzo"
             app:srcCompat="@drawable/add_pruduct" />
 
         <TextView
@@ -109,7 +98,7 @@
             android:layout_marginStart="16dp"
             app:cardBackgroundColor="#A13C3C"
             app:cardCornerRadius="10dp"
-            app:layout_constraintBottom_toBottomOf="@+id/carrello_txt_totproduct"
+            app:layout_constraintBottom_toBottomOf="@+id/carrello_txt_prezzo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/carrello_txt_prodotto">
 
@@ -121,6 +110,16 @@
                 android:adjustViewBounds="true"
                 app:srcCompat="@drawable/tagliata" />
         </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/carrello_txt_totproduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="TextView"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/carrello_txt_prodotto" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
