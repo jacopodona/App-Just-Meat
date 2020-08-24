@@ -34,12 +34,12 @@ public class OrdineSupermercatoAdapter extends RecyclerView.Adapter<OrdineSuperm
 
     public static class OrdineSupermercatoHolder extends RecyclerView.ViewHolder {
 
-        public TextView idOrdine,numProdotti;
+        public TextView idOrdine,statoOrdine;
 
         public OrdineSupermercatoHolder(@NonNull View itemView, final onItemClickListener listener) {
             super(itemView);
             idOrdine=itemView.findViewById(R.id.shop_card_ordinesupermercato_idOrdine);
-            numProdotti=itemView.findViewById(R.id.shop_card_ordinesupermercato_numprodotti);
+            statoOrdine=itemView.findViewById(R.id.shop_card_ordinesupermercato_statoOrdine);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -72,7 +72,7 @@ public class OrdineSupermercatoAdapter extends RecyclerView.Adapter<OrdineSuperm
         OrdineSupermercato currentItem=list.get(position);
 
         holder.idOrdine.setText(currentItem.getId());
-        holder.numProdotti.setText(currentItem.getNumProdotti());
+        holder.statoOrdine.setText(currentItem.getStato());
     }
 
     @Override

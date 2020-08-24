@@ -30,7 +30,7 @@ public class ShopActivity extends AppCompatActivity {
         context=this;
 
         Random rand=new Random();
-        ArrayList<OrdineSupermercato> arrayList=new ArrayList<OrdineSupermercato>();
+        final ArrayList<OrdineSupermercato> arrayList=new ArrayList<OrdineSupermercato>();
         arrayList.add(new OrdineSupermercato("101","5","Ritirato"));
         arrayList.add(new OrdineSupermercato("102","6","Ritirato"));
         arrayList.add(new OrdineSupermercato("103","18","Ritirato"));
@@ -50,7 +50,10 @@ public class ShopActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
                 Intent intent=new Intent(context, StatoOrdineSupermercatoActivity.class);
-                Log.e("ehehe","Dovrei aprire activity ma non lo faccio ehehe");
+                OrdineSupermercato ordine=arrayList.get(position);
+                Bundle bundle=new Bundle();
+                bundle.putSerializable("Ordine",ordine);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
