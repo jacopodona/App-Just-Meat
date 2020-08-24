@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.example.justmeat.R;
 import com.example.justmeat.ordineSupermercato.StatoOrdineSupermercatoActivity;
@@ -17,15 +19,18 @@ import java.util.Random;
 
 public class ShopActivity extends AppCompatActivity {
 
-    RecyclerView recyclerView;
-    OrdineSupermercatoAdapter adapter;
-    RecyclerView.LayoutManager layoutManager;
-    Context context;
+    private RecyclerView recyclerView;
+    private OrdineSupermercatoAdapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private Context context;
+    private ImageView close;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
+
+        close=findViewById(R.id.shop_imageview_close);
 
         context=this;
 
@@ -55,6 +60,13 @@ public class ShopActivity extends AppCompatActivity {
                 bundle.putSerializable("Ordine",ordine);
                 intent.putExtras(bundle);
                 startActivity(intent);
+            }
+        });
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 

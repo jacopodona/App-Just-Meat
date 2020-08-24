@@ -1,8 +1,12 @@
 package com.example.justmeat.homepage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -27,25 +31,40 @@ import org.json.JSONObject;
 public class HomepageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
+    private User utente;
+    private  NavigationView navigationview;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
 
-        Toolbar toolbar=findViewById(R.id.homepage_toolbar);
+        Intent intent = getIntent();
+        String input = intent.getStringExtra("user");
+        String name="";
+        String last_name="";
+        String mail="";
+        int id=0;
+        try {
+            JSONObject jsonObject = new JSONObject(input);
+            id = jsonObject.getJSONObject("user").getInt("id");
+            name = jsonObject.getJSONObject("user").getString("name");
+            last_name = jsonObject.getJSONObject("user").getString("last_name");
+            mail = jsonObject.getJSONObject("user").getString("mail");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        utente=new User(id,name,last_name,mail);
+
+        toolbar = findViewById(R.id.homepage_toolbar);
         setSupportActionBar(toolbar);
 
-        drawer=findViewById(R.id.homepage_drawer_layout);
-        NavigationView navigationview= findViewById(R.id.homepage_nav_view);
-        navigationview.setNavigationItemSelectedListener(this);//ho aggiunto implements per aggiungere il listener per il cambio di fragment
+        inizializzaNavigationView();
+        caricaInfoHeader();
 
-        ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawer,toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        if(savedInstanceState==null) {//serve per mantenere il fragment corretto aperto in caso l'activity venga ricostruita (es: cambio di orientamento distrugge e ricrea activity)
+        if (savedInstanceState == null) {//serve per mantenere il fragment corretto aperto in caso l'activity venga ricostruita (es: cambio di orientamento distrugge e ricrea activity)
             //inizializzo il primo fragment a trova supermercati
             getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new TrovaSupermercatiFragment()).commit();
             navigationview.setCheckedItem(R.id.homepage_nav_trova_supermercati);
@@ -59,7 +78,7 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
             JSONObject rawData = new JSONObject(getIntent().getStringExtra("user"));
             user = new JSONObject(rawData.getJSONObject("user").toString());
             httpToken = rawData.getString("token");
-            ((MyApplication)this.getApplication()).setHttpToken(httpToken);
+            ((MyApplication) this.getApplication()).setHttpToken(httpToken);
         } catch (JSONException ex) {
             Log.d("asd", ex.toString());
         }
@@ -97,9 +116,29 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
                 }).run();
     }
 
+    private void inizializzaNavigationView() {
+        drawer = findViewById(R.id.homepage_drawer_layout);
+        navigationview = findViewById(R.id.homepage_nav_view);
+        navigationview.setNavigationItemSelectedListener(this);//ho aggiunto implements per aggiungere il listener per il cambio di fragment
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+    }
+
+    private void caricaInfoHeader() {
+        View header = navigationview.getHeaderView(0);
+        TextView nome,mail;
+        nome=(TextView) header.findViewById(R.id.homepage_textview_nomecognome);
+        mail=(TextView) header.findViewById(R.id.homepage_textview_email);
+        nome.setText(utente.getName()+" "+utente.getLast_name());
+        mail.setText(utente.getMail());
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {//metodo che gestisce il cambio fragment
-        switch(menuItem.getItemId()){
+        switch (menuItem.getItemId()) {
             case R.id.homepage_nav_trova_supermercati:
                 getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new TrovaSupermercatiFragment()).commit();
                 break;
@@ -143,8 +182,6 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
 
         transaction.commit();
     }
-
-
 
 
 }

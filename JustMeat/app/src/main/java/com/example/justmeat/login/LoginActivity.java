@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
                                 public void onResponse(JSONObject response) {
                                     Intent intent = new Intent(getApplicationContext(), HomepageActivity.class);
                                     intent.putExtra("user", response.toString());
+                                    Log.e("Details-->",response.toString());
                                     startActivity(intent);
                                 }
                             }, new Response.ErrorListener() {
