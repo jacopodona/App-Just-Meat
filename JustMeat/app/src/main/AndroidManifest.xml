@@ -3,37 +3,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.justmeat">
 
+    <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
+
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-feature android:name="android.hardware.camera"/>
-    <uses-sdk tools:overrideLibrary="com.google.zxing.client.android"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-
     <application
         android:name=".utilities.MyApplication"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-
         android:theme="@style/AppTheme"
-        android:hardwareAccelerated="true"
         android:usesCleartextTraffic="true">
-
-
-        
+        <activity android:name=".ordineSupermercato.StatoOrdineSupermercatoActivity"></activity>
+        <activity android:name=".shop.ShopActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_key" />
-        <activity android:name=".homepage.MapFragment" android:theme="@style/AppTheme"></activity>
-        <!-- Rimuovere exported che serve per testarla in solitaria -->
 
-        <activity android:name=".homepage.HomepageActivity" android:theme="@style/AppTheme" android:exported="true"></activity>
+        <activity
+            android:name=".homepage.MapFragment"
+            android:theme="@style/AppTheme" /> <!-- Rimuovere exported che serve per testarla in solitaria -->
+        <activity
+            android:name=".homepage.HomepageActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme" />
         <activity android:name=".welcome.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,18 +44,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".marketview.MarketViewActivity"/>
-        <activity android:name=".carrello.CarrelloActivity"/>
-        <activity android:name=".checkout.CheckoutActivity"/>
-        <activity android:name=".signup.SignupActivity" android:exported="true"></activity>
-        <activity android:name=".login.LoginActivity" android:exported="true"></activity>
-        <activity android:name=".whithdrawal.WithdrawalActivity"/>
+        <activity android:name=".marketview.MarketViewActivity" />
+        <activity android:name=".carrello.CarrelloActivity" />
+        <activity android:name=".checkout.CheckoutActivity" />
+        <activity
+            android:name=".signup.SignupActivity"
+            android:exported="true" />
+        <activity
+            android:name=".login.LoginActivity"
+            android:exported="true" />
+        <activity android:name=".whithdrawal.WithdrawalActivity" />
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
 
-        <meta-data android:name="com.google.android.gms.vision.DEPENDECIES"
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDECIES"
             android:value="barcode" />
     </application>
+
 </manifest>

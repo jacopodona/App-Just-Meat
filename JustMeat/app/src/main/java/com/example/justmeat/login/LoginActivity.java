@@ -12,6 +12,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.example.justmeat.R;
 import com.example.justmeat.homepage.HomepageActivity;
+import com.example.justmeat.shop.ShopActivity;
 import com.example.justmeat.signup.SignupActivity;
 import com.example.justmeat.utilities.HttpJsonRequest;
 import com.google.android.material.button.MaterialButton;
@@ -61,6 +62,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), SignupActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        MaterialButton accediShop=findViewById(R.id.welcome_accedi_shop);
+        accediShop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ShopActivity.class);
                 startActivity(intent);
             }
         });

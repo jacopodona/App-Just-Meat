@@ -18,8 +18,5 @@
         <item android:id="@+id/homepage_nav_impostazioni"
             android:icon="@drawable/ic_impostazioni"
             android:title="Impostazioni" />
-        <item android:id="@+id/homepage_nav_gestione_ordini"
-            android:icon="@drawable/ic_shopping_basket_black_24dp"
-            android:title="Gestione Ordini" />
     </group>
 </menu>

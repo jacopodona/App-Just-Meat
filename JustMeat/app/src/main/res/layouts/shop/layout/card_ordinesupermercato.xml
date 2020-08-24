@@ -15,7 +15,7 @@
         >
 
         <ImageView
-            android:id="@+id/homepage_card_ordinesupermercato_logo"
+            android:id="@+id/shop_card_ordinesupermercato_logo"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginLeft="20dp"
@@ -45,7 +45,7 @@
                         />
 
                     <TextView
-                        android:id="@+id/homepage_card_ordinesupermercato_idOrdine"
+                        android:id="@+id/shop_card_ordinesupermercato_idOrdine"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
@@ -67,7 +67,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/homepage_card_ordinesupermercato_numprodotti"
+                    android:id="@+id/shop_card_ordinesupermercato_numprodotti"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"

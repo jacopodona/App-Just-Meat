@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".ordineSupermercato.StatoOrdineSupermercatoActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/homepage_modifica_statoordinesupermercato_button"
+        android:layout_above="@id/statoordinesupermercato_modifica_button"
         android:orientation="vertical">
 
         <LinearLayout
@@ -25,7 +28,7 @@
                 />
 
             <TextView
-                android:id="@+id/homepage_id_ordine_statoordinesupermercato"
+                android:id="@+id/statoordinesupermercato_id_ordine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -51,7 +54,7 @@
                 />
 
             <TextView
-                android:id="@+id/homepage_stato_ordine_statoordinesupermercato"
+                android:id="@+id/statoordinesupermercato_stato_ordine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -74,7 +77,7 @@
                 android:textSize="20sp"/>
 
             <TextView
-                android:id="@+id/homepage_num_prodotti_statoordinesupermercato"
+                android:id="@+id/statoordinesupermercato_num_prodotti"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="XYZ"
@@ -93,7 +96,7 @@
             />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/homepage_recyclerview_statoordinesupermercato"
+            android:id="@+id/statoordinesupermercato_recyclerview_prodotti"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />
@@ -106,7 +109,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:id="@+id/homepage_modifica_statoordinesupermercato_button"
+        android:id="@+id/statoordinesupermercato_modifica_button"
         android:text="Modifica Stato Ordine"
         android:layout_alignParentBottom="true"/>
 
