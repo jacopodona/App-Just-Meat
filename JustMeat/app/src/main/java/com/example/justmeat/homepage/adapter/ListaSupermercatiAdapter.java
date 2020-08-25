@@ -55,8 +55,8 @@ public class ListaSupermercatiAdapter extends RecyclerView.Adapter<ListaSupermer
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(activity, MapFragment.class);
-                    i.putExtra("Latitudine", "43.776366");
-                    i.putExtra("Longitudine", "11.247822");
+                    i.putExtra("Latitudine", "45.4420061");
+                    i.putExtra("Longitudine", "10.9954850");
                     i.putExtra("NomeSupermercato", supermercato.getNome());
                     activity.startActivity(i);
                 }
