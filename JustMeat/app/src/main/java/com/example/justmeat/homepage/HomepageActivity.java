@@ -24,9 +24,13 @@ import com.google.android.material.navigation.NavigationView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HomepageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
+    private String httpToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +58,7 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
 
         // Get httpToken
         JSONObject user = null;
-        String httpToken = null;
+        this.httpToken = null;
         try {
             JSONObject rawData = new JSONObject(getIntent().getStringExtra("user"));
             user = new JSONObject(rawData.getJSONObject("user").toString());
@@ -86,7 +90,31 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("asd", response.toString());
+                        //Log.d("asd", response.toString());
+                        try {
+                            int numElementi=(response.getJSONObject("metadata").getInt("returned"));
+                            //Log.d("Num elementi ", numElementi+"");
+
+                            List prova = new ArrayList<JSONObject>();
+                            for(int i=0; i<numElementi;i++){
+                                try {
+                                    prova.add(response.getJSONArray("results").getJSONObject(i));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            /*for (Object j: prova) {
+                                Log.d("Elem",j.toString());
+                            }*/
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+
+
                     }
                 },
                 new Response.ErrorListener() {
@@ -95,6 +123,8 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
                         Log.d("asd", error.toString());
                     }
                 }).run();
+
+
     }
 
     @Override
@@ -104,10 +134,10 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
                 getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new TrovaSupermercatiFragment()).commit();
                 break;
             case R.id.homepage_nav_miei_ordini:
-                getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new MieiOrdiniFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new MieiOrdiniFragment(getDataOrdini())).commit();
                 break;
             case R.id.homepage_nav_ordini_preferiti:
-                getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new OrdiniPreferitiFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new OrdiniPreferitiFragment(getDataOrdiniPreferiti())).commit();
                 break;
             case R.id.homepage_nav_indirizzi_preferiti:
                 getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new IndirizziPreferitiFragment()).commit();
@@ -145,6 +175,72 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
         }
 
         transaction.commit();
+    }
+
+    public ArrayList<JSONObject> getDataOrdiniPreferiti(){
+        final ArrayList ordiniPreferitiList = new ArrayList<JSONObject>();
+        new HttpJsonRequest(getBaseContext(), "/api/v1/get_favourite_orders", Request.Method.GET, httpToken,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("Fav Order", response.toString());
+
+                        try {
+                            int numElementi=(response.getJSONObject("metadata").getInt("returned"));
+                            for(int i=0; i<numElementi;i++){
+                                try {
+                                    ordiniPreferitiList.add(response.getJSONArray("results").getJSONObject(i));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("asd", error.toString());
+                    }
+                }).run();
+
+        return ordiniPreferitiList;
+    }
+
+    public ArrayList<JSONObject> getDataOrdini(){
+        final ArrayList ordiniPreferitiList = new ArrayList<JSONObject>();
+        new HttpJsonRequest(getBaseContext(), "/api/v1/get_orders", Request.Method.GET, httpToken,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("Fav Order", response.toString());
+
+                        try {
+                            int numElementi=(response.getJSONObject("metadata").getInt("returned"));
+                            for(int i=0; i<numElementi;i++){
+                                try {
+                                    ordiniPreferitiList.add(response.getJSONArray("results").getJSONObject(i));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("asd", error.toString());
+                    }
+                }).run();
+
+        return ordiniPreferitiList;
     }
 
 

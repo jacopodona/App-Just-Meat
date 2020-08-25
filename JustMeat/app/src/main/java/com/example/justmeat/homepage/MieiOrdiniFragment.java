@@ -15,12 +15,21 @@ import com.example.justmeat.R;
 import com.example.justmeat.homepage.adapter.MieiOrdiniAdapter;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 public class MieiOrdiniFragment extends Fragment {
+
+    private ArrayList<JSONObject> listaOrdini;
+
+    public MieiOrdiniFragment(ArrayList<JSONObject> listaOrdini) {
+        this.listaOrdini=listaOrdini;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

@@ -16,11 +16,21 @@ import com.example.justmeat.R;
 import com.example.justmeat.homepage.adapter.MieiOrdiniAdapter;
 import com.example.justmeat.homepage.adapter.OrdiniPreferitiAdapter;
 
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 public class OrdiniPreferitiFragment extends Fragment {
+
+    private ArrayList listaOrdiniPreferiti;
+
+    public OrdiniPreferitiFragment(ArrayList<JSONObject> listaOrdiniPreferiti) {
+        this.listaOrdiniPreferiti= listaOrdiniPreferiti;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
