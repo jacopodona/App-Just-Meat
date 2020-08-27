@@ -38,13 +38,13 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
         final ProductItem currentItem = carrello.get(position);
         //holder.imgProduct.setImageResource(currentItem.getImgProd());
         holder.nome.setText(currentItem.getNome());
-        //holder.produttore.setText(currentItem.getProduttore());
+        holder.produttore.setText(currentItem.getManufacturer());
         if(currentItem.qt > 1){
             holder.counter = currentItem.qt;
         } else {
             holder.counter = 1;
         }
-        holder.weight.setText(currentItem.getWeight()+" ");
+        holder.weight.setText(currentItem.getWeight()+" "+currentItem.getUm());
 
         holder.prezzo.setText(String.format("%.2f",currentItem.getPrezzo())+" €");
         double price = currentItem.getPrezzo()*holder.counter;

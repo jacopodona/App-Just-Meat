@@ -35,7 +35,7 @@ import java.util.ArrayList;
 public class MarketViewFragment extends Fragment {
     public int activeFilter = -1; //indica che categoria è selezionata al momento, -1 è utilizzato per indicare che nessuna cat è selezionata
     public int visualizeProduct = 3; // tipo di visualizzazione prodotti 3->griglia 3 colonne; 2-> 2colonne; 1->lista
-    int id_negozio = 2; //indica quale negozio è stato selezionato, al momento la scelta è statica poi verrà utilizzato intentExtra
+    int id_negozio = 4; //indica quale negozio è stato selezionato, al momento la scelta è statica poi verrà utilizzato intentExtra
     public ArrayList<ProductItem> pListFull = new ArrayList<>(); //array contente tutti i prodotti del supermercato
     public ArrayList<ProductItem> pList; //array contente la lista dei prodotti filtrati attraverso la search view
     ArrayList<CategoriaItem> catList = new ArrayList<>(); //array contente i departments del supermercato
@@ -215,7 +215,45 @@ public class MarketViewFragment extends Fragment {
             JSONObject currentJSONObj = results.getJSONObject(i);
             name = currentJSONObj.getString("name");
             id = currentJSONObj.getInt("id");
-            catList.add(new CategoriaItem(R.drawable.category_carne, name, id));
+            switch (name){
+                case "Ortofrutta" : {
+                    catList.add(new CategoriaItem(R.drawable.category_verdura, name, id));
+                    break;
+                }
+                case "Macelleria": {
+                    catList.add(new CategoriaItem(R.drawable.category_carne, name, id));
+                    break;
+                }
+                case "Pescheria" : {
+                    catList.add(new CategoriaItem(R.drawable.category_pesce, name, id));
+                    break;
+                }
+                case "Pane, pizza e sostitutivi" : {
+                    catList.add(new CategoriaItem(R.drawable.category_pasta, name, id));
+                    break;
+                }/* to draw icon
+                case "Formaggi, salumi e gastronomia" : {
+                    catList.add(new CategoriaItem(R.drawable.category_, name, id));
+                }
+                case "Prodotti freschi" : {
+
+                }
+                case "Dispensa salata" : {
+
+                }
+                case "Dispensa dolce" : {
+
+                }*/
+                case "Bevande" : {
+                    catList.add(new CategoriaItem(R.drawable.category_alcool, name, id));
+                    break;
+                }
+                case "Surgelati" : {
+                    catList.add(new CategoriaItem(R.drawable.category_congelati, name, id));
+                    break;
+                }
+                default: catList.add(new CategoriaItem(R.drawable.category_carne, name, id));
+            }
         }
     }
 
@@ -267,7 +305,7 @@ public class MarketViewFragment extends Fragment {
             boolean favourite;
             double prezzo, discount;
             String nome, manufacturer, description, um;
-            int department, id, weight;
+            int department, id, weight, fk_weight;
             JSONObject currentJSONObj = results.getJSONObject(i);
             id = currentJSONObj.getInt("id");
             nome = currentJSONObj.getString("name");
@@ -278,10 +316,11 @@ public class MarketViewFragment extends Fragment {
             manufacturer = currentJSONObj.getString("manufacturer");
             um = currentJSONObj.getString("um");
             weight = currentJSONObj.getInt("weight");
+            fk_weight = currentJSONObj.getInt("fk_weight");
             if( currentJSONObj.optInt("fk_user", 0) == 1){
                 favourite = true;
             } else favourite = false;
-            pListFull.add(new ProductItem(id, nome, prezzo, discount, description, department, manufacturer, um, weight, favourite));
+            pListFull.add(new ProductItem(id, nome, prezzo, discount, description, department, manufacturer, um, weight, fk_weight, favourite));
         }
     }
     public void filter(){

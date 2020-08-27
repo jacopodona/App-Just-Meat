@@ -33,13 +33,13 @@ import java.util.ArrayList;
 public class ProductFragment extends Fragment {
     ProductItem prodotto;
     int counter = 1;
-    int actualWeight;
+    Weight actualWeight;
     TextView prezzo;
     double actualPrezzo;
 
     ProductFragment(ProductItem prodotto){
         this.prodotto = prodotto;
-        actualWeight = prodotto.getWeight();
+        actualWeight = new Weight(prodotto.getFk_weight(), prodotto.getWeight(), prodotto.getUm());
     }
 
     @Nullable
@@ -58,11 +58,7 @@ public class ProductFragment extends Fragment {
     }
 
     private void setLayout(View view){
-        if(prodotto.getAllWeights().isEmpty()){
-            getWeights(view);
-        } else{
-            setWeight(view, prodotto.allWeights);
-        }
+        getWeights(view);
 
         TextView manufacturer = view.findViewById(R.id.marketview_txt_produttore);
         manufacturer.setText(prodotto.getManufacturer());
@@ -74,7 +70,7 @@ public class ProductFragment extends Fragment {
         nome.setText(prodotto.getNome());
 
         prezzo = view.findViewById(R.id.marketview_txt_prezzo);
-        updatePrezzo(actualWeight);
+        updatePrezzo(new Weight(actualWeight.fk_weight, actualWeight.value, actualWeight.um));
 
         final TextView txt_qt = view.findViewById(R.id.marketview_txt_qt);
         txt_qt.setText(""+counter);
@@ -132,26 +128,22 @@ public class ProductFragment extends Fragment {
                 boolean check = false;
                 MarketViewActivity marketViewActivity = (MarketViewActivity) ProductFragment.super.getActivity();
                 for(ProductItem currentItem : marketViewActivity.carrello){
-                    if(currentItem.getId() == prodotto.getId() && currentItem.getWeight() == actualWeight){
+                    if(currentItem.getId() == prodotto.getId() && currentItem.getFk_weight() == actualWeight.fk_weight){
                         currentItem.qt += counter;
                         check = true;
                     }
                 } if(!check){
-                    if (prodotto.getWeight() == actualWeight){
-                        prodotto.qt = counter;
-                        marketViewActivity.carrello.add(prodotto);
-                    } else {
-                         ProductItem actualItem = new ProductItem(prodotto.getId(), prodotto.getNome(), actualPrezzo, prodotto.getDiscount(), prodotto.getDescription(), prodotto.getCategoria(), prodotto.getManufacturer(), prodotto.getUm(), actualWeight, false);
-                         actualItem.qt = counter;
-                         marketViewActivity.carrello.add(actualItem);
-
-                    }
+                    ProductItem actualItem =
+                            new ProductItem(prodotto.getId(), prodotto.getNome(), actualPrezzo, prodotto.getDiscount(), prodotto.getDescription(), prodotto.getCategoria(), prodotto.getManufacturer(), prodotto.getUm(),
+                                    actualWeight.value, actualWeight.getFk_weight(), false);
+                    actualItem.qt = counter;
+                    marketViewActivity.carrello.add(actualItem);
                 }
             }
         });
     }
 
-    private void setWeight(View view, ArrayList<Integer> weights) {
+    private void setWeight(View view, ArrayList<Weight> weights) {
         RecyclerView rv = view.findViewById(R.id.marketview_rv_weight_product);
         RecyclerView.LayoutManager wRVLM= new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         RecyclerView.Adapter wRVA = new WeightAdapter(weights, prodotto.getUm(), this);
@@ -163,8 +155,9 @@ public class ProductFragment extends Fragment {
         new HttpJsonRequest(getContext(), "/api/v1/get_weights/" + prodotto.getId(), Request.Method.GET, ((MyApplication) this.getActivity().getApplication()).getHttpToken(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                    try {
-                       setWeight(view, parseWeight(response)); ;
+                try {
+
+                        setWeight(view, parseWeight(response));
                     }catch (JSONException e){
                         e.printStackTrace();
                     }
@@ -177,18 +170,18 @@ public class ProductFragment extends Fragment {
         }).run();
     }
 
-    private ArrayList<Integer> parseWeight(JSONObject jsonObject) throws JSONException {
-        ArrayList<Integer> retArray = new ArrayList<>();
+    private ArrayList<Weight> parseWeight(JSONObject jsonObject) throws JSONException {
+        ArrayList<Weight> retArray = new ArrayList<>();
         JSONArray results = jsonObject.getJSONArray("results");
         for (int i = 0; i<results.length(); i++){
             JSONObject currentJSONObj = results.getJSONObject(i);
-            retArray.add(currentJSONObj.getInt("value"));
+            retArray.add(new Weight(currentJSONObj.getInt("id"), currentJSONObj.getInt("value"), currentJSONObj.getString("um")));
         }
         return retArray;
     }
 
-    public void updatePrezzo(int newPeso){
-        actualPrezzo = prodotto.getPrezzo() * newPeso / prodotto.getWeight();
+    public void updatePrezzo(Weight newPeso){
+        actualPrezzo = prodotto.getPrezzo() * newPeso.getValue() / prodotto.getWeight();
 
         actualWeight = newPeso;
         if(prodotto.getDiscount()>0){
@@ -199,6 +192,29 @@ public class ProductFragment extends Fragment {
             prezzo.setText(stringPrezzo);
         } else {
             prezzo.setText(String.format("%.2f",prodotto.getPrezzo())+" €");
+        }
+    }
+
+    public class Weight{
+        int fk_weight;
+        int value;
+        String um;
+        Weight(int fk_weight, int value, String um){
+            this.fk_weight = fk_weight;
+            this.value = value;
+            this.um = um;
+        }
+
+        public int getFk_weight() {
+            return fk_weight;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public String getUm() {
+            return um;
         }
     }
 

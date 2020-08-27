@@ -84,12 +84,10 @@ class MarketViewProductListAdapter extends RecyclerView.Adapter<MarketViewProduc
                 //reset the card counter to 1
                 MarketViewActivity marketViewActivity = (MarketViewActivity) marketViewFragment.getActivity();
                 boolean check = false;
-
                 for(ProductItem carrelloItem : marketViewActivity.carrello){
                     if(currentItem.getId() == carrelloItem.getId() && carrelloItem.getWeight() == currentItem.getWeight()){
-                        currentItem.qt += holder.counter;
+                        carrelloItem.qt += holder.counter;
                         check = true;
-                        System.out.println("true");
                     }
                 } if(!check){
                     currentItem.qt = 1;

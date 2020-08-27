@@ -46,8 +46,6 @@ public class MarketViewActivity extends AppCompatActivity{
     @Override
     protected void onStop() {
         if(!editFavoriteProd.isEmpty()) {
-            String add = "add: [\n ";
-            String del = "del: [\n";
             for (ProductItem productItem : editFavoriteProd){
                 JSONObject body = new JSONObject();
                 if(productItem.pref){
@@ -66,7 +64,6 @@ public class MarketViewActivity extends AppCompatActivity{
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    add += "{ product_id: "+productItem.getId()+"}\n";
                 } else{
                     try {
                         body.put("product_id", productItem.getId());
@@ -83,13 +80,8 @@ public class MarketViewActivity extends AppCompatActivity{
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    del += "{ product_id: "+productItem.getId()+"}\n";
                 }
             }
-            add += "]";
-            del += "]";
-            System.out.println(add);
-            System.out.println(del);
             editFavoriteProd = new ArrayList<>();
         }
         super.onStop();

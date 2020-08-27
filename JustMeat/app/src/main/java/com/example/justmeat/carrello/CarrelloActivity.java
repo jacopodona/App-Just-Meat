@@ -1,9 +1,6 @@
 package com.example.justmeat.carrello;
 
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -77,23 +74,6 @@ public class CarrelloActivity extends AppCompatActivity {
                 }
             });
 
-            final ImageView pref_btn = findViewById(R.id.carrello_btn_bookmark);
-            pref_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    final Dialog pref_dialog = new Dialog(v.getContext());
-                    pref_dialog.setContentView(R.layout.dialog_preferiti);
-                    pref_dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    Button neutral_btn = pref_dialog.findViewById(R.id.carrello_btn_neutral_dialogpref);
-                    neutral_btn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            pref_dialog.dismiss();
-                        }
-                    });
-                    pref_dialog.show();
-                }
-            });
             RecyclerView.LayoutManager rvLM = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false );
             RecyclerView.Adapter rvAdapter = new CarrelloProductAdapter(this);
 

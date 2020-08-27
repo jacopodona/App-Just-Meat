@@ -122,8 +122,8 @@ public class MarketViewProductGridAdapter extends RecyclerView.Adapter<MarketVie
                 MarketViewActivity marketViewActivity = (MarketViewActivity) marketViewFragment.getActivity();
                 boolean check = false;
                 for(ProductItem carrelloItem : marketViewActivity.carrello){
-                    if(currentItem.getId() == carrelloItem.getId() && carrelloItem.getWeight() == currentItem.getWeight()){
-                        currentItem.qt += 1;
+                    if(currentItem.getId() == carrelloItem.getId() && carrelloItem.getFk_weight() == currentItem.getFk_weight()){
+                        carrelloItem.qt += 1;
                         check = true;
                     }
                 } if(!check){

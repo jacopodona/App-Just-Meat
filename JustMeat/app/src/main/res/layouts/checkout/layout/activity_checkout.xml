@@ -85,7 +85,7 @@
             app:layout_constraintEnd_toEndOf="@+id/checkout_rv_product"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/checkout_rv_product"
-            app:layout_constraintTop_toBottomOf="@+id/checkout_rv_coupons"
+            app:layout_constraintTop_toBottomOf="@+id/checkout_rv_coupon"
             app:srcCompat="@drawable/base_rectangle" />
 
         <TextView

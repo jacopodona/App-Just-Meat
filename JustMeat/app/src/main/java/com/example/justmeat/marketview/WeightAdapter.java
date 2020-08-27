@@ -16,11 +16,11 @@ import com.example.justmeat.R;
 import java.util.ArrayList;
 
 class WeightAdapter extends RecyclerView.Adapter<WeightAdapter.WeightViewHolder> {
-    ArrayList<Integer> weights;
+    ArrayList<ProductFragment.Weight> weights;
     String um;
     ProductFragment productFragment;
     WeightViewHolder currentActive;
-    public WeightAdapter(ArrayList<Integer> weights, String um, ProductFragment productFragment) {
+    public WeightAdapter(ArrayList<ProductFragment.Weight> weights, String um, ProductFragment productFragment) {
         this.weights = weights;
         this.um = um;
         this.productFragment = productFragment;
@@ -36,8 +36,8 @@ class WeightAdapter extends RecyclerView.Adapter<WeightAdapter.WeightViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull final WeightViewHolder holder, int position) {
-        final Integer valWeight = weights.get(position);
-        holder.value.setText(valWeight+" "+ um );
+        final ProductFragment.Weight valWeight = weights.get(position);
+        holder.value.setText(valWeight.value+" "+ valWeight.getUm());
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

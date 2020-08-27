@@ -1,16 +1,14 @@
 package com.example.justmeat.marketview;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Comparator;
 
 public class ProductItem implements Serializable {
-    private int img, categoria, id, weight;
+    private int img, categoria, id, weight, fk_weight;
     private double prezzo, discount;
     private String nome, manufacturer, description, um;
     boolean pref;
     public int qt = 0;
-    ArrayList<Integer> allWeights;
 
     public static Comparator<ProductItem> increasePComparator = new Comparator<ProductItem>() {
         @Override
@@ -46,7 +44,7 @@ public class ProductItem implements Serializable {
         }
     };
 
-    public ProductItem(int id, String nome, double prezzo, double discount, String description, int categoria, String manufacturer, String um, int weight, boolean favourite){
+    public ProductItem(int id, String nome, double prezzo, double discount, String description, int categoria, String manufacturer, String um, int weight, int fk_weight, boolean favourite){
         this.id = id;
         this.nome = nome;
         this.prezzo = prezzo;
@@ -56,8 +54,8 @@ public class ProductItem implements Serializable {
         this.manufacturer = manufacturer;
         this.um = um;
         this.weight = weight;
-        this.allWeights = new ArrayList<>();
         this.pref = favourite;
+        this.fk_weight = fk_weight;
     }
 
     public int getWeight() {
@@ -108,7 +106,7 @@ public class ProductItem implements Serializable {
         return discount;
     }
 
-    public ArrayList<Integer> getAllWeights() {
-        return allWeights;
+    public int getFk_weight() {
+        return fk_weight;
     }
 }
