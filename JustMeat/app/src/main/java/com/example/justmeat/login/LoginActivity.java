@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Intent intent = new Intent(getApplicationContext(), HomepageActivity.class);
                                     intent.putExtra("user", response.toString());
                                     startActivity(intent);
+                                    finish();
                                 }
                             }, new Response.ErrorListener() {
                                 @Override

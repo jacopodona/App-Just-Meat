@@ -1,5 +1,6 @@
 package com.example.justmeat.homepage;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -165,7 +166,8 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+
+            System.exit(0);
         }
     }
 
