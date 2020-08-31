@@ -24,8 +24,15 @@ import com.google.android.material.navigation.NavigationView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
+import java.util.logging.SimpleFormatter;
 
 public class HomepageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -210,20 +217,41 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
         return ordiniPreferitiList;
     }
 
-    public ArrayList<JSONObject> getDataOrdini(){
-        final ArrayList ordiniPreferitiList = new ArrayList<JSONObject>();
-        new HttpJsonRequest(getBaseContext(), "/api/v1/get_orders", Request.Method.GET, httpToken,
+    public LinkedList<MieiOrdini> getDataOrdini(){
+
+        final LinkedList ordini= new <MieiOrdini>LinkedList();
+
+        new HttpJsonRequest(getBaseContext(), "/api/v1/get_user_orders", Request.Method.GET, httpToken,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("Fav Order", response.toString());
+                        Log.d("Orders", response.toString());
 
                         try {
                             int numElementi=(response.getJSONObject("metadata").getInt("returned"));
                             for(int i=0; i<numElementi;i++){
                                 try {
-                                    ordiniPreferitiList.add(response.getJSONArray("results").getJSONObject(i));
+
+                                    //Log.e("Ciao", response.getJSONArray("results").getJSONObject(i).get("supermarket").toString());
+
+                                    MieiOrdini ordine = new MieiOrdini();
+                                    ordine.setNomeSupermercato(response.getJSONArray("results").getJSONObject(i).get("supermarket").toString());
+                                    ordine.setIndirizzo("via dasdasdasdaasa");
+                                    ordine.setStato(response.getJSONArray("results").getJSONObject(i).get("status").toString());
+
+                                    //Date
+                                    SimpleDateFormat format= new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                                    String date= response.getJSONArray("results").getJSONObject(i).get("pickup_time").toString();
+                                    Date dateFormat = format.parse(date);
+                                    ordine.setDataOrdine(dateFormat);
+                                    //---------------------
+
+                                    ordini.add(ordine);
+                                    Log.e("Lunghezza iiin",ordini.size()+"");
+
                                 } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
                             }
@@ -236,11 +264,15 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("asd", error.toString());
+                        Log.d("Err connessione", error.toString());
                     }
                 }).run();
 
-        return ordiniPreferitiList;
+
+
+
+        Log.e("Lunghezza return", ordini.size()+"");
+        return ordini;
     }
 
 

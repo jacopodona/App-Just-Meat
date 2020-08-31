@@ -1,6 +1,7 @@
 package com.example.justmeat.homepage;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,9 +25,9 @@ import java.util.List;
 
 public class MieiOrdiniFragment extends Fragment {
 
-    private ArrayList<JSONObject> listaOrdini;
+    private LinkedList<MieiOrdini> listaOrdini;
 
-    public MieiOrdiniFragment(ArrayList<JSONObject> listaOrdini) {
+    public MieiOrdiniFragment(LinkedList<MieiOrdini> listaOrdini) {
         this.listaOrdini=listaOrdini;
     }
 
@@ -34,6 +35,13 @@ public class MieiOrdiniFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_miei_ordini,container,false);
+
+        for (MieiOrdini m: listaOrdini) {
+
+            Log.e("Ciao",m.getNomeSupermercato()+" "+m.getIndirizzo()+" "+m.getStato()+" "+m.getDataOrdine());
+        }
+
+        Log.e("Lunghezza", listaOrdini.size()+"");
 
         List lista= new LinkedList();
         MieiOrdini m= new MieiOrdini("Aldi","Via Roma 12b", "Ritirato",new Date());

@@ -13,6 +13,13 @@ public class MieiOrdini {
         this.dataOrdine = dataOrdine;
     }
 
+    public MieiOrdini() {
+        this.nomeSupermercato = "";
+        this.indirizzo="";
+        this.stato="";
+        this.dataOrdine=new Date();
+    }
+
     public String getNomeSupermercato() {
         return nomeSupermercato;
     }
