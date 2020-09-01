@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +12,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.example.justmeat.R;
 import com.example.justmeat.ordineSupermercato.StatoOrdineSupermercatoActivity;
+import com.example.justmeat.utilities.HttpJsonRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -24,44 +33,36 @@ public class ShopActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private Context context;
     private ImageView close;
+    private ArrayList<OrdineSupermercato> listaOrdini;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
+        //listaOrdini = new ArrayList<>();
 
-        close=findViewById(R.id.shop_imageview_close);
+        close = findViewById(R.id.shop_imageview_close);
 
-        context=this;
+        context = this;
+        listaOrdini=new ArrayList<>();
 
-        Random rand=new Random();
-        final ArrayList<OrdineSupermercato> arrayList=new ArrayList<OrdineSupermercato>();
-        arrayList.add(new OrdineSupermercato("101","5","Ritirato"));
-        arrayList.add(new OrdineSupermercato("102","6","Ritirato"));
-        arrayList.add(new OrdineSupermercato("103","18","Ritirato"));
-        arrayList.add(new OrdineSupermercato("104","7", "Pronto per il ritiro"));
-        arrayList.add(new OrdineSupermercato("105","10", "Pronto per il ritiro"));
-        arrayList.add(new OrdineSupermercato("106","15", "In attesa"));
-        arrayList.add(new OrdineSupermercato("107","9","In attesa"));
+        recyclerView = findViewById(R.id.shop_recyclerview_listaordini);
+        layoutManager = new LinearLayoutManager(this);
+        richiestaOrdini(this);
 
-        recyclerView=findViewById(R.id.shop_recyclerview_listaordini);
-        layoutManager=new LinearLayoutManager(this);
-        adapter=new OrdineSupermercatoAdapter(arrayList,this);
 
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new OrdineSupermercatoAdapter.onItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                Intent intent=new Intent(context, StatoOrdineSupermercatoActivity.class);
-                OrdineSupermercato ordine=arrayList.get(position);
-                Bundle bundle=new Bundle();
-                bundle.putSerializable("Ordine",ordine);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
+
+        Log.e("Lunghezza array","Numero oggetti: "+listaOrdini.size());
+        for(int i=0;i<listaOrdini.size();i++){
+            Log.e("Contenuto Lista Ordini:", listaOrdini.get(i).getId()+" "+listaOrdini.get(i).getStato()+"\n");
+        }
+
+
+
+
+
+
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,4 +72,58 @@ public class ShopActivity extends AppCompatActivity {
         });
 
     }
+
+    private void richiestaOrdini(final Activity a) {
+        new HttpJsonRequest(getBaseContext(), "/api/v1/get_orders", Request.Method.GET, "justmeat",
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("OK", response.toString());
+                        try {
+                            JSONArray results = response.getJSONArray("results");
+                            Log.e("Details-->", "Ordini visti: " + results.length());
+                            for (int i = 0; i < results.length(); i++) {
+                                JSONObject ordine = results.getJSONObject(i);
+                                OrdineSupermercato o = new OrdineSupermercato(ordine.getInt("id"), ordine.getString("status"));
+                                listaOrdini.add(o);
+                            }
+                            Log.e("Details-->", "Ordini aggiunti: " + listaOrdini.size());
+                            for(int i=0;i<listaOrdini.size();i++){
+                                Log.e("Contenuto Lista Ordini:", listaOrdini.get(i).getId()+" "+listaOrdini.get(i).getStato()+"\n");
+                            }
+                            setupRecyclerView(a);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("err", error.toString());
+                    }
+                }).run();
+    }
+
+    void setupRecyclerView(Activity a){
+        adapter = new OrdineSupermercatoAdapter(listaOrdini, a);
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new OrdineSupermercatoAdapter.onItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(context, StatoOrdineSupermercatoActivity.class);
+                OrdineSupermercato ordine = listaOrdini.get(position);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("Ordine", ordine);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+    }
+
+
 }

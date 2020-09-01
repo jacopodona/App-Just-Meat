@@ -71,7 +71,8 @@ public class OrdineSupermercatoAdapter extends RecyclerView.Adapter<OrdineSuperm
     public void onBindViewHolder(@NonNull OrdineSupermercatoHolder holder, final int position) {
         OrdineSupermercato currentItem=list.get(position);
 
-        holder.idOrdine.setText(currentItem.getId());
+        String valueId= String.valueOf(currentItem.getId());
+        holder.idOrdine.setText(valueId);
         holder.statoOrdine.setText(currentItem.getStato());
     }
 

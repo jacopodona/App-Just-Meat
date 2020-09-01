@@ -1,17 +1,24 @@
 package com.example.justmeat.shop;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class OrdineSupermercato implements Serializable {
-    private String id,numProdotti, stato;
+    private int id;
+    private String numProdotti, stato,supermarket;
+    private Date pickupTime;
+    private ArrayList<String> prodotti;
 
-    public OrdineSupermercato(String id, String numProdotti, String stato) {
+    public OrdineSupermercato(int id, String stato) {
         this.id = id;
-        this.numProdotti = numProdotti;
         this.stato=stato;
+        numProdotti="0";
+        pickupTime=new Date();
+        prodotti=new ArrayList<>();
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -21,5 +28,34 @@ public class OrdineSupermercato implements Serializable {
 
     public String getStato() {
         return stato;
+    }
+
+    public Date getPickupTime() {
+        return pickupTime;
+    }
+
+    public ArrayList<String> getProdotti() {
+        return prodotti;
+    }
+
+    public void setPickupTime(Date pickupTime) {
+        this.pickupTime = pickupTime;
+    }
+
+    public void setStato(String stato) {
+        this.stato = stato;
+    }
+
+    public String getSupermarket() {
+        return supermarket;
+    }
+
+    public void setSupermarket(String supermarket) {
+        this.supermarket = supermarket;
+    }
+
+    public void setProdotti(ArrayList<String> prodotti) {
+        this.prodotti = prodotti;
+        numProdotti=String.valueOf(prodotti.size());
     }
 }
