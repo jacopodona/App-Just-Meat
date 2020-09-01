@@ -154,6 +154,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/facebook" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/welcome_accedi_shop"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Accesso per Negozi"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/register"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/google" />
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/divider"
@@ -204,5 +216,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

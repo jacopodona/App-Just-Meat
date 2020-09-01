@@ -33,7 +33,9 @@ android {
                         'src/main/res/layouts/checkout',
                         'src/main/res/layouts/carrello',
                         'src/main/res/layouts/withdrawal',
-                        'src/main/res/layouts/homepage'
+                        'src/main/res/layouts/homepage',
+                        'src/main/res/layouts/shop',
+                        'src/main/res/layouts/statoOrdineSupermercato'
             }
         }
     }

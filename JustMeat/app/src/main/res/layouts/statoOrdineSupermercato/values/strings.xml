@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="lista_stati">
+        <item>Seleziona stato...</item>
+        <item>Ricevuto</item>
+        <item>Pronto per il Ritiro</item>
+        <item>Ritirato</item>
+    </string-array>
+
+</resources>
