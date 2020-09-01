@@ -1,8 +1,14 @@
 package com.example.justmeat.homepage;
 
+
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -24,28 +30,54 @@ import com.google.android.material.navigation.NavigationView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.logging.SimpleFormatter;
+
 public class HomepageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
+    private String httpToken;
+    private User utente;
+    private  NavigationView navigationview;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
 
-        Toolbar toolbar=findViewById(R.id.homepage_toolbar);
+        Intent intent = getIntent();
+        String input = intent.getStringExtra("user");
+        String name="";
+        String last_name="";
+        String mail="";
+        int id=0;
+        try {
+            JSONObject jsonObject = new JSONObject(input);
+            id = jsonObject.getJSONObject("user").getInt("id");
+            name = jsonObject.getJSONObject("user").getString("name");
+            last_name = jsonObject.getJSONObject("user").getString("last_name");
+            mail = jsonObject.getJSONObject("user").getString("mail");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        utente=new User(id,name,last_name,mail);
+
+        toolbar = findViewById(R.id.homepage_toolbar);
         setSupportActionBar(toolbar);
 
-        drawer=findViewById(R.id.homepage_drawer_layout);
-        NavigationView navigationview= findViewById(R.id.homepage_nav_view);
-        navigationview.setNavigationItemSelectedListener(this);//ho aggiunto implements per aggiungere il listener per il cambio di fragment
+        inizializzaNavigationView();
+        caricaInfoHeader();
 
-        ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawer,toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        if(savedInstanceState==null) {//serve per mantenere il fragment corretto aperto in caso l'activity venga ricostruita (es: cambio di orientamento distrugge e ricrea activity)
+        if (savedInstanceState == null) {//serve per mantenere il fragment corretto aperto in caso l'activity venga ricostruita (es: cambio di orientamento distrugge e ricrea activity)
             //inizializzo il primo fragment a trova supermercati
             getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new TrovaSupermercatiFragment()).commit();
             navigationview.setCheckedItem(R.id.homepage_nav_trova_supermercati);
@@ -54,12 +86,12 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
 
         // Get httpToken
         JSONObject user = null;
-        String httpToken = null;
+        this.httpToken = null;
         try {
             JSONObject rawData = new JSONObject(getIntent().getStringExtra("user"));
             user = new JSONObject(rawData.getJSONObject("user").toString());
             httpToken = rawData.getString("token");
-            ((MyApplication)this.getApplication()).setHttpToken(httpToken);
+            ((MyApplication) this.getApplication()).setHttpToken(httpToken);
         } catch (JSONException ex) {
             Log.d("asd", ex.toString());
         }
@@ -86,7 +118,31 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("asd", response.toString());
+                        //Log.d("asd", response.toString());
+                        try {
+                            int numElementi=(response.getJSONObject("metadata").getInt("returned"));
+                            //Log.d("Num elementi ", numElementi+"");
+
+                            List prova = new ArrayList<JSONObject>();
+                            for(int i=0; i<numElementi;i++){
+                                try {
+                                    prova.add(response.getJSONArray("results").getJSONObject(i));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            /*for (Object j: prova) {
+                                Log.d("Elem",j.toString());
+                            }*/
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+
+
                     }
                 },
                 new Response.ErrorListener() {
@@ -95,25 +151,52 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
                         Log.d("asd", error.toString());
                     }
                 }).run();
+
+
+    }
+
+    private void inizializzaNavigationView() {
+        drawer = findViewById(R.id.homepage_drawer_layout);
+        navigationview = findViewById(R.id.homepage_nav_view);
+        navigationview.setNavigationItemSelectedListener(this);//ho aggiunto implements per aggiungere il listener per il cambio di fragment
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+    }
+
+    private void caricaInfoHeader() {
+        View header = navigationview.getHeaderView(0);
+        TextView nome,mail;
+        nome=(TextView) header.findViewById(R.id.homepage_textview_nomecognome);
+        mail=(TextView) header.findViewById(R.id.homepage_textview_email);
+        nome.setText(utente.getName()+" "+utente.getLast_name());
+        mail.setText(utente.getMail());
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {//metodo che gestisce il cambio fragment
-        switch(menuItem.getItemId()){
+        switch (menuItem.getItemId()) {
             case R.id.homepage_nav_trova_supermercati:
-                getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new TrovaSupermercatiFragment()).commit();
+                //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new TrovaSupermercatiFragment()).commit();
+                navigateTo(new TrovaSupermercatiFragment(),true);
                 break;
             case R.id.homepage_nav_miei_ordini:
-                getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new MieiOrdiniFragment()).commit();
+                //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new MieiOrdiniFragment(httpToken)).commit();
+                navigateTo(new MieiOrdiniFragment(httpToken),true);
                 break;
             case R.id.homepage_nav_ordini_preferiti:
-                getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new OrdiniPreferitiFragment()).commit();
+                //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new OrdiniPreferitiFragment(getDataOrdiniPreferiti())).commit();
+                navigateTo(new OrdiniPreferitiFragment(getDataOrdiniPreferiti()),true);
                 break;
             case R.id.homepage_nav_indirizzi_preferiti:
-                getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new IndirizziPreferitiFragment()).commit();
+                //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new IndirizziPreferitiFragment()).commit();
+                navigateTo(new IndirizziPreferitiFragment(),true);
                 break;
             case R.id.homepage_nav_impostazioni:
-                getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new ImpostazioniFragment()).commit();
+                //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new ImpostazioniFragment()).commit();
+                navigateTo(new ImpostazioniFragment(),true);
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
@@ -124,6 +207,8 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
     public void onBackPressed() {//override del back button per chiudere il menu drawer
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if(getSupportFragmentManager().getBackStackEntryCount()== 0){
+            System.exit(0);
         } else {
             super.onBackPressed();
         }
@@ -144,7 +229,42 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
         transaction.commit();
     }
 
+    public ArrayList<JSONObject> getDataOrdiniPreferiti(){
+        final ArrayList ordiniPreferitiList = new ArrayList<JSONObject>();
+        new HttpJsonRequest(getBaseContext(), "/api/v1/get_favourite_orders", Request.Method.GET, httpToken,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("Fav Order", response.toString());
 
+                        try {
+                            int numElementi=(response.getJSONObject("metadata").getInt("returned"));
+                            for(int i=0; i<numElementi;i++){
+                                try {
+                                    ordiniPreferitiList.add(response.getJSONArray("results").getJSONObject(i));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("asd", error.toString());
+                    }
+                }).run();
+
+        return ordiniPreferitiList;
+    }
+
+    public String getHttpToken(){
+        return this.httpToken;
+    }
 
 
 }

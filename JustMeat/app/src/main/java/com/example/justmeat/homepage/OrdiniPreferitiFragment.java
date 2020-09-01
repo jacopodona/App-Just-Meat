@@ -16,20 +16,30 @@ import com.example.justmeat.R;
 import com.example.justmeat.homepage.adapter.MieiOrdiniAdapter;
 import com.example.justmeat.homepage.adapter.OrdiniPreferitiAdapter;
 
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 public class OrdiniPreferitiFragment extends Fragment {
+
+    private ArrayList listaOrdiniPreferiti;
+
+    public OrdiniPreferitiFragment(ArrayList<JSONObject> listaOrdiniPreferiti) {
+        this.listaOrdiniPreferiti= listaOrdiniPreferiti;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_ordini_preferiti,container,false);
 
         List lista= new LinkedList();
-        OrdinePreferito m= new OrdinePreferito("Aldi","Via Roma 12b", "Ritirato",new Date(),"Pranzo");
+        OrdinePreferito m= new OrdinePreferito("Aldi","Via Roma 12b", "Ritirato",new Date(),"Pranzo",1);
         lista.add(m);
-        m= new OrdinePreferito("Aldi","Via Roma 12b", "",new Date(),"Pranzo");
+        m= new OrdinePreferito("Aldi","Via Roma 12b", "",new Date(),"Pranzo",1);
         lista.add(m);
 
         RecyclerView recyclerView = view.findViewById(R.id.homepage_recyclerview_ordinipreferiti);

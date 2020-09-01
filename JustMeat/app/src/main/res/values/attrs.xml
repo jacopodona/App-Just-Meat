@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomProgressBar">
+        <attr name="goalIndicatorRadius" format="dimension"/>
+        <attr name="barHeight" format="dimension"/>
+    </declare-styleable>
+</resources>
