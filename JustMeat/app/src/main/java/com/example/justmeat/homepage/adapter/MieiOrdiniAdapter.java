@@ -14,6 +14,7 @@ import com.example.justmeat.homepage.DettagliOrdinePreferitoFragment;
 import com.example.justmeat.homepage.HomepageActivity;
 import com.example.justmeat.homepage.MieiOrdini;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,17 +40,33 @@ public class MieiOrdiniAdapter extends RecyclerView.Adapter<MieiOrdiniHolder> {
     @Override
     public void onBindViewHolder(@NonNull MieiOrdiniHolder holder, int position) {
         if (listaOrdini != null && position < listaOrdini.size()) {
-            MieiOrdini ordine = listaOrdini.get(position);
+            final MieiOrdini ordine = listaOrdini.get(position);
 
-            holder.data.setText(ordine.getDataOrdine().toString());
-            holder.logoSupermercato.setImageResource(R.drawable.aldi);
+            DateFormat dateFormat = new SimpleDateFormat("d MMMM yyyy");
+
+            holder.data.setText(dateFormat.format(ordine.getDataOrdine()));
+
+            switch (ordine.getNomeSupermercato()){
+                case "MiniPoli":
+                    holder.logoSupermercato.setImageResource(R.drawable.minipoli);
+                    break;
+
+                case "Aldi":
+                    holder.logoSupermercato.setImageResource(R.drawable.aldi);
+                    break;
+                default:
+                    holder.logoSupermercato.setImageResource(R.drawable.minipoli);
+                    break;
+            }
+
+
             holder.nomeSupermercato.setText(ordine.getNomeSupermercato());
             holder.statoOrdine.setText(ordine.getStato());
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((HomepageActivity)activity).navigateTo(new DettagliMieiOrdiniFragment(),true);
+                    ((HomepageActivity)activity).navigateTo(new DettagliMieiOrdiniFragment(ordine),true);
                 }
             });
 

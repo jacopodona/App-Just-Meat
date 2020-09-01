@@ -14,17 +14,19 @@
 
 
         <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:textStyle="bold"
-        android:text="Pronto per il ritiro"
-        android:textSize="20dp"
-        android:textColor="@color/primaryTextColor"
+            android:id="@+id/homepage_statoordine_textview_stato"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:textStyle="bold"
+            android:text="Pronto per il ritiro"
+            android:textSize="20dp"
+            android:textColor="@color/primaryTextColor"
         ></TextView>
 
         <TextView
+            android:id="@+id/homepage_statoordine_textview_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -35,6 +37,7 @@
             ></TextView>
 
         <ImageView
+                android:id="@+id/homepage_statoordine_textview_imgview"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
             android:layout_gravity="center"
@@ -42,17 +45,7 @@
             ></ImageView>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="0dp"
-            android:text="Aldi"
-            android:textSize="20dp"
-            android:textColor="@color/primaryTextColor">
-
-        </TextView>
-
-        <TextView
+            android:id="@+id/homepage_statoordine_textview_indirizzo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -80,54 +73,12 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="fsdfsd"
-                    android:textSize="40dp"></TextView>
+               <androidx.recyclerview.widget.RecyclerView
+                   android:id="@+id/homepage_stato_ordine_rec_view"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="fsdfsd"
-                    android:textSize="40dp"></TextView>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="fsdfsd"
-                    android:textSize="40dp"></TextView>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="fsdfsd"
-                    android:textSize="40dp"></TextView>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="fsdfsd"
-                    android:textSize="40dp"></TextView>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="fsdfsd"
-                    android:textSize="40dp"></TextView>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="fsdfsd"
-                    android:textSize="40dp"></TextView>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="fsdfsd"
-                    android:textSize="40dp"></TextView>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="fsdfsd"
-                    android:textSize="40dp"></TextView>
+               </androidx.recyclerview.widget.RecyclerView>
 
             </LinearLayout>
 
@@ -149,7 +100,7 @@
         <Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@color/primaryColor"
             >
 
             <LinearLayout
@@ -166,18 +117,19 @@
                         android:layout_marginLeft="15dp"
                         android:gravity="center"
                         android:text="Subtotale"
-                        android:textColor="@color/primaryTextColor"
+                        android:textColor="@color/white"
                         android:textSize="15dp"
                         ></TextView>
 
                     <TextView
+                        android:id="@+id/stato_ordine_subtotale_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="30dp"
                         android:gravity="center"
-                        android:text="10.40$"
-                        android:textColor="@color/primaryTextColor"
+                        android:text="0.0 €"
+                        android:textColor="@color/white"
                         android:textSize="20dp"
                         ></TextView>
                 </RelativeLayout>
@@ -186,24 +138,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                     <TextView
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_marginLeft="30dp"
                         android:gravity="center"
-                        android:text="Buono -10%"
-                        android:textColor="@color/primaryTextColor"
+                        android:text="Buono -0%"
+                        android:textColor="@color/white"
                         android:textSize="15dp"
                         ></TextView>
 
                     <TextView
+                        android:id="@+id/stato_ordine_buono_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="30dp"
                         android:gravity="center"
-                        android:text="-1.04$"
-                        android:textColor="@color/primaryTextColor"
+                        android:text="0.0 €"
+                        android:textColor="@color/white"
                         android:textSize="20dp"
                         ></TextView>
                 </RelativeLayout>
@@ -221,7 +175,7 @@
         <Toolbar
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@color/white"
+            android:background="@color/primaryColor"
 
 
             >
@@ -236,19 +190,20 @@
                     android:gravity="center"
                     android:text="Importo"
                     android:textStyle="bold"
-                    android:textColor="@color/primaryTextColor"
+                    android:textColor="@color/white"
                     android:textSize="20dp"
                     ></TextView>
 
                 <TextView
+                    android:id="@+id/stato_ordine_totale_value"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="30dp"
                     android:gravity="center"
-                    android:text="9.36$"
+                    android:text="0.0 €"
                     android:textStyle="bold"
-                    android:textColor="@color/primaryTextColor"
+                    android:textColor="@color/white"
                     android:textSize="20dp"
                     ></TextView>
             </RelativeLayout>
