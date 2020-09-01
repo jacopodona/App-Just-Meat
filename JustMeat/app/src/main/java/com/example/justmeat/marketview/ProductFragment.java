@@ -79,12 +79,16 @@ public class ProductFragment extends Fragment {
         final TextView txt_qt = view.findViewById(R.id.marketview_txt_qt);
         txt_qt.setText(""+counter);
 
+        final TextView totale = view.findViewById(R.id.marketview_txt_totale);
+        totale.setText(String.format("%.2f",actualPrezzo*(1-prodotto.getDiscount())*counter)+" €");
+
         ImageView more = view.findViewById(R.id.marketview_btn_more);
         more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 counter++;
                 txt_qt.setText(""+counter);
+                totale.setText(String.format("%.2f",actualPrezzo*(1-prodotto.getDiscount())*counter)+" €");
             }
         });
 
@@ -95,6 +99,7 @@ public class ProductFragment extends Fragment {
                 if(counter>1){
                     counter--;
                     txt_qt.setText(""+counter);
+                    totale.setText(String.format("%.2f",actualPrezzo*(1-prodotto.getDiscount())*counter)+" €");
                 }
             }
         });
@@ -186,7 +191,6 @@ public class ProductFragment extends Fragment {
 
     public void updatePrezzo(Weight newPeso){
         actualPrezzo = prodotto.getPrezzo() * newPeso.getValue() / prodotto.getWeight();
-
         actualWeight = newPeso;
         if(prodotto.getDiscount()>0){
             double discountPrezzo = actualPrezzo*(1-prodotto.getDiscount());

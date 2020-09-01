@@ -79,7 +79,7 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
                 holder.txt_qt.setText(""+holder.counter);
                 double price = currentItem.getPrezzo()*holder.counter * (1-currentItem.getDiscount());
                 holder.totale.setText(String.format("%.2f",price)+" €");
-                carrelloActivity.tot += currentItem.getPrezzo();
+                carrelloActivity.tot += currentItem.getPrezzo()*(1-currentItem.getDiscount());
                 carrelloActivity.totale_txt.setText(String.format("%.2f",carrelloActivity.tot)+" €");
             }
         });
@@ -93,7 +93,7 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
                     holder.txt_qt.setText(""+holder.counter);
                     double price = currentItem.getPrezzo()*holder.counter * (1-currentItem.getDiscount());
                     holder.totale.setText(String.format("%.2f",price)+" €");
-                    carrelloActivity.tot -= currentItem.getPrezzo();
+                    carrelloActivity.tot -= currentItem.getPrezzo()*(1-currentItem.getDiscount());
                     carrelloActivity.totale_txt.setText(String.format("%.2f",carrelloActivity.tot)+" €");
                 }
             }

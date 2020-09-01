@@ -6,11 +6,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.justmeat.R;
 
 public class ListaSupermercatiHolder extends RecyclerView.ViewHolder {
+    public CardView cardSupermercato;
 
     public TextView nomeSupermercato;
     public TextView indirizzoSupermercato;
@@ -23,6 +25,6 @@ public class ListaSupermercatiHolder extends RecyclerView.ViewHolder {
         indirizzoSupermercato = itemView.findViewById(R.id.homepage_imageview_indirizzosupermercato_listasupermercati);
         logoSupermercato = itemView.findViewById(R.id.homepage_imageview_logosupermercato_listasupermercati);
         posizioneButton = itemView.findViewById(R.id.card_supermercato_posizione_button);
-
+        cardSupermercato = itemView.findViewById(R.id.homepage_card_cardsupermercato);
     }
 }

@@ -33,7 +33,7 @@ public class CarrelloActivity extends AppCompatActivity {
 
         this.totale_txt = findViewById(R.id.carrello_txt_totale);
         for(ProductItem currentItem : carrello){
-            tot += currentItem.getPrezzo()*currentItem.qt;
+            tot += (currentItem.getPrezzo()*currentItem.qt)*(1-currentItem.getDiscount());
         }
         totale_txt.setText(String.format("%.2f",tot)+" €");
 

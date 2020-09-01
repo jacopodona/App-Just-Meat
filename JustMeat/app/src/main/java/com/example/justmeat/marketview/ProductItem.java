@@ -31,7 +31,10 @@ public class ProductItem implements Serializable {
     public static Comparator<ProductItem> increaseNameComparator = new Comparator<ProductItem>() {
         @Override
         public int compare(ProductItem o1, ProductItem o2) {
-            return o1.getNome().compareTo(o2.getNome());
+            if(o1.getId()-o2.getId()>0)
+                return 1;
+            else
+                return -1;
         }
     };
     public static Comparator<ProductItem> discountComparator = new Comparator<ProductItem>() {

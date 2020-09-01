@@ -78,7 +78,7 @@ public class SortModal extends BottomSheetDialogFragment {
                 Arrays.sort(tempArrayFull, ProductItem.decreasePComparator);
                 break;
             }
-            case "Default" : {
+            case "Consigliato" : {
                 Arrays.sort(tempArray, ProductItem.increaseNameComparator);
                 Arrays.sort(tempArrayFull, ProductItem.increaseNameComparator);
                 break;
@@ -99,6 +99,7 @@ public class SortModal extends BottomSheetDialogFragment {
         marketViewFragment.pListFull.addAll(sortArrayListFull);
 
         marketViewFragment.productGridAdapter.notifyDataSetChanged();
+        marketViewFragment.productListAdapter.notifyDataSetChanged();
 
     }
 }
