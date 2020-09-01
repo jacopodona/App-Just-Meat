@@ -5,14 +5,12 @@ import java.util.Date;
 public class MieiOrdini {
      private String nomeSupermercato, indirizzo, stato;
      private Date dataOrdine;
-     private int numOrdine;
 
-    public MieiOrdini(String nomeSupermercato, String indirizzo, String stato, Date dataOrdine, int numOrdine) {
+    public MieiOrdini(String nomeSupermercato, String indirizzo, String stato, Date dataOrdine) {
         this.nomeSupermercato = nomeSupermercato;
         this.indirizzo = indirizzo;
         this.stato = stato;
         this.dataOrdine = dataOrdine;
-        this.numOrdine=numOrdine;
     }
 
     public MieiOrdini() {
@@ -20,14 +18,6 @@ public class MieiOrdini {
         this.indirizzo="";
         this.stato="";
         this.dataOrdine=new Date();
-    }
-
-    public int getNumOrdine() {
-        return numOrdine;
-    }
-
-    public void setNumOrdine(int numOrdine) {
-        this.numOrdine = numOrdine;
     }
 
     public String getNomeSupermercato() {

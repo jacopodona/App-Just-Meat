@@ -139,28 +139,22 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {//metodo che gestisce il cambio fragment
         switch(menuItem.getItemId()){
             case R.id.homepage_nav_trova_supermercati:
-                //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new TrovaSupermercatiFragment()).commit();
-                navigateTo(new TrovaSupermercatiFragment(),true);
+                getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new TrovaSupermercatiFragment()).commit();
                 break;
             case R.id.homepage_nav_miei_ordini:
-                //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new MieiOrdiniFragment(httpToken)).commit();
-                navigateTo(new MieiOrdiniFragment(httpToken),true);
+                getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new MieiOrdiniFragment(getDataOrdini())).commit();
                 break;
             case R.id.homepage_nav_ordini_preferiti:
-                //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new OrdiniPreferitiFragment(getDataOrdiniPreferiti())).commit();
-                navigateTo(new OrdiniPreferitiFragment(getDataOrdiniPreferiti()),true);
+                getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new OrdiniPreferitiFragment(getDataOrdiniPreferiti())).commit();
                 break;
             case R.id.homepage_nav_indirizzi_preferiti:
-                //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new IndirizziPreferitiFragment()).commit();
-                navigateTo(new IndirizziPreferitiFragment(),true);
+                getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new IndirizziPreferitiFragment()).commit();
                 break;
             case R.id.homepage_nav_impostazioni:
-                //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new ImpostazioniFragment()).commit();
-                navigateTo(new ImpostazioniFragment(),true);
+                getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new ImpostazioniFragment()).commit();
                 break;
             case R.id.homepage_nav_gestione_ordini:
-                //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new GestioneOrdiniFragment()).commit();
-                navigateTo(new GestioneOrdiniFragment(),true);
+                getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new GestioneOrdiniFragment()).commit();
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
@@ -171,10 +165,9 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
     public void onBackPressed() {//override del back button per chiudere il menu drawer
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else if(getSupportFragmentManager().getBackStackEntryCount()== 0){
-            System.exit(0);
         } else {
-            super.onBackPressed();
+
+            System.exit(0);
         }
     }
 
@@ -226,14 +219,65 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
         return ordiniPreferitiList;
     }
 
-    public String getHttpToken(){
-        return this.httpToken;
+    public LinkedList<MieiOrdini> getDataOrdini(){
+
+        final LinkedList ordini= new <MieiOrdini>LinkedList();
+
+        new HttpJsonRequest(getBaseContext(), "/api/v1/get_user_orders", Request.Method.GET, httpToken,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("Orders", response.toString());
+
+                        try {
+                            int numElementi=(response.getJSONObject("metadata").getInt("returned"));
+                            for(int i=0; i<numElementi;i++){
+                                try {
+
+                                    //Log.e("Ciao", response.getJSONArray("results").getJSONObject(i).get("supermarket").toString());
+
+                                    MieiOrdini ordine = new MieiOrdini();
+                                    ordine.setNomeSupermercato(response.getJSONArray("results").getJSONObject(i).get("supermarket").toString());
+                                    ordine.setIndirizzo("via dasdasdasdaasa");
+                                    ordine.setStato(response.getJSONArray("results").getJSONObject(i).get("status").toString());
+
+                                    //Date
+                                    SimpleDateFormat format= new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                                    String date= response.getJSONArray("results").getJSONObject(i).get("pickup_time").toString();
+                                    Date dateFormat = format.parse(date);
+                                    ordine.setDataOrdine(dateFormat);
+                                    //---------------------
+
+                                    ordini.add(ordine);
+                                    Log.e("Lunghezza iiin",ordini.size()+"");
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Err connessione", error.toString());
+                    }
+                }).run();
+
+
+
+
+        Log.e("Lunghezza return", ordini.size()+"");
+        return ordini;
     }
 
 
-    }
 
 
-
-
-
+}
