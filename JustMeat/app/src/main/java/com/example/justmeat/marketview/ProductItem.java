@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.Comparator;
 
 public class ProductItem implements Serializable {
-    private int img, categoria, id, weight, fk_weight;
+    private int categoria, id, weight, fk_weight;
     private double prezzo, discount;
-    private String nome, manufacturer, description, um;
+    private String nome, manufacturer, description, um, image;
     boolean pref;
     public int qt = 0;
 
@@ -44,11 +44,12 @@ public class ProductItem implements Serializable {
         }
     };
 
-    public ProductItem(int id, String nome, double prezzo, double discount, String description, int categoria, String manufacturer, String um, int weight, int fk_weight, boolean favourite){
+    public ProductItem(int id, String nome, double prezzo, double discount, String image, String description, int categoria, String manufacturer, String um, int weight, int fk_weight, boolean favourite){
         this.id = id;
         this.nome = nome;
         this.prezzo = prezzo;
         this.discount = discount;
+        this.image = image;
         this.description = description;
         this.categoria = categoria;
         this.manufacturer = manufacturer;
@@ -68,10 +69,6 @@ public class ProductItem implements Serializable {
 
     public int getId() {
         return id;
-    }
-
-    public int getImg() {
-        return img;
     }
 
     public String getUm() {
@@ -108,5 +105,9 @@ public class ProductItem implements Serializable {
 
     public int getFk_weight() {
         return fk_weight;
+    }
+
+    public String getImage() {
+        return image;
     }
 }

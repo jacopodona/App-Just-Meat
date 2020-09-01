@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.bumptech.glide.Glide;
 import com.example.justmeat.R;
 import com.example.justmeat.utilities.HttpJsonRequest;
 import com.example.justmeat.utilities.MyApplication;
@@ -54,7 +55,10 @@ public class ProductFragment extends Fragment {
     public void onStart() {
         super.onStart();
         MarketViewActivity marketViewActivity = (MarketViewActivity) getActivity();
-        marketViewActivity.marketImage.setImageResource(R.drawable.tagliata);
+        Glide.with(this.getActivity())
+                .load("http://just-feet.herokuapp.com"+prodotto.getImage())
+                .override(720, 480)
+                .into(marketViewActivity.marketImage);
     }
 
     private void setLayout(View view){
@@ -134,7 +138,7 @@ public class ProductFragment extends Fragment {
                     }
                 } if(!check){
                     ProductItem actualItem =
-                            new ProductItem(prodotto.getId(), prodotto.getNome(), actualPrezzo, prodotto.getDiscount(), prodotto.getDescription(), prodotto.getCategoria(), prodotto.getManufacturer(), prodotto.getUm(),
+                            new ProductItem(prodotto.getId(), prodotto.getNome(), actualPrezzo, prodotto.getDiscount(), prodotto.getImage(), prodotto.getDescription(), prodotto.getCategoria(), prodotto.getManufacturer(), prodotto.getUm(),
                                     actualWeight.value, actualWeight.getFk_weight(), false);
                     actualItem.qt = counter;
                     marketViewActivity.carrello.add(actualItem);

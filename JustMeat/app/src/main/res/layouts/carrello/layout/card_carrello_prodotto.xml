@@ -20,7 +20,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="4dp"
-            android:text="TextView"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintEnd_toStartOf="@+id/carrello_txt_totproduct"
             app:layout_constraintHorizontal_bias="0.0"
@@ -32,7 +31,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="TextView"
             app:layout_constraintStart_toStartOf="@+id/carrello_txt_prodotto"
             app:layout_constraintTop_toBottomOf="@+id/carrello_txt_prodotto" />
 
@@ -41,7 +39,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="TextView"
             app:layout_constraintStart_toStartOf="@+id/carrello_txt_produttore"
             app:layout_constraintTop_toBottomOf="@+id/carrello_txt_produttore" />
 
@@ -49,11 +46,10 @@
             android:id="@+id/carrello_txt_prezzo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="12dp"
-            android:text="TextView"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/carrello_btn_less"
             app:layout_constraintHorizontal_bias="0.0"
@@ -107,8 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="-50dp"
-                android:adjustViewBounds="true"
-                app:srcCompat="@drawable/tagliata" />
+                android:adjustViewBounds="true" />
         </androidx.cardview.widget.CardView>
 
         <TextView
@@ -116,7 +111,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="TextView"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/carrello_txt_prodotto" />

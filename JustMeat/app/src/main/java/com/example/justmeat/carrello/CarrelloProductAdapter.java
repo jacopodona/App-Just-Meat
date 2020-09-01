@@ -1,5 +1,8 @@
 package com.example.justmeat.carrello;
 
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.StrikethroughSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.justmeat.R;
 import com.example.justmeat.marketview.ProductItem;
 
@@ -37,6 +41,11 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
     public void onBindViewHolder(@NonNull final CarrelloProductAdapter.ProductViewHolder holder, final int position) {
         final ProductItem currentItem = carrello.get(position);
         //holder.imgProduct.setImageResource(currentItem.getImgProd());
+        Glide.with(carrelloActivity)
+                .load("http://just-feet.herokuapp.com"+currentItem.getImage())
+                .override(360, 240)
+                .into(holder.imgProduct);
+        holder.imgProduct.setAdjustViewBounds(true);
         holder.nome.setText(currentItem.getNome());
         holder.produttore.setText(currentItem.getManufacturer());
         if(currentItem.qt > 1){
@@ -46,8 +55,18 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
         }
         holder.weight.setText(currentItem.getWeight()+" "+currentItem.getUm());
 
-        holder.prezzo.setText(String.format("%.2f",currentItem.getPrezzo())+" €");
-        double price = currentItem.getPrezzo()*holder.counter;
+        double price = currentItem.getPrezzo()*holder.counter *(1-currentItem.getDiscount());
+
+        if(currentItem.getDiscount()>0){
+            double discountPrezzo = currentItem.getPrezzo()*(1-currentItem.getDiscount());
+            String defaultPrezzo = String.format("%.2f",currentItem.getPrezzo())+"€";
+            SpannableString stringPrezzo = new SpannableString(defaultPrezzo +" " +String.format("%.2f",discountPrezzo)+"€" );
+            stringPrezzo.setSpan(new StrikethroughSpan(), 0, defaultPrezzo.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            holder.prezzo.setText(stringPrezzo);
+        } else {
+            holder.prezzo.setText(String.format("%.2f",currentItem.getPrezzo())+"€");
+        }
+
         holder.totale.setText(String.format("%.2f",price)+" €");
 
         holder.txt_qt.setText(""+holder.counter);
@@ -58,7 +77,7 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
                 holder.counter++;
                 currentItem.qt = holder.counter;
                 holder.txt_qt.setText(""+holder.counter);
-                double price = currentItem.getPrezzo()*holder.counter;
+                double price = currentItem.getPrezzo()*holder.counter * (1-currentItem.getDiscount());
                 holder.totale.setText(String.format("%.2f",price)+" €");
                 carrelloActivity.tot += currentItem.getPrezzo();
                 carrelloActivity.totale_txt.setText(String.format("%.2f",carrelloActivity.tot)+" €");
@@ -72,7 +91,7 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
                     holder.counter--;
                     currentItem.qt = holder.counter;
                     holder.txt_qt.setText(""+holder.counter);
-                    double price = currentItem.getPrezzo()*holder.counter;
+                    double price = currentItem.getPrezzo()*holder.counter * (1-currentItem.getDiscount());
                     holder.totale.setText(String.format("%.2f",price)+" €");
                     carrelloActivity.tot -= currentItem.getPrezzo();
                     carrelloActivity.totale_txt.setText(String.format("%.2f",carrelloActivity.tot)+" €");

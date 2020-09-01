@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.bumptech.glide.Glide;
 import com.example.justmeat.R;
 import com.example.justmeat.utilities.HttpJsonRequest;
 import com.example.justmeat.utilities.MyApplication;
@@ -111,7 +112,10 @@ public class MarketViewFragment extends Fragment {
     public void onStart() {
         super.onStart();
         MarketViewActivity marketViewActivity = (MarketViewActivity) getActivity();
-        marketViewActivity.marketImage.setImageResource(R.drawable.placeholder);
+        Glide.with(this.getActivity())
+                .load("http://just-feet.herokuapp.com/images/si_"+id_negozio+".jpg")
+                .override(720, 480)
+                .into(marketViewActivity.marketImage);
     }
 
     public void onResume() {
@@ -231,7 +235,8 @@ public class MarketViewFragment extends Fragment {
                 case "Pane, pizza e sostitutivi" : {
                     catList.add(new CategoriaItem(R.drawable.category_pasta, name, id));
                     break;
-                }/* to draw icon
+                }
+                /* to draw icon
                 case "Formaggi, salumi e gastronomia" : {
                     catList.add(new CategoriaItem(R.drawable.category_, name, id));
                 }
@@ -304,13 +309,14 @@ public class MarketViewFragment extends Fragment {
         for (int i = 0; i < results.length(); i++){
             boolean favourite;
             double prezzo, discount;
-            String nome, manufacturer, description, um;
+            String nome, manufacturer, description, um, image;
             int department, id, weight, fk_weight;
             JSONObject currentJSONObj = results.getJSONObject(i);
             id = currentJSONObj.getInt("id");
             nome = currentJSONObj.getString("name");
             prezzo = currentJSONObj.getDouble("price");
             discount = currentJSONObj.getDouble("discount");
+            image = currentJSONObj.getString("image");
             description = currentJSONObj.getString("description");
             department = currentJSONObj.getInt("department");
             manufacturer = currentJSONObj.getString("manufacturer");
@@ -320,7 +326,7 @@ public class MarketViewFragment extends Fragment {
             if( currentJSONObj.optInt("fk_user", 0) == 1){
                 favourite = true;
             } else favourite = false;
-            pListFull.add(new ProductItem(id, nome, prezzo, discount, description, department, manufacturer, um, weight, fk_weight, favourite));
+            pListFull.add(new ProductItem(id, nome, prezzo, discount, image, description, department, manufacturer, um, weight, fk_weight, favourite));
         }
     }
     public void filter(){

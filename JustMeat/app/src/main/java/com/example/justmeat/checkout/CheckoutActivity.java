@@ -104,8 +104,8 @@ public class CheckoutActivity extends AppCompatActivity {
             }
         });
 
-        for(ProductItem currentPrudect : productList){
-            subtotal += currentPrudect.qt*currentPrudect.getPrezzo();
+        for(ProductItem currentPruduct : productList){
+            subtotal += (currentPruduct.qt*currentPruduct.getPrezzo())*(1-currentPruduct.getDiscount());
         }
 
         TextView subtotaltxt = findViewById(R.id.checkout_txt_value_subtot);
