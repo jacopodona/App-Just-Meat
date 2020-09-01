@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.justmeat.R;
@@ -37,7 +36,17 @@ public class CheckoutProductAdapter extends RecyclerView.Adapter <CheckoutProduc
         ProductItem currentItem = productList.get(position);
         double price = currentItem.getPrezzo()*currentItem.getQt();
         holder.prodqt.setText(""+currentItem.getQt());
-        holder.prodprice.setText(String.format("%.2f",price)+" €");
+
+        if(currentItem.getDiscount()>0){
+            holder.title_discount.setVisibility(View.VISIBLE);
+            double discountPrezzo =price * currentItem.getDiscount();
+            holder.discount.setText("-"+String.format("%.2f",discountPrezzo)+" €");
+            holder.prodprice.setText(String.format("%.2f",price)+" €");
+        } else {
+            holder.title_discount.setVisibility(View.INVISIBLE);
+            holder.prodprice.setText(String.format("%.2f",price)+" €");
+        }
+
         holder.prodname.setText(currentItem.getNome());
         System.out.println(""+checkoutActivity.subtotal);
     }
@@ -48,13 +57,15 @@ public class CheckoutProductAdapter extends RecyclerView.Adapter <CheckoutProduc
     }
 
     public class ProductViewHolder extends RecyclerView.ViewHolder {
-        TextView prodqt, prodname, prodprice;
+        TextView prodqt, prodname, prodprice, title_discount, discount;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
             prodqt = itemView.findViewById(R.id.checkout_txt_prod_qt);
             prodname = itemView.findViewById(R.id.checkout_txt_prod_name);
             prodprice = itemView.findViewById(R.id.checkout_txt_prod_price);
+            title_discount = itemView.findViewById(R.id.checkout_txt_title_prod_discount);
+            discount = itemView.findViewById(R.id.checkout_txt_prod_discount);
         }
     }
 }

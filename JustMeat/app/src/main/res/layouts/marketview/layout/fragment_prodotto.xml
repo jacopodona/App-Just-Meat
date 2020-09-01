@@ -35,16 +35,6 @@
     </androidx.cardview.widget.CardView>
 
     <ImageView
-        android:id="@+id/marketview_img_prodotto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/tagliata" />
-
-    <ImageView
         android:id="@+id/marketview_btn_pref"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -61,11 +51,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:text="TextView"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/marketview_img_prodotto" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/marketview_txt_prodotto"
@@ -92,11 +82,11 @@
         android:id="@+id/marketview_txt_title_descrizione"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:text="@string/fragment_prodotto_descrizione"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintStart_toStartOf="@+id/marketview_txt_prezzo"
-        app:layout_constraintTop_toBottomOf="@+id/marketview_txt_prezzo" />
+        app:layout_constraintStart_toStartOf="@+id/marketview_rv_weight_product"
+        app:layout_constraintTop_toBottomOf="@+id/marketview_rv_weight_product" />
 
     <TextView
         android:id="@+id/marketview_txt_descrizione"
@@ -153,5 +143,13 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="@+id/marketview_txt_descrizione"
         app:layout_constraintTop_toBottomOf="@+id/marketview_txt_descrizione" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/marketview_rv_weight_product"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="@+id/marketview_txt_prodotto"
+        app:layout_constraintTop_toBottomOf="@+id/marketview_txt_prezzo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

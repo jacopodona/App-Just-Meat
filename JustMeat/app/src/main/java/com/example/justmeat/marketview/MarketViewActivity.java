@@ -9,24 +9,82 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.example.justmeat.R;
 import com.example.justmeat.carrello.CarrelloActivity;
+import com.example.justmeat.utilities.HttpJsonRequest;
 import com.example.justmeat.utilities.MyApplication;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class MarketViewActivity extends AppCompatActivity{
-    MarketViewActivity.CustomArray carrello ;
+    MarketViewActivity.CustomArray carrello;
+    MarketViewFragment marketViewFragment;
+    boolean barcodeActive = false;
+    ArrayList<ProductItem> editFavoriteProd = new ArrayList<>();
+    ImageView marketImage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        System.out.println(((MyApplication)getApplication()).getHttpToken());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marketview);
+        marketImage = findViewById(R.id.marketview_img_appbar);
         carrello = new CustomArray(((MyApplication) this.getApplication()).getCarrelloListProduct());
         setBackButton();
         setCarrelloButton();
         quantityOnCart();
-        this.getSupportFragmentManager().beginTransaction().replace(R.id.marketview_frame_container, new MarketViewFragment()).commit();
+        marketViewFragment = new MarketViewFragment();
+        this.getSupportFragmentManager().beginTransaction().replace(R.id.marketview_frame_container, marketViewFragment).commit();
+    }
+
+    @Override
+    protected void onStop() {
+        if(!editFavoriteProd.isEmpty()) {
+            for (ProductItem productItem : editFavoriteProd){
+                JSONObject body = new JSONObject();
+                if(productItem.pref){
+                    try {
+                        body.put("product_id", productItem.getId());
+                        new HttpJsonRequest(getBaseContext(), "/api/v1/add_favourite", Request.Method.POST, body, ((MyApplication) getApplication()).getHttpToken(), new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                System.out.println(error.toString());
+                            }
+                        }).run();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else{
+                    try {
+                        body.put("product_id", productItem.getId());
+                        new HttpJsonRequest(getBaseContext(), "/api/v1/del_favourite", Request.Method.POST, body, ((MyApplication) getApplication()).getHttpToken(), new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                System.out.println(error.toString());
+                            }
+                        }).run();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            editFavoriteProd = new ArrayList<>();
+        }
+        super.onStop();
     }
 
     private void setBackButton() {
@@ -34,14 +92,23 @@ public class MarketViewActivity extends AppCompatActivity{
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-                    getSupportFragmentManager().popBackStack();
-                } else {
-                    onBackPressed();
-                }
+                onBackPressed();
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
+        } else if (barcodeActive){
+            marketViewFragment.searchView.setQuery("", true);
+            barcodeActive = false;
+        }  else {
+            super.onBackPressed();
+        }
+    }
+
     private void setCarrelloButton() {
         final AppCompatActivity context = this;
         ImageView cart = findViewById(R.id.marketview_btn_cart);

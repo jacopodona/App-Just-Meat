@@ -1,5 +1,8 @@
 package com.example.justmeat.marketview;
 
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.StrikethroughSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.justmeat.R;
 
 import java.util.ArrayList;
@@ -44,14 +48,14 @@ public class MarketViewProductGridAdapter extends RecyclerView.Adapter<MarketVie
             } else {
                 if(constraint == null || constraint.length() == 0 ){
                     for (ProductItem productItem : pListFull) {
-                        if (productItem.getIdCategoria() == marketViewFragment.activeFilter){
+                        if (productItem.getCategoria() == marketViewFragment.activeFilter){
                             filteredList.add(productItem);
                         }
                     }
                 }  else {
                     String filterPattern = constraint.toString().toLowerCase().trim();
                     for (ProductItem productItem : pListFull) {
-                        if (productItem.getNome().toLowerCase().contains(filterPattern) && productItem.getIdCategoria() == marketViewFragment.activeFilter){
+                        if (productItem.getNome().toLowerCase().contains(filterPattern) && productItem.getCategoria() == marketViewFragment.activeFilter){
                             filteredList.add(productItem);
                         }
                     }
@@ -102,17 +106,34 @@ public class MarketViewProductGridAdapter extends RecyclerView.Adapter<MarketVie
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProductViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ProductViewHolder holder, final int position) {
         final ProductItem currentItem= pList.get(position);
-        holder.price.setText(String.format("%.2f",currentItem.getPrezzo())+" €");
-       // holder.imgP.setImageResource(currentItem.getImgProd());
+
+        Glide.with(marketViewFragment.getActivity())
+                .load("http://just-feet.herokuapp.com"+currentItem.getImage())
+                .override(360, 240)
+                .into(holder.imgProduct);
+        holder.imgProduct.setAdjustViewBounds(true);
+
+        if(currentItem.getDiscount()>0){
+            double discountPrezzo = currentItem.getPrezzo()*(1-currentItem.getDiscount());
+            String defaultPrezzo = String.format("%.2f",currentItem.getPrezzo())+"€";
+            SpannableString stringPrezzo = new SpannableString(defaultPrezzo + "\n" +String.format("%.2f",discountPrezzo)+"€" );
+            stringPrezzo.setSpan(new StrikethroughSpan(), 0, defaultPrezzo.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            holder.price.setText(stringPrezzo);
+        } else {
+
+            holder.price.setText(String.format("%.2f",currentItem.getPrezzo())+"€");
+        }
+
+
         holder.nome.setText(currentItem.getNome());
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 marketViewFragment.getActivity().getSupportFragmentManager().
-                        beginTransaction().replace(R.id.marketview_frame_container, new PruductFragment(currentItem)).addToBackStack("product").commit();
+                        beginTransaction().replace(R.id.marketview_frame_container, new ProductFragment(currentItem)).addToBackStack("product").commit();
             }
         });
 
@@ -120,13 +141,16 @@ public class MarketViewProductGridAdapter extends RecyclerView.Adapter<MarketVie
             @Override
             public void onClick(View v) {
                 MarketViewActivity marketViewActivity = (MarketViewActivity) marketViewFragment.getActivity();
-                if (currentItem.qt>0){
-                    currentItem.qt += 1;
-                } else{
+                boolean check = false;
+                for(ProductItem carrelloItem : marketViewActivity.carrello){
+                    if(currentItem.getId() == carrelloItem.getId() && carrelloItem.getFk_weight() == currentItem.getFk_weight()){
+                        carrelloItem.qt += 1;
+                        check = true;
+                    }
+                } if(!check){
                     currentItem.qt = 1;
                     marketViewActivity.carrello.add(currentItem);
                 }
-
             }
         });
 
@@ -141,4 +165,5 @@ public class MarketViewProductGridAdapter extends RecyclerView.Adapter<MarketVie
     public int getItemCount() {
         return pList.size();
     }
+
 }

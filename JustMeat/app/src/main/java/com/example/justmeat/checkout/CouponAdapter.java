@@ -46,6 +46,8 @@ class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.CouponViewHolder>
                 couponArrayList.remove(currentItem);
                 checkoutActivity.tot = checkoutActivity.subtotal;
                 couponAdapter.notifyDataSetChanged();
+                checkoutActivity.findViewById(R.id.checkout_btn_add_coupon).setVisibility(View.VISIBLE);
+                checkoutActivity.findViewById(R.id.checkout_btn_add_coupon).setEnabled(true);
             }
         });
         checkoutActivity.tot_txt.setText(String.format("%.2f",checkoutActivity.tot) + " €");

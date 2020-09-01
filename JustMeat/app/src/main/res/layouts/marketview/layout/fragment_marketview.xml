@@ -5,16 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/marketview_img_placeholder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/placeholder" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/marketview_rv_categorie"
         android:layout_width="match_parent"
@@ -32,6 +22,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility ="gone"
         app:layout_constraintEnd_toStartOf="@+id/marketview_rv_categorie"
         app:layout_constraintStart_toEndOf="@+id/marketview_rv_categorie"
         app:layout_constraintTop_toBottomOf="@id/marketview_txt_categoria">
@@ -40,15 +31,16 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/marketview_card_search"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/marketview_btn_barcode"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/marketview_img_placeholder">
+        app:layout_constraintTop_toTopOf="parent">
 
         <SearchView
             android:id="@+id/marketview_search"
@@ -88,8 +80,141 @@
         android:layout_height="0dp"
         android:adjustViewBounds="true"
         app:layout_constraintBottom_toBottomOf="@+id/marketview_txt_categoria"
-        app:layout_constraintEnd_toEndOf="@+id/marketview_card_search"
+        app:layout_constraintEnd_toEndOf="@+id/marketview_btn_barcode"
         app:layout_constraintTop_toTopOf="@+id/marketview_txt_categoria"
         app:srcCompat="@drawable/ic_sort" />
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/marketview_shim_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/marketview_rv_categorie"
+        app:layout_constraintStart_toEndOf="@+id/marketview_rv_categorie"
+        app:layout_constraintTop_toBottomOf="@id/marketview_txt_categoria">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include
+                android:id="@+id/ph1"
+                layout="@layout/shim_marketview_grid_prodotto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toStartOf="@+id/ph2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <include
+                android:id="@+id/ph2"
+                layout="@layout/shim_marketview_grid_prodotto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/ph3"
+                app:layout_constraintStart_toEndOf="@+id/ph1"
+                app:layout_constraintTop_toTopOf="@+id/ph1" />
+
+            <include
+                android:id="@+id/ph3"
+                layout="@layout/shim_marketview_grid_prodotto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ph2"
+                app:layout_constraintTop_toTopOf="@+id/ph1" />
+
+            <include
+                android:id="@+id/ph4"
+                layout="@layout/shim_marketview_grid_prodotto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toStartOf="@+id/ph5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ph1" />
+
+            <include
+                android:id="@+id/ph5"
+                layout="@layout/shim_marketview_grid_prodotto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/ph6"
+                app:layout_constraintStart_toEndOf="@+id/ph4"
+                app:layout_constraintTop_toTopOf="@+id/ph4" />
+
+            <include
+                android:id="@+id/ph6"
+                layout="@layout/shim_marketview_grid_prodotto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ph5"
+                app:layout_constraintTop_toTopOf="@+id/ph4" />
+
+
+            <include
+                android:id="@+id/ph7"
+                layout="@layout/shim_marketview_grid_prodotto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toStartOf="@+id/ph8"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ph4" />
+
+            <include
+                android:id="@+id/ph8"
+                layout="@layout/shim_marketview_grid_prodotto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/ph9"
+                app:layout_constraintStart_toEndOf="@+id/ph7"
+                app:layout_constraintTop_toTopOf="@+id/ph7" />
+
+            <include
+                android:id="@+id/ph9"
+                layout="@layout/shim_marketview_grid_prodotto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ph8"
+                app:layout_constraintTop_toTopOf="@+id/ph7" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <ImageView
+        android:id="@+id/marketview_btn_barcode"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="4dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toBottomOf="@+id/marketview_card_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/marketview_card_search"
+        app:layout_constraintTop_toTopOf="@+id/marketview_card_search"
+        app:srcCompat="@drawable/ic_barcode" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

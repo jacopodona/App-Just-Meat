@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.Comparator;
 
 public class ProductItem implements Serializable {
-    private int img, categoria;
+    private int categoria, id, weight, fk_weight;
     private double prezzo, discount;
-    private String nome;
-    boolean pref = false;
+    private String nome, manufacturer, description, um, image;
+    boolean pref;
     public int qt = 0;
 
     public static Comparator<ProductItem> increasePComparator = new Comparator<ProductItem>() {
@@ -44,11 +44,43 @@ public class ProductItem implements Serializable {
         }
     };
 
-    public ProductItem( double prezzo,  String nome, int categoria, double discount){
+    public ProductItem(int id, String nome, double prezzo, double discount, String image, String description, int categoria, String manufacturer, String um, int weight, int fk_weight, boolean favourite){
+        this.id = id;
         this.nome = nome;
         this.prezzo = prezzo;
-        this.categoria = categoria;
         this.discount = discount;
+        this.image = image;
+        this.description = description;
+        this.categoria = categoria;
+        this.manufacturer = manufacturer;
+        this.um = um;
+        this.weight = weight;
+        this.pref = favourite;
+        this.fk_weight = fk_weight;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public int getCategoria() {
+        return categoria;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getUm() {
+        return um;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getManufacturer() {
+        return manufacturer;
     }
 
     public int getQt() {
@@ -59,16 +91,8 @@ public class ProductItem implements Serializable {
         return prezzo;
     }
 
-    public int getImgProd() {
-        return img;
-    }
-
     public String getNome() {
         return nome;
-    }
-
-    public int getIdCategoria() {
-        return categoria;
     }
 
     public boolean getPref() {
@@ -79,4 +103,11 @@ public class ProductItem implements Serializable {
         return discount;
     }
 
+    public int getFk_weight() {
+        return fk_weight;
+    }
+
+    public String getImage() {
+        return image;
+    }
 }

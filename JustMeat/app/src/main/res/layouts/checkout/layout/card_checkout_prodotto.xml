@@ -28,21 +28,42 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@color/maximumyellowred"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/checkout_txt_prod_name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/checkout_txt_prod_name" />
 
     <TextView
         android:id="@+id/checkout_txt_prod_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:text=""
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/checkout_txt_prod_qt"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/checkout_txt_title_prod_discount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/sconto_articolo"
+        app:layout_constraintStart_toStartOf="@+id/checkout_txt_prod_name"
+        app:layout_constraintTop_toBottomOf="@+id/checkout_txt_prod_name" />
+
+    <TextView
+        android:id="@+id/checkout_txt_prod_discount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/checkout_txt_prod_price"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/checkout_txt_title_prod_discount"
+        app:layout_constraintTop_toTopOf="@+id/checkout_txt_title_prod_discount" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,7 +2,6 @@ package com.example.justmeat.whithdrawal;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,8 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.justmeat.R;
 import com.example.justmeat.checkout.CheckoutActivity;
 
-public class WithdrawalActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.Date;
 
+public class WithdrawalActivity extends AppCompatActivity {
+    ArrayList<Date> calendario = new ArrayList<>();
     public int currentActiveId = -1;
 
     @Override
@@ -28,15 +30,6 @@ public class WithdrawalActivity extends AppCompatActivity {
     }
 
     private void setActivityLayout() {
-        Button gotoCheckout = findViewById(R.id.withdrawal_btn_gotocheckout);
-        gotoCheckout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), CheckoutActivity.class);
-                startActivity(intent);
-            }
-        });
-
         ImageView back_btn = findViewById(R.id.withdrawal_btn_back);
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,5 +47,20 @@ public class WithdrawalActivity extends AppCompatActivity {
 
         rv.setAdapter(rvA);
         rv.setLayoutManager(rvLM);
+        Button gotoCheckout = findViewById(R.id.withdrawal_btn_gotocheckout);
+        gotoCheckout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Date selectedDate = calendario.get(currentActiveId);
+                String dataSelezionata = (selectedDate.getYear()+1900)
+                        +"-"+String.format("%02d", (selectedDate.getMonth()+1))+"-"
+                        +String.format("%02d", selectedDate.getDate())+"T";
+                dataSelezionata += timePicker.getCurrentHour()+":"+timePicker.getCurrentMinute()+":00.000Z";
+                System.out.println(dataSelezionata);
+                Intent intent = new Intent(v.getContext(), CheckoutActivity.class);
+                intent.putExtra("pickup_date", dataSelezionata);
+                startActivity(intent);
+            }
+        });
     }
 }

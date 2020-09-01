@@ -1,11 +1,13 @@
 package com.example.justmeat.signup;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -32,6 +34,67 @@ public class SignupActivity extends AppCompatActivity {
         final TextInputLayout tEmail = findViewById(R.id.email);
         final TextInputLayout tPsw = findViewById(R.id.password);
         final TextInputLayout tCPsw = findViewById(R.id.confirm_password);
+
+        (tEmail.getEditText()).addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!android.util.Patterns.EMAIL_ADDRESS.matcher(s).matches()){
+                    tEmail.setError("Formato non corretto");
+                } else {
+                    tEmail.setError(null);
+                }
+            }
+        });
+        (tPsw.getEditText()).addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length()<8){
+                    tPsw.setError("La tua password deve essere lunga almeno 8 caratteri");
+                } else {
+                    tPsw.setError(null);
+                }
+            }
+        });
+        (tCPsw.getEditText()).addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!tPsw.getEditText().getText().toString().equals(tCPsw.getEditText().getText().toString())){
+                    tCPsw.setError("Le due password devono essere uguali");
+                } else {
+                    tCPsw.setError(null);
+                }
+            }
+        });
 
         MaterialButton registrati = findViewById(R.id.signup_button_registrati);
         registrati.setOnClickListener(new View.OnClickListener() {

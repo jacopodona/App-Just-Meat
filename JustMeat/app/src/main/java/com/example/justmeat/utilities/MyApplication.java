@@ -13,7 +13,7 @@ public class MyApplication extends Application {
     public void setHttpToken(String httpToken){
         this.httpToken = httpToken;
     }
-    public String getHttpToken(){
+    public String getHttpToken(){ 
         return this.httpToken;
     }
 

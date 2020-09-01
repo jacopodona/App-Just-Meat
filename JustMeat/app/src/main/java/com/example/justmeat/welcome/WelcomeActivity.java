@@ -10,10 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.justmeat.R;
 import com.example.justmeat.carrello.CarrelloActivity;
-import com.example.justmeat.checkout.CheckoutActivity;
 import com.example.justmeat.login.LoginActivity;
 import com.example.justmeat.marketview.MarketViewActivity;
 import com.example.justmeat.signup.SignupActivity;
+import com.example.justmeat.whithdrawal.WithdrawalActivity;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -42,7 +42,7 @@ public class WelcomeActivity extends AppCompatActivity {
         checkout_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), CheckoutActivity.class);
+                Intent intent = new Intent(v.getContext(), WithdrawalActivity.class);
                 startActivity(intent);
             }
         });

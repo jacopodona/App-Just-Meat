@@ -81,7 +81,7 @@
             android:id="@+id/checkout_img_divider"
             android:layout_width="0dp"
             android:layout_height="2dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="@+id/checkout_rv_product"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/checkout_rv_product"

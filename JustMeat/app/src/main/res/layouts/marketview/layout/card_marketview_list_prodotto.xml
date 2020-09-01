@@ -128,7 +128,7 @@
             <ImageView
                 android:id="@+id/marketview_img_prodcard_prodotto_list"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="-50dp"
                 android:adjustViewBounds="true"
                 app:srcCompat="@drawable/tagliata" />

@@ -25,6 +25,10 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class CheckoutActivity extends AppCompatActivity {
@@ -35,11 +39,14 @@ public class CheckoutActivity extends AppCompatActivity {
     TextView tot_txt;
     ArrayList<Coupon> couponArrayList;
     CouponAdapter couponAdapter;
+    String pickup_date;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
+        Intent intent = getIntent();
+        pickup_date = intent.getStringExtra("pickup_date");
         couponArrayList = new ArrayList<>();
         productList = ((MyApplication)this.getApplication()).getCarrelloListProduct();
 
@@ -64,7 +71,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
         tot_txt = findViewById(R.id.checkout_txt_value_totale);
 
-        ImageView addCoupon = findViewById(R.id.checkout_btn_add_coupon);
+        final ImageView addCoupon = findViewById(R.id.checkout_btn_add_coupon);
         addCoupon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +91,10 @@ public class CheckoutActivity extends AppCompatActivity {
                 confirm_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        //controllo tramite API
                         couponArrayList.add(new Coupon(code_couponDialog.getEditText().getText().toString(), 0.10));
+                        addCoupon.setVisibility(View.INVISIBLE);
+                        addCoupon.setEnabled(false);
                         tot = subtotal;
                         couponAdapter.notifyDataSetChanged();
                         couponDialog.dismiss();
@@ -94,8 +104,8 @@ public class CheckoutActivity extends AppCompatActivity {
             }
         });
 
-        for(ProductItem currentPrudect : productList){
-            subtotal += currentPrudect.qt*currentPrudect.getPrezzo();
+        for(ProductItem currentPruduct : productList){
+            subtotal += (currentPruduct.qt*currentPruduct.getPrezzo())*(1-currentPruduct.getDiscount());
         }
 
         TextView subtotaltxt = findViewById(R.id.checkout_txt_value_subtot);
@@ -156,6 +166,18 @@ public class CheckoutActivity extends AppCompatActivity {
                         //la scelta migliore sarebbe disabilitare la possibilità di richiudere lo sheet
                         swipe.setText("");
                         swipeImg.setImageDrawable(null);
+                        confirmDialog.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+                            @Override
+                            public void onStateChanged(@NonNull View view, int i) {
+                                if(i == BottomSheetBehavior.STATE_DRAGGING){
+                                    confirmDialog.setState(BottomSheetBehavior.STATE_EXPANDED);
+                                }
+                            }
+                            @Override
+                            public void onSlide(@NonNull View view, float v) {
+                            }
+                        });
+                        SendOrder();
                         break;
                     }
 
@@ -166,5 +188,43 @@ public class CheckoutActivity extends AppCompatActivity {
             public void onSlide(@NonNull View view, float v) {
             }
         });
+    }
+
+    private void SendOrder() {
+        try{
+            JSONObject body = new JSONObject();
+            body.put("pickup_time", pickup_date);
+            body.put("is_favourite", false);
+            body.put("supermarket_id", 2);
+            JSONArray carrello = new JSONArray();
+            for(ProductItem productItem : productList){
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("fk_product", productItem.getId());
+                jsonObject.put("fk_weight", productItem.getFk_weight());
+                jsonObject.put("quantity", productItem.getQt());
+                carrello.put(jsonObject);
+            }
+            body.put("shopping_cart", carrello);
+            if(couponArrayList.isEmpty()){
+                body.put("coupons", JSONObject.NULL);
+            } else{
+                body.put("coupons", couponArrayList.get(0).code);
+            }
+            System.out.println("body: "+body);
+            /*
+            new HttpJsonRequest(getBaseContext(), "/api/v1/add_order", Request.Method.POST, body, ((MyApplication) getApplication()).getHttpToken(), new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println(error.toString());
+                }
+            }).run();*/
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
     }
 }

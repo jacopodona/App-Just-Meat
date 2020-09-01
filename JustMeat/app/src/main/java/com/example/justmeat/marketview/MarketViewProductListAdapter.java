@@ -1,5 +1,8 @@
 package com.example.justmeat.marketview;
 
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.StrikethroughSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.justmeat.R;
 
 import java.util.ArrayList;
@@ -40,21 +44,45 @@ class MarketViewProductListAdapter extends RecyclerView.Adapter<MarketViewProduc
     @Override
     public void onBindViewHolder(@NonNull final ProductViewHolder holder, int position) {
         final ProductItem currentItem= pList.get(position);
-        holder.nome.setText(currentItem.getNome());
         holder.counter = 1;
+        double price = currentItem.getPrezzo()*holder.counter *(1-currentItem.getDiscount());
 
-        holder.prezzo.setText(String.format("%.2f",currentItem.getPrezzo())+" €");
-        double price = currentItem.getPrezzo()*holder.counter;
+        //prezzo statico
+        if(currentItem.getDiscount()>0){
+            double discountPrezzo = currentItem.getPrezzo()*(1-currentItem.getDiscount());
+            String defaultPrezzo = String.format("%.2f",currentItem.getPrezzo())+"€";
+            SpannableString stringPrezzo = new SpannableString(defaultPrezzo +" " +String.format("%.2f",discountPrezzo)+"€" );
+            stringPrezzo.setSpan(new StrikethroughSpan(), 0, defaultPrezzo.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            holder.prezzo.setText(stringPrezzo);
+        } else {
+            holder.prezzo.setText(String.format("%.2f",currentItem.getPrezzo())+"€");
+        }
+
+
         holder.totale.setText(String.format("%.2f",price)+" €");
 
+        Glide.with(marketViewFragment.getActivity())
+                .load("http://just-feet.herokuapp.com"+currentItem.getImage())
+                .override(360, 240)
+                .into(holder.imgProduct);
+        holder.imgProduct.setAdjustViewBounds(true);
+
         holder.txt_qt.setText(""+holder.counter);
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                marketViewFragment.getActivity().getSupportFragmentManager().
+                        beginTransaction().replace(R.id.marketview_frame_container, new ProductFragment(currentItem)).addToBackStack("product").commit();
+            }
+        });
 
         holder.more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 holder.counter++;
                 holder.txt_qt.setText(""+holder.counter);
-                double price = currentItem.getPrezzo()*holder.counter;
+                double price = currentItem.getPrezzo()*holder.counter * (1-currentItem.getDiscount());
                 holder.totale.setText(String.format("%.2f",price)+" €");
             }
         });
@@ -65,7 +93,7 @@ class MarketViewProductListAdapter extends RecyclerView.Adapter<MarketViewProduc
                 if(holder.counter>1){
                     holder.counter--;
                     holder.txt_qt.setText(""+holder.counter);
-                    double price = currentItem.getPrezzo()*holder.counter;
+                    double price = currentItem.getPrezzo()*holder.counter * (1-currentItem.getDiscount()) ;
                     holder.totale.setText(String.format("%.2f",price)+" €");
                 }
             }
@@ -75,10 +103,14 @@ class MarketViewProductListAdapter extends RecyclerView.Adapter<MarketViewProduc
             public void onClick(View v) {
                 //reset the card counter to 1
                 MarketViewActivity marketViewActivity = (MarketViewActivity) marketViewFragment.getActivity();
-                if(currentItem.qt>0){
-                    currentItem.qt += holder.counter;
-                } else{
-                    currentItem.qt = holder.counter;
+                boolean check = false;
+                for(ProductItem carrelloItem : marketViewActivity.carrello){
+                    if(currentItem.getId() == carrelloItem.getId() && carrelloItem.getWeight() == currentItem.getWeight()){
+                        carrelloItem.qt += holder.counter;
+                        check = true;
+                    }
+                } if(!check){
+                    currentItem.qt = 1;
                     marketViewActivity.carrello.add(currentItem);
                 }
                 holder.counter = 1;
@@ -86,6 +118,8 @@ class MarketViewProductListAdapter extends RecyclerView.Adapter<MarketViewProduc
                 holder.totale.setText(String.format("%.2f",currentItem.getPrezzo())+" €");
             }
         });
+
+        holder.nome.setText(currentItem.getNome());
     }
 
     @Override
@@ -114,14 +148,14 @@ class MarketViewProductListAdapter extends RecyclerView.Adapter<MarketViewProduc
             } else {
                 if (constraint == null || constraint.length() == 0) {
                     for (ProductItem productItem : pListFull) {
-                        if (productItem.getIdCategoria() == marketViewFragment.activeFilter) {
+                        if (productItem.getCategoria() == marketViewFragment.activeFilter) {
                             filteredList.add(productItem);
                         }
                     }
                 } else {
                     String filterPattern = constraint.toString().toLowerCase().trim();
                     for (ProductItem productItem : pListFull) {
-                        if (productItem.getNome().toLowerCase().contains(filterPattern) && productItem.getIdCategoria() == marketViewFragment.activeFilter) {
+                        if (productItem.getNome().toLowerCase().contains(filterPattern) && productItem.getCategoria() == marketViewFragment.activeFilter) {
                             filteredList.add(productItem);
                         }
                     }
