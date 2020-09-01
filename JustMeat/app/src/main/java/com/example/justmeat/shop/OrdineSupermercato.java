@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class OrdineSupermercato implements Serializable {
-    private int id;
+public class OrdineSupermercato implements Serializable,Comparable<OrdineSupermercato>{
+    private Integer id;
     private String numProdotti, stato,supermarket;
     private Date pickupTime;
     private ArrayList<String> prodotti;
@@ -57,5 +57,11 @@ public class OrdineSupermercato implements Serializable {
     public void setProdotti(ArrayList<String> prodotti) {
         this.prodotti = prodotti;
         numProdotti=String.valueOf(prodotti.size());
+    }
+
+    @Override
+    public int compareTo(OrdineSupermercato o) {
+        int lastCmp = id.compareTo(o.getId());
+        return lastCmp;
     }
 }

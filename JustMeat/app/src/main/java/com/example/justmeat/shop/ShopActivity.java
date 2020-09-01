@@ -24,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class ShopActivity extends AppCompatActivity {
@@ -48,7 +49,7 @@ public class ShopActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.shop_recyclerview_listaordini);
         layoutManager = new LinearLayoutManager(this);
-        richiestaOrdini(this);
+        //richiestaOrdini(this);
 
 
 
@@ -74,6 +75,7 @@ public class ShopActivity extends AppCompatActivity {
     }
 
     private void richiestaOrdini(final Activity a) {
+        listaOrdini=new ArrayList<>();
         new HttpJsonRequest(getBaseContext(), "/api/v1/get_orders", Request.Method.GET, "justmeat",
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -107,6 +109,7 @@ public class ShopActivity extends AppCompatActivity {
     }
 
     void setupRecyclerView(Activity a){
+        Collections.sort(listaOrdini);
         adapter = new OrdineSupermercatoAdapter(listaOrdini, a);
 
         recyclerView.setLayoutManager(layoutManager);
@@ -125,5 +128,9 @@ public class ShopActivity extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        richiestaOrdini(this);
+    }
 }

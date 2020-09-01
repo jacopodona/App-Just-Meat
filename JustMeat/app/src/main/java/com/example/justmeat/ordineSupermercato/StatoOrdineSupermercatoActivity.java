@@ -1,14 +1,22 @@
 package com.example.justmeat.ordineSupermercato;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -37,6 +45,7 @@ public class StatoOrdineSupermercatoActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private OrdineSupermercato ordine;
+    private ImageView backbutton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +57,7 @@ public class StatoOrdineSupermercatoActivity extends AppCompatActivity {
         numeroProdotti=findViewById(R.id.statoordinesupermercato_num_prodotti);
         modifica=findViewById(R.id.statoordinesupermercato_modifica_button);
         mRecyclerView=findViewById(R.id.statoordinesupermercato_recyclerview_prodotti);
+        backbutton=findViewById(R.id.statoordinesupermercato_backbutton);
 
         Intent intent=getIntent();
         Bundle bundle=intent.getExtras();
@@ -102,11 +112,98 @@ public class StatoOrdineSupermercatoActivity extends AppCompatActivity {
         stato.setText(ordine.getStato());
         numeroProdotti.setText(ordine.getNumProdotti());
 
+        modifica.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder mBuilder=new AlertDialog.Builder(StatoOrdineSupermercatoActivity.this);
+                View mView= getLayoutInflater().inflate(R.layout.statoordinesupermercato_dialog_spinner,null);
+                mBuilder.setTitle("Modifica Stato Ordine");
+                final Spinner spinner= (Spinner) mView.findViewById(R.id.statoordinesupermercato_spinner);
+                ArrayAdapter<String> arrayAdapter=new ArrayAdapter<>(StatoOrdineSupermercatoActivity.this,android.R.layout.simple_spinner_item,getResources().getStringArray(R.array.lista_stati));
+                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(arrayAdapter);
+                mBuilder.setPositiveButton("Conferma", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(spinner.getSelectedItem().toString().equalsIgnoreCase("Seleziona stato...")){
+                            Toast.makeText(StatoOrdineSupermercatoActivity.this,"Seleziona un valore per lo stato ordine",Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            aggiornaStatoOrdine(spinner.getSelectedItem().toString());
+                        }
+                        dialog.dismiss();
+                    }
+                });
+                mBuilder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                mBuilder.setView(mView);
+                AlertDialog dialog=mBuilder.create();
+                dialog.show();
+            }
+        });
+
+        backbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+    }
+
+    private void aggiornaStatoOrdine(final String stato){
+        int status=0;
+        switch (stato){
+            case "Ricevuto":
+                status=1;
+                break;
+            case "Pronto per il Ritiro":
+                status=2;
+                break;
+            case "Ritirato":
+                status=3;
+                break;
+        }
+        if(status!=0){
+            ordine.setStato(stato);
+            try {
+                JSONObject body = new JSONObject();
+                body.put("order_id",ordine.getId());
+                body.put("status",status);
+                new HttpJsonRequest(this, "/api/v1/set_order_status", Request.Method.POST, body,"justmeat",
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                ordine.setStato(stato);
+                                Log.e("Esito POST","Tutto bene");
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Esito POST","Errore");
+                    }
+                }
+                ).run();
+            } catch(JSONException ex) {
+                return;
+            }
+        }
+        reloadInfo();
     }
 
     private void setupRecyclerView(){
+        numeroProdotti.setText(String.valueOf(prodottiInLista.size()));
         mAdapter=new ListaProdottiAdapter(prodottiInLista);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    private void reloadInfo(){
+        stato.setText(ordine.getStato());
     }
 }

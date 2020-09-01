@@ -44,7 +44,7 @@ public class ListaProdottiAdapter extends RecyclerView.Adapter<ListaProdottiAdap
     @Override
     public void onBindViewHolder(@NonNull ListaProdottiViewHolder holder, int position) {
         holder.nomeProdotto.setText(listaProdotti.get(position).getNome());
-        holder.prezzoProdotto.setText(String.valueOf(listaProdotti.get(position).getPrezzo()));
+        holder.prezzoProdotto.setText(String.valueOf(listaProdotti.get(position).getPrezzo())+" €");
     }
 
     @Override
