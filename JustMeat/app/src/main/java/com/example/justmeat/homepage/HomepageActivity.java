@@ -139,27 +139,21 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {//metodo che gestisce il cambio fragment
         switch(menuItem.getItemId()){
             case R.id.homepage_nav_trova_supermercati:
-                //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new TrovaSupermercatiFragment()).commit();
                 navigateTo(new TrovaSupermercatiFragment(),true);
                 break;
             case R.id.homepage_nav_miei_ordini:
-                //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new MieiOrdiniFragment(httpToken)).commit();
                 navigateTo(new MieiOrdiniFragment(httpToken),true);
                 break;
             case R.id.homepage_nav_ordini_preferiti:
-                //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new OrdiniPreferitiFragment(getDataOrdiniPreferiti())).commit();
                 navigateTo(new OrdiniPreferitiFragment(getDataOrdiniPreferiti()),true);
                 break;
             case R.id.homepage_nav_indirizzi_preferiti:
-                //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new IndirizziPreferitiFragment()).commit();
                 navigateTo(new IndirizziPreferitiFragment(),true);
                 break;
             case R.id.homepage_nav_impostazioni:
-                //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new ImpostazioniFragment()).commit();
                 navigateTo(new ImpostazioniFragment(),true);
                 break;
             case R.id.homepage_nav_gestione_ordini:
-                //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new GestioneOrdiniFragment()).commit();
                 navigateTo(new GestioneOrdiniFragment(),true);
                 break;
         }
@@ -177,6 +171,8 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
             super.onBackPressed();
         }
     }
+
+
 
 
     public void navigateTo(Fragment fragment, boolean addToBackstack) {

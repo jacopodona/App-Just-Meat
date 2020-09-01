@@ -1,4 +1,6 @@
-package com.example.justmeat.homepage;
+package com.example.justmeat.homepage.Java;
+
+import com.example.justmeat.homepage.Java.MieiOrdini;
 
 import java.util.Date;
 

@@ -17,6 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.example.justmeat.R;
+import com.example.justmeat.homepage.Java.MieiOrdini;
 import com.example.justmeat.homepage.adapter.MieiOrdiniAdapter;
 import com.example.justmeat.utilities.HttpJsonRequest;
 
@@ -25,10 +26,8 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.List;
 
 public class MieiOrdiniFragment extends Fragment {
 

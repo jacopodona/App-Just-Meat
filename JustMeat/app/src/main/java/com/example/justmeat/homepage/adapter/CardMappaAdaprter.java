@@ -2,17 +2,14 @@ package com.example.justmeat.homepage.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.justmeat.R;
-import com.example.justmeat.homepage.InfoCardMappe;
+import com.example.justmeat.homepage.Java.InfoCardMappe;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 public class CardMappaAdaprter implements GoogleMap.InfoWindowAdapter {
 

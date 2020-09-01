@@ -1,4 +1,4 @@
-package com.example.justmeat.homepage;
+package com.example.justmeat.homepage.Java;
 
 public class InfoCardMappe {
 

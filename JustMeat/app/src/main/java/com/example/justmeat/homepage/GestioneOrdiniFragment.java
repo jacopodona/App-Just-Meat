@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.justmeat.R;
+import com.example.justmeat.homepage.Java.OrdineSupermercato;
 import com.example.justmeat.homepage.adapter.OrdineSupermercatoAdapter;
 
 import java.util.ArrayList;

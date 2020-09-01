@@ -1,6 +1,5 @@
 package com.example.justmeat.homepage.adapter;
 
-import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.justmeat.R;
 import com.example.justmeat.homepage.DettagliMieiOrdiniFragment;
-import com.example.justmeat.homepage.DettagliOrdinePreferitoFragment;
-import com.example.justmeat.homepage.HomepageActivity;
-import com.example.justmeat.homepage.OrdinePreferito;
 
 import java.util.List;
 

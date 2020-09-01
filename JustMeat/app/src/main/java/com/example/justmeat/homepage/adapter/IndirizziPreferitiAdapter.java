@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.justmeat.R;
-import com.example.justmeat.homepage.IndirizzoPreferito;
+import com.example.justmeat.homepage.Java.IndirizzoPreferito;
 
 import java.util.List;
 

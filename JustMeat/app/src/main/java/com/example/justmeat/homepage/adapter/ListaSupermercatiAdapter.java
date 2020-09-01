@@ -2,7 +2,6 @@ package com.example.justmeat.homepage.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.justmeat.R;
 import com.example.justmeat.homepage.MapFragment;
-import com.example.justmeat.homepage.MieiOrdini;
-import com.example.justmeat.homepage.Supermercato;
-import com.example.justmeat.marketview.MarketViewActivity;
+import com.example.justmeat.homepage.Java.Supermercato;
 
 import java.util.List;
 

@@ -10,11 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.justmeat.R;
-import com.example.justmeat.homepage.DettagliMieiOrdiniFragment;
 import com.example.justmeat.homepage.HomepageActivity;
-import com.example.justmeat.homepage.OrdineSupermercato;
-import com.example.justmeat.homepage.StatoOrdineSupermercato;
-import com.google.android.material.navigation.NavigationView;
+import com.example.justmeat.homepage.Java.OrdineSupermercato;
+import com.example.justmeat.homepage.Java.StatoOrdineSupermercato;
 
 import java.util.ArrayList;
 

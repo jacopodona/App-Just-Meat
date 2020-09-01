@@ -1,4 +1,4 @@
-package com.example.justmeat.homepage;
+package com.example.justmeat.homepage.Java;
 
 import android.animation.ValueAnimator;
 import android.content.Context;

@@ -9,11 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.justmeat.R;
-import com.example.justmeat.homepage.DettagliMieiOrdiniFragment;
 import com.example.justmeat.homepage.DettagliOrdinePreferitoFragment;
 import com.example.justmeat.homepage.HomepageActivity;
-import com.example.justmeat.homepage.MieiOrdini;
-import com.example.justmeat.homepage.OrdinePreferito;
+import com.example.justmeat.homepage.Java.OrdinePreferito;
 
 import java.util.List;
 

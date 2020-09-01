@@ -56,13 +56,13 @@
 
         </TextView>
 
-        <com.example.justmeat.homepage.CustomProgressBar
+        <com.example.justmeat.homepage.Java.CustomProgressBar
             android:id="@+id/homepage_customProgressBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp">
 
-        </com.example.justmeat.homepage.CustomProgressBar>
+        </com.example.justmeat.homepage.Java.CustomProgressBar>
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -134,33 +134,14 @@
                         ></TextView>
                 </RelativeLayout>
 
-                <RelativeLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/stato_ordine_rec_view_buoni"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <TextView
+                    android:layout_height="wrap_content">
 
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="30dp"
-                        android:gravity="center"
-                        android:text="Buono -0%"
-                        android:textColor="@color/white"
-                        android:textSize="15dp"
-                        ></TextView>
+                </androidx.recyclerview.widget.RecyclerView>
 
-                    <TextView
-                        android:id="@+id/stato_ordine_buono_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="30dp"
-                        android:gravity="center"
-                        android:text="0.0 €"
-                        android:textColor="@color/white"
-                        android:textSize="20dp"
-                        ></TextView>
-                </RelativeLayout>
+
 
             </LinearLayout>
 

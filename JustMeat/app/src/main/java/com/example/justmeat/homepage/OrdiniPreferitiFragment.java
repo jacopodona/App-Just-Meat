@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.justmeat.R;
-import com.example.justmeat.homepage.adapter.MieiOrdiniAdapter;
+import com.example.justmeat.homepage.Java.OrdinePreferito;
 import com.example.justmeat.homepage.adapter.OrdiniPreferitiAdapter;
 
 import org.json.JSONObject;
