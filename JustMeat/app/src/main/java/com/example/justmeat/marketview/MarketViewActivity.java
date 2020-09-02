@@ -87,6 +87,12 @@ public class MarketViewActivity extends AppCompatActivity{
         super.onStop();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        quantityOnCart();
+    }
+
     private void setBackButton() {
         ImageView back = findViewById(R.id.marketview_btn_back);
         back.setOnClickListener(new View.OnClickListener() {

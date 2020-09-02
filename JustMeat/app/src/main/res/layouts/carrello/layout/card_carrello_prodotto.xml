@@ -9,111 +9,148 @@
     app:cardCornerRadius="10dp"
     app:cardElevation="0dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/carrello_txt_prodotto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="4dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:layout_constraintEnd_toStartOf="@+id/carrello_txt_totproduct"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@id/carrello_card_image"
-            app:layout_constraintTop_toTopOf="parent" />
+        <RelativeLayout
+            android:id="@+id/carrello_rl_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/greyWeb">
 
-        <TextView
-            android:id="@+id/carrello_txt_produttore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            app:layout_constraintStart_toStartOf="@+id/carrello_txt_prodotto"
-            app:layout_constraintTop_toBottomOf="@+id/carrello_txt_prodotto" />
-
-        <TextView
-            android:id="@+id/carrello_txt_weight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            app:layout_constraintStart_toStartOf="@+id/carrello_txt_produttore"
-            app:layout_constraintTop_toBottomOf="@+id/carrello_txt_produttore" />
-
-        <TextView
-            android:id="@+id/carrello_txt_prezzo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="12dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/carrello_btn_less"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/carrello_txt_weight"
-            app:layout_constraintTop_toBottomOf="@+id/carrello_txt_weight" />
-
-        <ImageView
-            android:id="@+id/carrello_btn_less"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            app:layout_constraintBottom_toBottomOf="@+id/carrello_btn_more"
-            app:layout_constraintEnd_toStartOf="@+id/carrello_btn_more"
-            app:layout_constraintTop_toTopOf="@+id/carrello_btn_more"
-            app:srcCompat="@drawable/remove_product" />
-
-        <ImageView
-            android:id="@+id/carrello_btn_more"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:adjustViewBounds="true"
-            app:layout_constraintBottom_toBottomOf="@+id/carrello_txt_prezzo"
-            app:layout_constraintEnd_toEndOf="@+id/carrello_txt_totproduct"
-            app:layout_constraintTop_toTopOf="@+id/carrello_txt_prezzo"
-            app:srcCompat="@drawable/add_pruduct" />
-
-        <TextView
-            android:id="@+id/carrello_txt_qt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1"
-            android:textColor="@android:color/black"
-            app:layout_constraintBottom_toBottomOf="@+id/carrello_btn_more"
-            app:layout_constraintEnd_toStartOf="@+id/carrello_btn_more"
-            app:layout_constraintStart_toEndOf="@+id/carrello_btn_less"
-            app:layout_constraintTop_toTopOf="@+id/carrello_btn_more" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/carrello_card_image"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            app:cardBackgroundColor="#A13C3C"
-            app:cardCornerRadius="10dp"
-            app:layout_constraintBottom_toBottomOf="@+id/carrello_txt_prezzo"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/carrello_txt_prodotto">
 
             <ImageView
-                android:id="@+id/carrello_img_prodotto"
+                android:id="@+id/carrello_delete_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                app:srcCompat="@drawable/ic_delete_white" />
+
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="-50dp"
-                android:adjustViewBounds="true" />
-        </androidx.cardview.widget.CardView>
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
 
-        <TextView
-            android:id="@+id/carrello_txt_totproduct"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/carrello_txt_prodotto" />
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@id/carrello_delete_icon"
+                android:text="Rimuovi"
+                android:textColor="@color/white"
+                android:textSize="13sp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/carrello_cl_foreground"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/carrello_txt_prodotto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="4dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintEnd_toStartOf="@+id/carrello_txt_totproduct"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/carrello_card_image"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/carrello_txt_produttore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toStartOf="@+id/carrello_txt_prodotto"
+                app:layout_constraintTop_toBottomOf="@+id/carrello_txt_prodotto" />
+
+            <TextView
+                android:id="@+id/carrello_txt_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toStartOf="@+id/carrello_txt_produttore"
+                app:layout_constraintTop_toBottomOf="@+id/carrello_txt_produttore" />
+
+            <TextView
+                android:id="@+id/carrello_txt_prezzo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="12dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/carrello_btn_less"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/carrello_txt_weight"
+                app:layout_constraintTop_toBottomOf="@+id/carrello_txt_weight" />
+
+            <ImageView
+                android:id="@+id/carrello_btn_less"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintBottom_toBottomOf="@+id/carrello_btn_more"
+                app:layout_constraintEnd_toStartOf="@+id/carrello_btn_more"
+                app:layout_constraintTop_toTopOf="@+id/carrello_btn_more"
+                app:srcCompat="@drawable/remove_product" />
+
+            <ImageView
+                android:id="@+id/carrello_btn_more"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:adjustViewBounds="true"
+                app:layout_constraintBottom_toBottomOf="@+id/carrello_txt_prezzo"
+                app:layout_constraintEnd_toEndOf="@+id/carrello_txt_totproduct"
+                app:layout_constraintTop_toTopOf="@+id/carrello_txt_prezzo"
+                app:srcCompat="@drawable/add_pruduct" />
+
+            <TextView
+                android:id="@+id/carrello_txt_qt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/carrello_btn_more"
+                app:layout_constraintEnd_toStartOf="@+id/carrello_btn_more"
+                app:layout_constraintStart_toEndOf="@+id/carrello_btn_less"
+                app:layout_constraintTop_toTopOf="@+id/carrello_btn_more" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/carrello_card_image"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                app:cardBackgroundColor="#A13C3C"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintBottom_toBottomOf="@+id/carrello_txt_prezzo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/carrello_txt_prodotto">
+
+                <ImageView
+                    android:id="@+id/carrello_img_prodotto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="-50dp"
+                    android:adjustViewBounds="true" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/carrello_txt_totproduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/carrello_txt_prodotto" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+
 </androidx.cardview.widget.CardView>

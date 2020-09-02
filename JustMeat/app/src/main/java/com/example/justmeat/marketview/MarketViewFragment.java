@@ -285,7 +285,6 @@ public class MarketViewFragment extends Fragment {
         new HttpJsonRequest(getContext(), "/api/v1/get_products/"+id_negozio, Request.Method.GET, httpToken, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                System.out.println(response);
                 try {
                     parseProduct(response);
                 } catch (JSONException e) {

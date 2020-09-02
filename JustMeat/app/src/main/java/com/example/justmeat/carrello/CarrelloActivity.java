@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,10 +20,12 @@ import com.example.justmeat.whithdrawal.WithdrawalActivity;
 
 import java.util.ArrayList;
 
-public class CarrelloActivity extends AppCompatActivity {
+public class CarrelloActivity extends AppCompatActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
     ArrayList<ProductItem> carrello;
     public TextView totale_txt;
     double tot;
+    CarrelloProductAdapter carrelloProductAdapter;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,9 +44,10 @@ public class CarrelloActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        setLayoutCarrello();
+    protected void onPause() {
+        ((MyApplication) this.getApplication()).setCarrelloListProduct(carrello);
+        super.onPause();
+
     }
 
     private void setLayoutCarrello() {
@@ -75,10 +79,13 @@ public class CarrelloActivity extends AppCompatActivity {
             });
 
             RecyclerView.LayoutManager rvLM = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false );
-            RecyclerView.Adapter rvAdapter = new CarrelloProductAdapter(this);
+            carrelloProductAdapter = new CarrelloProductAdapter(this);
 
             rv.setLayoutManager(rvLM);
-            rv.setAdapter(rvAdapter);
+            rv.setAdapter(carrelloProductAdapter);
+
+            ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
+            new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(rv);
 
             emptyCart.setVisibility(View.GONE);
             rv.setVisibility(View.VISIBLE);
@@ -101,5 +108,13 @@ public class CarrelloActivity extends AppCompatActivity {
     public void onBackPressed(){
         ((MyApplication) this.getApplication()).setCarrelloListProduct(carrello);
         super.onBackPressed();
+    }
+
+
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+        if(viewHolder instanceof CarrelloProductAdapter.ProductViewHolder){
+            carrelloProductAdapter.removeItem(viewHolder.getAdapterPosition());
+        }
     }
 }
