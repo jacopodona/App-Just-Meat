@@ -6,6 +6,7 @@
     <color name="primaryTextColor">#000000</color>
     <color name="colorFacebook">#0000BF</color>
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
     <color name="barColor">#00FF00</color>
     <color name="unfilledbarColor">#D3D3D3</color>
 </resources>
