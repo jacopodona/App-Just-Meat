@@ -79,7 +79,7 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
 
         if (savedInstanceState == null) {//serve per mantenere il fragment corretto aperto in caso l'activity venga ricostruita (es: cambio di orientamento distrugge e ricrea activity)
             //inizializzo il primo fragment a trova supermercati
-            getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new TrovaSupermercatiFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new TrovaSupermercatiFragment(httpToken)).commit();
             navigationview.setCheckedItem(R.id.homepage_nav_trova_supermercati);
         }
 
@@ -180,7 +180,7 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
         switch (menuItem.getItemId()) {
             case R.id.homepage_nav_trova_supermercati:
                 //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new TrovaSupermercatiFragment()).commit();
-                navigateTo(new TrovaSupermercatiFragment(),true);
+                navigateTo(new TrovaSupermercatiFragment(httpToken),true);
                 break;
             case R.id.homepage_nav_miei_ordini:
                 //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new MieiOrdiniFragment(httpToken)).commit();
@@ -188,7 +188,7 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
                 break;
             case R.id.homepage_nav_ordini_preferiti:
                 //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new OrdiniPreferitiFragment(getDataOrdiniPreferiti())).commit();
-                navigateTo(new OrdiniPreferitiFragment(getDataOrdiniPreferiti()),true);
+                navigateTo(new OrdiniPreferitiFragment(httpToken),true);
                 break;
             case R.id.homepage_nav_indirizzi_preferiti:
                 //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new IndirizziPreferitiFragment()).commit();

@@ -3,6 +3,7 @@ package com.example.justmeat.homepage;
 public class Supermercato {
 
     String nome,indirizzo;
+    Double latitude, longitude;
 
     public Supermercato(String nome, String indirizzo) {
         this.nome = nome;

@@ -3,10 +3,18 @@ package com.example.justmeat.homepage;
 public class IndirizzoPreferito {
 
     private String nome, indirizzo;
+    private double latitude,longitude;
 
     public IndirizzoPreferito(String nome, String indirizzo) {
         this.nome = nome;
         this.indirizzo = indirizzo;
+    }
+
+    public IndirizzoPreferito(String nome, String indirizzo, double latitude, double longitude) {
+        this.nome = nome;
+        this.indirizzo = indirizzo;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public String getNome() {

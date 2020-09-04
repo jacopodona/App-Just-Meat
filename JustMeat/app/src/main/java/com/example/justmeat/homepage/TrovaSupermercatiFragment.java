@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,15 +22,34 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.example.justmeat.R;
 import com.example.justmeat.homepage.adapter.ListaSupermercatiAdapter;
+import com.example.justmeat.utilities.HttpJsonRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class TrovaSupermercatiFragment extends Fragment {
 
+    private String httpToken;
+    private SeekBar seekbar;
+    private RecyclerView recyclerView;
+    private ListaSupermercatiAdapter adapter;
+
     private static final int REQUEST_CODE_LOCATION_PERMISSION=1;
+
+    public TrovaSupermercatiFragment(String httpToken) {
+        this.httpToken= httpToken;
+        this.adapter= null;
+        this.recyclerView= null;
+    }
+
 
     @Nullable
     @Override
@@ -37,9 +57,8 @@ public class TrovaSupermercatiFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_trova_supermercati,container,false);
 
 
-        SeekBar seekbar= (SeekBar) view.findViewById(R.id.homepage_seekbar_distanza);
+        seekbar= (SeekBar) view.findViewById(R.id.homepage_seekbar_distanza);
         final TextView textView= (TextView) view.findViewById(R.id.homepage_textview_distanza);
-
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -57,7 +76,41 @@ public class TrovaSupermercatiFragment extends Fragment {
             }
         });
 
+        JSONObject body=new JSONObject();
+        try {
+            body.put("latitude", 46.0793);
+            body.put("longitude", 11.1302);
+            body.put("range", 50000);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        new HttpJsonRequest(getContext(), "/api/v1/get_supermarkets_in_range", Request.Method.POST,body, httpToken,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("OK", response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Err connessione", error.toString());
+                    }
+                }).run();
 
+        /*new HttpJsonRequest(getContext(), "/api/v1/get_supermarkets", Request.Method.GET, httpToken,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("OK", response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Err connessione", error.toString());
+                    }
+                }).run();*/
 
         List lista= new LinkedList();
         Supermercato m= new Supermercato("Aldi","Via Roma 12b");
@@ -68,7 +121,7 @@ public class TrovaSupermercatiFragment extends Fragment {
         }
 
 
-        final RecyclerView recyclerView = view.findViewById(R.id.homepage_recyclerview_listasupermercati);
+        recyclerView= view.findViewById(R.id.homepage_recyclerview_listasupermercati);
         recyclerView.setHasFixedSize(true);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false);
@@ -79,7 +132,7 @@ public class TrovaSupermercatiFragment extends Fragment {
 
 
 
-        final ListaSupermercatiAdapter adapter = new ListaSupermercatiAdapter(lista, getActivity());
+        adapter = new ListaSupermercatiAdapter(lista, getActivity());
         recyclerView.setAdapter(adapter);
         //recyclerView.setNestedScrollingEnabled(false);
 
