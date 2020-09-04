@@ -55,9 +55,9 @@ public class OrdiniPreferitiFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_ordini_preferiti,container,false);
 
         List lista= new LinkedList();
-        OrdinePreferito m= new OrdinePreferito("Aldi","Via Roma 12b", "Ritirato",new Date(),"Pranzo",1);
+        OrdinePreferito m= new OrdinePreferito();
         lista.add(m);
-        m= new OrdinePreferito("Aldi","Via Roma 12b", "",new Date(),"Pranzo",1);
+        m= new OrdinePreferito();
         lista.add(m);
 
         getOrdiniPreferiti(getContext());

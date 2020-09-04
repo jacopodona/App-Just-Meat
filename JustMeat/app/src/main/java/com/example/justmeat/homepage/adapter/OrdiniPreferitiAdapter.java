@@ -39,9 +39,9 @@ public class OrdiniPreferitiAdapter extends RecyclerView.Adapter<OrdiniPreferiti
         if (listaOrdiniPreferiti != null && position < listaOrdiniPreferiti.size()) {
             OrdinePreferito ordine = listaOrdiniPreferiti.get(position);
 
-            holder.indirizzo.setText(ordine.getIndirizzo());
+
             holder.nomeSupermercato.setText(ordine.getNomeSupermercato());
-            holder.nomeOrdine.setText(ordine.getNomeOrdine());
+            holder.nomeOrdine.setText(ordine.getNomeOrdinePreferito());
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
