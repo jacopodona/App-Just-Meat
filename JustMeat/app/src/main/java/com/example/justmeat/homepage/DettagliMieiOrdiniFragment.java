@@ -26,11 +26,13 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.example.justmeat.R;
+import com.example.justmeat.homepage.adapter.BuoniAdapter;
 import com.example.justmeat.homepage.adapter.MieiOrdiniAdapter;
 import com.example.justmeat.homepage.adapter.ProdottoPrezzoAdapter;
 import com.example.justmeat.utilities.HttpJsonRequest;
 import com.google.android.material.card.MaterialCardView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
@@ -45,7 +47,9 @@ public class DettagliMieiOrdiniFragment  extends Fragment {
 
     private MieiOrdini ordine;
     private RecyclerView recyclerView;
+    private RecyclerView recyclerViewBuoni;
     private ProdottoPrezzoAdapter adapter;
+    private BuoniAdapter adapterBuoni;
     private View view;
     private MaterialCardView maps;
 
@@ -53,6 +57,7 @@ public class DettagliMieiOrdiniFragment  extends Fragment {
     public DettagliMieiOrdiniFragment(MieiOrdini ordine){
         this.ordine= ordine;
         recyclerView=null;
+        recyclerViewBuoni=null;
     }
 
     @Nullable
@@ -108,6 +113,12 @@ public class DettagliMieiOrdiniFragment  extends Fragment {
 
         recyclerView.setLayoutManager(layoutManager);
 
+        //rec view Buoni
+        recyclerViewBuoni = view.findViewById(R.id.stato_ordine_rec_view_buoni);
+        recyclerViewBuoni.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManagerBuoni = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false);
+
+        recyclerViewBuoni.setLayoutManager(layoutManagerBuoni);
 
         return view;
     }
@@ -124,28 +135,61 @@ public class DettagliMieiOrdiniFragment  extends Fragment {
                         Log.d("Order", response.toString());
 
                         try {
+                            //Prendo i buoni
+                            LinkedList<Buono> listaBuoni= new LinkedList();
+                            for (int c = 0; c<((JSONArray)response.getJSONObject("results").getJSONArray("coupons_discounts")).length(); c++) {
+                                try {
+                                    Buono buono= new Buono();
+                                    buono.setPercentuale((int)(Double.parseDouble(response.getJSONObject("results").getJSONArray("coupons_discounts").get(c).toString())*100));
+                                    listaBuoni.add(buono);
+
+                                    buono= new Buono();
+                                    buono.setPercentuale(10);
+                                    listaBuoni.add(buono);
+
+
+
+
+                                } catch (Exception e){
+                                    Log.e("Err buoni", e.toString());
+                                }
+
+                            }
+
                             int numElementi=(response.getJSONObject("metadata").getInt("returned"));
                             double subtotale=0;
-                            int buono=0;
+
                             for(int i=0; i<numElementi;i++){
 
                                 Prodotto prodotto = new Prodotto();
                                 prodotto.setNomeProdotto(response.getJSONObject("results").getJSONArray("products").getJSONObject(i).get("product_name").toString());
                                 prodotto.setPrezzo(Double.parseDouble((response.getJSONObject("results").getJSONArray("products").getJSONObject(i).get("price").toString())));
                                 prodotti.add(prodotto);
-
                                 subtotale= subtotale+prodotto.getPrezzo();
-
                                 adapter = new ProdottoPrezzoAdapter(prodotti);
                                 recyclerView.setAdapter(adapter);
                                 recyclerView.setNestedScrollingEnabled(false);
                             }
-
                             TextView subtotaleTextView= view.findViewById(R.id.stato_ordine_subtotale_value);
                             subtotaleTextView.setText(subtotale+" €");
 
+
+
+                            //Calcolo valore buono
+                            double totale=subtotale;
+                            for (Buono b:listaBuoni) {
+                                b.setValoreBuono((totale*b.getPercentuale())/100);
+                                totale= totale-b.getValoreBuono();
+
+                            }
+
                             TextView totaleTextView= view.findViewById(R.id.stato_ordine_totale_value);
-                            totaleTextView.setText(subtotale+" €");
+                            totaleTextView.setText(totale+" €");
+
+                            adapterBuoni = new BuoniAdapter(listaBuoni);
+                            recyclerViewBuoni.setAdapter(adapterBuoni);
+                            recyclerViewBuoni.setNestedScrollingEnabled(false);
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -185,5 +229,27 @@ public class DettagliMieiOrdiniFragment  extends Fragment {
             this.prezzo = prezzo;
         }
     }
+
+    public class Buono{
+        private int percentuale;
+        private double valoreBuono;
+
+        public int getPercentuale() {
+            return percentuale;
+        }
+
+        public void setPercentuale(int percentuale) {
+            this.percentuale = percentuale;
+        }
+
+        public double getValoreBuono() {
+            return valoreBuono;
+        }
+
+        public void setValoreBuono(double valoreBuono) {
+            this.valoreBuono = valoreBuono;
+        }
+    }
+
 
 }
