@@ -77,11 +77,7 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
         inizializzaNavigationView();
         caricaInfoHeader();
 
-        if (savedInstanceState == null) {//serve per mantenere il fragment corretto aperto in caso l'activity venga ricostruita (es: cambio di orientamento distrugge e ricrea activity)
-            //inizializzo il primo fragment a trova supermercati
-            getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new TrovaSupermercatiFragment(httpToken)).commit();
-            navigationview.setCheckedItem(R.id.homepage_nav_trova_supermercati);
-        }
+
 
 
         // Get httpToken
@@ -151,6 +147,12 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
                         Log.d("asd", error.toString());
                     }
                 }).run();
+
+        if (savedInstanceState == null) {//serve per mantenere il fragment corretto aperto in caso l'activity venga ricostruita (es: cambio di orientamento distrugge e ricrea activity)
+            //inizializzo il primo fragment a trova supermercati
+            getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new TrovaSupermercatiFragment(httpToken)).commit();
+            navigationview.setCheckedItem(R.id.homepage_nav_trova_supermercati);
+        }
 
 
     }
