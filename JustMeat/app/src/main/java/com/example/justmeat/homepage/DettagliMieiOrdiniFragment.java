@@ -37,7 +37,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.math.RoundingMode;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -67,7 +69,7 @@ public class DettagliMieiOrdiniFragment  extends Fragment {
         this.getOrdine(getContext());
         CustomProgressBar pb;
         pb=view.findViewById(R.id.homepage_customProgressBar);
-        pb.setProgress(36);//test
+        //pb.setProgress(36);//test
 
         TextView statoOrdine= view.findViewById(R.id.homepage_statoordine_textview_stato);
         TextView dataOrdine=view.findViewById(R.id.homepage_statoordine_textview_data);
@@ -76,7 +78,7 @@ public class DettagliMieiOrdiniFragment  extends Fragment {
         maps=view.findViewById(R.id.homepage_button_aprisupermercatoinmaps);
 
 
-        statoOrdine.setText(ordine.getStato());
+        //statoOrdine.setText(ordine.getStato());
 
         DateFormat dateFormat = new SimpleDateFormat("d MMMM yyyy");
         dataOrdine.setText(dateFormat.format(ordine.getDataOrdine()));
@@ -96,6 +98,21 @@ public class DettagliMieiOrdiniFragment  extends Fragment {
 
 
         indirizzoSupermercato.setText(ordine.getIndirizzo());
+
+        switch (ordine.getStato()){
+            case "Ricevuto":
+                statoOrdine.setText("In preparazione");
+                pb.setProgress(5);
+                break;
+            case "Pronto":
+                statoOrdine.setText("Pronto per il Ritiro");
+                pb.setProgress(50);
+                break;
+            case "Ritirato":
+                statoOrdine.setText("Ritirato");
+                pb.setProgress(100);
+                break;
+        }
 
         maps.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,8 +200,11 @@ public class DettagliMieiOrdiniFragment  extends Fragment {
 
                             }
 
+                            DecimalFormat df = new DecimalFormat("##.##");
+                            df.setRoundingMode(RoundingMode.DOWN);
+
                             TextView totaleTextView= view.findViewById(R.id.stato_ordine_totale_value);
-                            totaleTextView.setText(totale+" €");
+                            totaleTextView.setText(df.format(totale)+" €");
 
                             adapterBuoni = new BuoniAdapter(listaBuoni);
                             recyclerViewBuoni.setAdapter(adapterBuoni);
