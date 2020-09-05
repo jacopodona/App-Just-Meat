@@ -1,7 +1,9 @@
 package com.example.justmeat.homepage;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -18,6 +20,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.example.justmeat.R;
 import com.example.justmeat.homepage.adapter.CardMappaAdaprter;
+import com.example.justmeat.marketview.MarketViewActivity;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -38,10 +41,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MapFragment extends FragmentActivity implements OnMapReadyCallback {
+public class MapFragment extends FragmentActivity implements OnMapReadyCallback,GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
     private String latitudine, longitudine, nomeSupermercato;
+    private Activity activity;
     private int range;
     private ArrayList<Supermercato> listaSupermercati;
 
@@ -49,8 +53,9 @@ public class MapFragment extends FragmentActivity implements OnMapReadyCallback 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.fragment_map);
+
+        activity=this;
 
         latitudine="45.4420061";
         longitudine="10.9954850";
@@ -128,12 +133,13 @@ public class MapFragment extends FragmentActivity implements OnMapReadyCallback 
         mMap.setInfoWindowAdapter(cardMappaAdaprter);
 
         for(int i=0;i<listaSupermercati.size();i++) {
-            InfoCardMappe infoCardMappe = new InfoCardMappe("supermercato", listaSupermercati.get(i).getNome(),listaSupermercati.get(i).getIndirizzo());
+            InfoCardMappe infoCardMappe = new InfoCardMappe(listaSupermercati.get(i).getId(),"supermercato", listaSupermercati.get(i).getNome(),listaSupermercati.get(i).getIndirizzo());
 
             Marker m = mMap.addMarker(new MarkerOptions().position(new LatLng(listaSupermercati.get(i).getLatitude(), listaSupermercati.get(i).getLongitude())).title(listaSupermercati.get(i).getNome())
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
             m.setTag(infoCardMappe);
         }
+        mMap.setOnInfoWindowClickListener(this);
 
         /*LatLng firenze = new LatLng(Double.parseDouble(longitudine), Double.parseDouble(latitudine));
         mMap.addMarker(new MarkerOptions().position(firenze).title(nomeSupermercato)
@@ -144,6 +150,16 @@ public class MapFragment extends FragmentActivity implements OnMapReadyCallback 
         mMap.addMarker(new MarkerOptions().position(randomPosition).title("nomeSupermercato"));*/
         /*CameraPosition cameraPosition = new CameraPosition.Builder().target(firenze ).zoom(12).build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));*/
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        final InfoCardMappe infoCardMappe = (InfoCardMappe) marker.getTag();
+        if(infoCardMappe!=null) {
+            Intent i = new Intent(activity, MarketViewActivity.class);
+            i.putExtra("idSupermercato", infoCardMappe.getId());
+            activity.startActivity(i);
+        }
     }
 }
 
