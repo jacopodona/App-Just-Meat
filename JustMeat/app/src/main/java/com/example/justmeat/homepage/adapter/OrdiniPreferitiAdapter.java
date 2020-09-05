@@ -37,7 +37,7 @@ public class OrdiniPreferitiAdapter extends RecyclerView.Adapter<OrdiniPreferiti
     @Override
     public void onBindViewHolder(@NonNull OrdiniPreferitiHolder holder, int position) {
         if (listaOrdiniPreferiti != null && position < listaOrdiniPreferiti.size()) {
-            OrdinePreferito ordine = listaOrdiniPreferiti.get(position);
+            final OrdinePreferito ordine = listaOrdiniPreferiti.get(position);
 
 
             holder.nomeSupermercato.setText(ordine.getNomeSupermercato());
@@ -46,7 +46,7 @@ public class OrdiniPreferitiAdapter extends RecyclerView.Adapter<OrdiniPreferiti
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((HomepageActivity)activity).navigateTo(new DettagliOrdinePreferitoFragment(),true);
+                    ((HomepageActivity)activity).navigateTo(new DettagliOrdinePreferitoFragment(ordine),true);
                 }
             });
         }

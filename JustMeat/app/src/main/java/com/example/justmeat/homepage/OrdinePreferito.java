@@ -58,15 +58,6 @@ public class OrdinePreferito {
         this.listaProdotti = listaProdotti;
     }
 
-    private class ProdottoOrdinePreferito{
-        int id;
-        String nome;
-        double prezzo;
-        int quantità;
-        double peso;
 
-        public ProdottoOrdinePreferito(){}
-
-    }
 
 }
