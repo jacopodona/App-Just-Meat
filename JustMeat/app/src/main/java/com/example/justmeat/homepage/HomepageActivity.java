@@ -114,8 +114,8 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        //Log.d("asd", response.toString());
-                        try {
+                        Log.d("asd", response.toString());
+                        /*try {
                             int numElementi=(response.getJSONObject("metadata").getInt("returned"));
                             //Log.d("Num elementi ", numElementi+"");
 
@@ -129,12 +129,12 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
                             }
                             /*for (Object j: prova) {
                                 Log.d("Elem",j.toString());
-                            }*/
+                            }
 
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                        }
+                        }*/
 
 
 
