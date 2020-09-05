@@ -13,13 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.justmeat.R;
-import com.example.justmeat.homepage.adapter.OrdiniPreferitiAdapter;
-import com.example.justmeat.homepage.adapter.ProdottoPrezzoAdapter;
 import com.example.justmeat.homepage.adapter.ProdottoPrezzoOrdinePreferitoAdapter;
-
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 
 public class DettagliOrdinePreferitoFragment extends Fragment {
 
