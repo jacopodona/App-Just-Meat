@@ -15,11 +15,17 @@
         <item android:id="@+id/homepage_nav_indirizzi_preferiti"
             android:icon="@drawable/ic_indirizzi"
             android:title="Indirizzi preferiti" />
-        <item android:id="@+id/homepage_nav_impostazioni"
-            android:icon="@drawable/ic_impostazioni"
-            android:title="Impostazioni" />
-        <item android:id="@+id/homepage_nav_gestione_ordini"
-            android:icon="@drawable/ic_shopping_basket_black_24dp"
-            android:title="Logout" />
     </group>
+
+    <item android:title="Imposazioni Account">
+
+        <menu>
+            <item android:id="@+id/homepage_nav_logout"
+                android:icon="@drawable/ic_impostazioni"
+                android:title="Logout" />
+        </menu>
+
+    </item>
+        android:icon="@drawable/ic_shopping_basket_black_24dp"
+        android:title="Logout" />
 </menu>

@@ -2,6 +2,8 @@ package com.example.justmeat.homepage;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -73,6 +75,7 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
 
         toolbar = findViewById(R.id.homepage_toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
 
         inizializzaNavigationView();
         caricaInfoHeader();
@@ -152,6 +155,7 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
             //inizializzo il primo fragment a trova supermercati
             getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new TrovaSupermercatiFragment(httpToken)).commit();
             navigationview.setCheckedItem(R.id.homepage_nav_trova_supermercati);
+            toolbar.setTitle("Trova Supermercati");
         }
 
 
@@ -183,26 +187,49 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
             case R.id.homepage_nav_trova_supermercati:
                 //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new TrovaSupermercatiFragment()).commit();
                 navigateTo(new TrovaSupermercatiFragment(httpToken),true);
+                toolbar.setTitle("Trova Supermercati");
                 break;
             case R.id.homepage_nav_miei_ordini:
                 //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new MieiOrdiniFragment(httpToken)).commit();
                 navigateTo(new MieiOrdiniFragment(httpToken),true);
+                toolbar.setTitle("Miei Ordini");
                 break;
             case R.id.homepage_nav_ordini_preferiti:
                 //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new OrdiniPreferitiFragment(getDataOrdiniPreferiti())).commit();
                 navigateTo(new OrdiniPreferitiFragment(httpToken),true);
+                toolbar.setTitle("Ordini Preferiti");
                 break;
             case R.id.homepage_nav_indirizzi_preferiti:
                 //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new IndirizziPreferitiFragment()).commit();
                 navigateTo(new IndirizziPreferitiFragment(),true);
+                toolbar.setTitle("Indirizzi Preferiti");
                 break;
-            case R.id.homepage_nav_impostazioni:
-                //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new ImpostazioniFragment()).commit();
-                navigateTo(new ImpostazioniFragment(),true);
+            case R.id.homepage_nav_logout:
+                showLogoutDialog();
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void showLogoutDialog() {
+        AlertDialog.Builder builder =new AlertDialog.Builder(this);
+        builder.setTitle("Logout");
+        builder.setMessage("Sei sicuro di voler eseguire il logout?");
+        builder.setPositiveButton("Conferma", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        builder.setNeutralButton("Annulla", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog=builder.create();
+        dialog.show();
     }
 
     @Override
@@ -210,7 +237,7 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if(getSupportFragmentManager().getBackStackEntryCount()== 0){
-            System.exit(0);
+            showLogoutDialog();
         } else {
             super.onBackPressed();
         }
