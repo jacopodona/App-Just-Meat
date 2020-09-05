@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:background="@color/primaryColor"
+    android:backgroundTint="@color/primaryColor">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/row_buoni_buono"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="30dp"
+            android:gravity="center"
+            android:text="Buono -0%"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            ></TextView>
+
+        <TextView
+            android:id="@+id/stato_ordine_buono_value"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:gravity="center"
+            android:text="0.0 €"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            ></TextView>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

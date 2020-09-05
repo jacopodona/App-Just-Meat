@@ -28,13 +28,14 @@
                 android:id="@+id/textField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nome Ordine"
+                android:hint="Nome Indirizzo"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="45dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/homepage_inserisciindirizzo_nome"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -50,36 +51,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Provincia"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="15dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="CAP"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="15dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/homepage_inserisciindirizzo_città"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -95,9 +67,27 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/homepage_inserisciindirizzo_via"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Numero Civico"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="15dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/homepage_inserisciindirizzo_numero"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
         </LinearLayout>
 
 
@@ -113,6 +103,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="15dp"
         android:layout_marginHorizontal="20dp"
+        android:id="@+id/homepage_inserisciindirizzo_conferma"
         android:text="Aggiungi Indirizzo"></com.google.android.material.button.MaterialButton>
 
 

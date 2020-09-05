@@ -38,15 +38,6 @@
                 android:text="Aldi">
 
             </TextView>
-            <TextView
-                android:id="@+id/homepage_card_indirizzosupermercato_ordinipreferiti"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:textSize="15dp"
-                android:text="Via Roma, 14, Trento">
-
-            </TextView>
 
 
         </LinearLayout>

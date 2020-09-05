@@ -2,6 +2,7 @@ package com.example.justmeat.homepage;
 
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,18 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.example.justmeat.R;
 import com.example.justmeat.homepage.adapter.IndirizziPreferitiAdapter;
 import com.example.justmeat.homepage.adapter.MieiOrdiniAdapter;
+import com.example.justmeat.utilities.HttpJsonRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,6 +35,8 @@ public class IndirizziPreferitiFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_indirizzi_preferiti,container,false);
+        this.getIndirizziPreferiti();
+
 
         List lista= new LinkedList();
         IndirizzoPreferito m= new IndirizzoPreferito("Casa","Via Roma 12b");
@@ -53,5 +64,37 @@ public class IndirizziPreferitiFragment extends Fragment {
         });
 
         return view;
+    }
+    public void getIndirizziPreferiti(){
+        final ArrayList ordiniPreferitiList = new ArrayList<JSONObject>();
+        new HttpJsonRequest(getContext(), "/api/v1/get_favourite_orders", Request.Method.GET, ((HomepageActivity)getActivity()).getHttpToken(),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("Fav Order", response.toString());
+
+                        try {
+                            int numElementi=(response.getJSONObject("metadata").getInt("returned"));
+                            for(int i=0; i<numElementi;i++){
+                                try {
+                                    ordiniPreferitiList.add(response.getJSONArray("results").getJSONObject(i));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("asd", error.toString());
+                    }
+                }).run();
+
+       // return ordiniPreferitiList;
     }
 }

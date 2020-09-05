@@ -19,7 +19,6 @@ public class OrdiniPreferitiHolder extends RecyclerView.ViewHolder {
     public OrdiniPreferitiHolder(@NonNull View itemView) {
         super(itemView);
         nomeSupermercato = itemView.findViewById(R.id.homepage_card_nomesupermercato_ordinipreferiti);
-        indirizzo = itemView.findViewById(R.id.homepage_card_indirizzosupermercato_ordinipreferiti);
         nomeOrdine = itemView.findViewById(R.id.homepage_card_nomeordine_ordinipreferiti);
 
     }

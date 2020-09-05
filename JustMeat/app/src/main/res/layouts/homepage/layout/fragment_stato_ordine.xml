@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
 
 
         <TextView
@@ -19,11 +16,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:textStyle="bold"
             android:text="Pronto per il ritiro"
-            android:textSize="20dp"
             android:textColor="@color/primaryTextColor"
-        ></TextView>
+            android:textSize="20dp"
+            android:textStyle="bold"></TextView>
 
         <TextView
             android:id="@+id/homepage_statoordine_textview_data"
@@ -32,17 +28,15 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:text="Mercoledì 08/04/2020 h19:00"
-            android:textSize="15dp"
             android:textColor="@color/primaryTextColor"
-            ></TextView>
+            android:textSize="15dp"></TextView>
 
         <ImageView
-                android:id="@+id/homepage_statoordine_textview_imgview"
+            android:id="@+id/homepage_statoordine_textview_imgview"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
             android:layout_gravity="center"
-            android:src="@drawable/aldi"
-            ></ImageView>
+            android:src="@drawable/aldi"></ImageView>
 
         <TextView
             android:id="@+id/homepage_statoordine_textview_indirizzo"
@@ -51,8 +45,8 @@
             android:layout_gravity="center"
             android:layout_marginTop="0dp"
             android:text="Via Roma, 14, Trento"
-            android:textSize="15dp"
-            android:textColor="@color/primaryTextColor">
+            android:textColor="@color/primaryTextColor"
+            android:textSize="15dp">
 
         </TextView>
 
@@ -64,6 +58,37 @@
 
         </com.example.justmeat.homepage.CustomProgressBar>
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/homepage_button_aprisupermercatoinmaps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:strokeColor="@color/black"
+            app:strokeWidth="1dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/aldi" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Apri Supermercato in Maps"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -73,15 +98,14 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-               <androidx.recyclerview.widget.RecyclerView
-                   android:id="@+id/homepage_stato_ordine_rec_view"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/homepage_stato_ordine_rec_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-               </androidx.recyclerview.widget.RecyclerView>
+                </androidx.recyclerview.widget.RecyclerView>
 
             </LinearLayout>
-
 
 
         </androidx.core.widget.NestedScrollView>
@@ -92,24 +116,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
-        >
+        android:orientation="vertical">
 
         <Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/primaryColor"
-            >
+            android:background="@color/primaryColor">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -118,8 +142,7 @@
                         android:gravity="center"
                         android:text="Subtotale"
                         android:textColor="@color/white"
-                        android:textSize="15dp"
-                        ></TextView>
+                        android:textSize="15dp"></TextView>
 
                     <TextView
                         android:id="@+id/stato_ordine_subtotale_value"
@@ -130,44 +153,17 @@
                         android:gravity="center"
                         android:text="0.0 €"
                         android:textColor="@color/white"
-                        android:textSize="20dp"
-                        ></TextView>
+                        android:textSize="20dp"></TextView>
                 </RelativeLayout>
 
-                <RelativeLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/stato_ordine_rec_view_buoni"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <TextView
+                    android:layout_height="wrap_content">
 
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="30dp"
-                        android:gravity="center"
-                        android:text="Buono -0%"
-                        android:textColor="@color/white"
-                        android:textSize="15dp"
-                        ></TextView>
-
-                    <TextView
-                        android:id="@+id/stato_ordine_buono_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="30dp"
-                        android:gravity="center"
-                        android:text="0.0 €"
-                        android:textColor="@color/white"
-                        android:textSize="20dp"
-                        ></TextView>
-                </RelativeLayout>
+                </androidx.recyclerview.widget.RecyclerView>
 
             </LinearLayout>
-
-
-
-
-
 
 
         </Toolbar>
@@ -179,9 +175,11 @@
 
 
             >
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -189,10 +187,9 @@
                     android:layout_marginLeft="15dp"
                     android:gravity="center"
                     android:text="Importo"
-                    android:textStyle="bold"
                     android:textColor="@color/white"
                     android:textSize="20dp"
-                    ></TextView>
+                    android:textStyle="bold"></TextView>
 
                 <TextView
                     android:id="@+id/stato_ordine_totale_value"
@@ -202,10 +199,9 @@
                     android:layout_marginRight="30dp"
                     android:gravity="center"
                     android:text="0.0 €"
-                    android:textStyle="bold"
                     android:textColor="@color/white"
                     android:textSize="20dp"
-                    ></TextView>
+                    android:textStyle="bold"></TextView>
             </RelativeLayout>
 
 

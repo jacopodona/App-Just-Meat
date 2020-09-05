@@ -56,13 +56,11 @@ public class ListaSupermercatiAdapter extends RecyclerView.Adapter<ListaSupermer
             holder.indirizzoSupermercato.setText(supermercato.getIndirizzo());
 
             
-            holder.posizioneButton.setOnClickListener(new View.OnClickListener() {
+            holder.shoppingButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(activity, MapFragment.class);
-                    i.putExtra("Latitudine", "45.4420061");
-                    i.putExtra("Longitudine", "10.9954850");
-                    i.putExtra("NomeSupermercato", supermercato.getNome());
+                    Intent i = new Intent(activity, MarketViewActivity.class);
+                    i.putExtra("idSupermercato",supermercato.getId());
                     activity.startActivity(i);
                 }
             });

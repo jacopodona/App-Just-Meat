@@ -38,7 +38,7 @@ import java.util.Date;
 
 public class StatoOrdineSupermercatoActivity extends AppCompatActivity {
 
-    private TextView id,stato,numeroProdotti;
+    private TextView id,stato,numeroProdotti,pickupTime,supermercato;
     private ArrayList<ProdottoInLista> prodottiInLista;
     private Button modifica;
     private RecyclerView mRecyclerView;
@@ -55,6 +55,8 @@ public class StatoOrdineSupermercatoActivity extends AppCompatActivity {
         id=findViewById(R.id.statoordinesupermercato_id_ordine);
         stato=findViewById(R.id.statoordinesupermercato_stato_ordine);
         numeroProdotti=findViewById(R.id.statoordinesupermercato_num_prodotti);
+        pickupTime=findViewById(R.id.statoordinesupermercato_pickuptime_ordine);
+        supermercato=findViewById(R.id.statoordinesupermercato_negozio_ordine);
         modifica=findViewById(R.id.statoordinesupermercato_modifica_button);
         mRecyclerView=findViewById(R.id.statoordinesupermercato_recyclerview_prodotti);
         backbutton=findViewById(R.id.statoordinesupermercato_backbutton);
@@ -75,6 +77,7 @@ public class StatoOrdineSupermercatoActivity extends AppCompatActivity {
                             String dateString=result.getString("pickup_time");
                             Date date = format.parse(dateString);
                             ordine.setPickupTime(date);
+                            setDate(date);
                             ordine.setSupermarket(supermarket);
                             prodottiInLista=new ArrayList<>();
                             JSONArray array=result.getJSONArray("products");
@@ -198,9 +201,15 @@ public class StatoOrdineSupermercatoActivity extends AppCompatActivity {
 
     private void setupRecyclerView(){
         numeroProdotti.setText(String.valueOf(prodottiInLista.size()));
+        supermercato.setText(ordine.getSupermarket());
         mAdapter=new ListaProdottiAdapter(prodottiInLista);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    private void setDate(Date data){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("d/MM/yyyy 'alle' HH:mm");
+        pickupTime.setText(dateFormat.format(data));
     }
 
     private void reloadInfo(){
