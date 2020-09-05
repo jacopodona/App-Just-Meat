@@ -260,6 +260,7 @@ public class MarketViewFragment extends Fragment {
                 default: catList.add(new CategoriaItem(R.drawable.category_carne, name, id));
             }
         }
+        catList.add(new CategoriaItem(R.drawable.love, "Preferiti", 0 ));
     }
 
     private void showProduct(View view, int column){
@@ -329,7 +330,7 @@ public class MarketViewFragment extends Fragment {
         }
     }
     public void filter(){
-        System.out.println(this.activeFilter);
+        System.out.println("category" + this.activeFilter);
         SearchView searchView = (SearchView) this.getView().findViewById(R.id.marketview_search);
         if (visualizeProduct > 1){
             productGridAdapter.getFilter().filter(searchView.getQuery());
