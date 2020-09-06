@@ -55,12 +55,6 @@ public class IndirizziPreferitiFragment extends Fragment {
         this.getIndirizziPreferiti();
 
 
-        List lista = new LinkedList();
-        IndirizzoPreferito m = new IndirizzoPreferito("Casa", "Via Roma 12b");
-        lista.add(m);
-        m = new IndirizzoPreferito("Casa", "Via Roma 12b");
-        lista.add(m);
-
         recyclerView = view.findViewById(R.id.homepage_recyclerview_indirizzipreferiti);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
