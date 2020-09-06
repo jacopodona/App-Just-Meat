@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="60dp"
             android:layout_marginHorizontal="30dp">
 
             <TextView
@@ -80,48 +80,6 @@
                 android:textStyle="bold"
                 app:cornerRadius="20dp" />
 
-            <TextView
-                android:id="@+id/text2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="26dp"
-                android:text="@string/welcome_or"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                />
-
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/facebook"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorFacebook"
-                android:elevation="0dp"
-                android:text="@string/login_facebook"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@android:color/white"
-                app:cornerRadius="20dp"
-                />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/google"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/login_google"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@android:color/black"
-                app:cornerRadius="20dp"
-
-                app:strokeColor="@android:color/darker_gray" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/welcome_accedi_shop"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Accesso per Negozi"
-                app:cornerRadius="20dp"
-                />
-
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/register"
@@ -147,11 +105,51 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/login_text1"
+                    android:textColor="@color/black"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_gravity="center"
+                android:text="@string/welcome_or"
+                android:textColor="@color/black"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                />
+
+
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/google"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="@string/login_google"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@android:color/black"
+                app:cornerRadius="20dp"
+
+                app:strokeColor="@android:color/darker_gray" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/welcome_accedi_shop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Accesso per Negozi"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:cornerRadius="20dp"
+                />
+
+
+
 
         </LinearLayout>
 
