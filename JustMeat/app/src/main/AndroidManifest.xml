@@ -84,5 +84,4 @@
             android:name="com.google.android.gms.vision.DEPENDECIES"
             android:value="barcode" />
     </application>
-
 </manifest>
