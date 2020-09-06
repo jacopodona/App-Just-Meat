@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -35,6 +36,7 @@ public class ShopActivity extends AppCompatActivity {
     private Context context;
     private ImageView close;
     private ArrayList<OrdineSupermercato> listaOrdini;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class ShopActivity extends AppCompatActivity {
         setContentView(R.layout.activity_shop);
         //listaOrdini = new ArrayList<>();
 
+        progressBar=findViewById(R.id.shop_loading);
         close = findViewById(R.id.shop_imageview_close);
 
         context = this;
@@ -114,6 +117,8 @@ public class ShopActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
 
         adapter.setOnItemClickListener(new OrdineSupermercatoAdapter.onItemClickListener() {
             @Override

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,6 +40,7 @@ public class OrdiniPreferitiFragment extends Fragment {
     private String httpToken;
     private RecyclerView recyclerView;
     private OrdiniPreferitiAdapter adapter;
+    private ProgressBar progressBar;
 
 
 
@@ -52,6 +54,8 @@ public class OrdiniPreferitiFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_ordini_preferiti,container,false);
+
+        progressBar=view.findViewById(R.id.ordinipreferiti_loading);
 
         getOrdiniPreferiti(getContext());
 
@@ -105,6 +109,8 @@ public class OrdiniPreferitiFragment extends Fragment {
                                 adapter =  new OrdiniPreferitiAdapter(listaOrdiniPreferiti, getActivity());
                                 recyclerView.setAdapter(adapter);
                                 recyclerView.setNestedScrollingEnabled(false);
+                                progressBar.setVisibility(View.GONE);
+                                recyclerView.setVisibility(View.VISIBLE);
 
 
                             } catch (Exception e){

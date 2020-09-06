@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +36,7 @@ public class MieiOrdiniFragment extends Fragment {
     private String httpToken;
     private MieiOrdiniAdapter adapter;
     private RecyclerView recyclerView;
+    private ProgressBar progressBar;
 
     public MieiOrdiniFragment(String httpToken) {
         this.httpToken= httpToken;
@@ -46,6 +48,9 @@ public class MieiOrdiniFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_miei_ordini,container,false);
+
+        progressBar=view.findViewById(R.id.mieiordini_loading);
+
         this.getDataOrdini(getContext());
 
         recyclerView = view.findViewById(R.id.homepage_recyclerview_mieiordini);
@@ -99,6 +104,8 @@ public class MieiOrdiniFragment extends Fragment {
                                     adapter = new MieiOrdiniAdapter(ordini, getActivity());
                                     recyclerView.setAdapter(adapter);
                                     recyclerView.setNestedScrollingEnabled(false);
+                                    progressBar.setVisibility(View.GONE);
+                                    recyclerView.setVisibility(View.VISIBLE);
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();

@@ -27,6 +27,13 @@
         android:layout_alignParentRight="true"
         android:src="@drawable/ic_close" />
 
+    <ProgressBar
+        android:id="@+id/shop_loading"
+        android:layout_width="177dp"
+        android:layout_height="201dp"
+        android:layout_centerInParent="true"
+        android:indeterminate="true" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/shop_recyclerview_listaordini"
@@ -36,6 +43,7 @@
         android:layout_below="@id/shop_titolo"
         android:layout_marginHorizontal="15dp"
         android:layout_marginTop="35dp"
+        android:visibility="gone"
         android:overScrollMode="never" />
 
 </RelativeLayout>
