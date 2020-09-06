@@ -1,12 +1,15 @@
 package com.example.justmeat.checkout;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,8 +20,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.example.justmeat.R;
 import com.example.justmeat.marketview.ProductItem;
+import com.example.justmeat.utilities.HttpJsonRequest;
 import com.example.justmeat.utilities.MyApplication;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.textfield.TextInputLayout;
@@ -40,6 +47,7 @@ public class CheckoutActivity extends AppCompatActivity {
     ArrayList<Coupon> couponArrayList;
     CouponAdapter couponAdapter;
     String pickup_date;
+    boolean order_favourite = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,13 +99,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 confirm_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //controllo tramite API
-                        couponArrayList.add(new Coupon(code_couponDialog.getEditText().getText().toString(), 0.10));
-                        addCoupon.setVisibility(View.INVISIBLE);
-                        addCoupon.setEnabled(false);
-                        tot = subtotal;
-                        couponAdapter.notifyDataSetChanged();
-                        couponDialog.dismiss();
+                        checkCoupon(code_couponDialog.getEditText(), addCoupon, couponDialog);
                     }
                 });
                 couponDialog.show();
@@ -112,6 +114,39 @@ public class CheckoutActivity extends AppCompatActivity {
         subtotaltxt.setText(String.format("%.2f", subtotal)+" €");
         tot = subtotal;
         tot_txt.setText(String.format("%.2f",tot) + " €");
+    }
+
+    private void checkCoupon(final EditText editText, final ImageView addCoupon, final Dialog couponDialog) {
+        final String toString = editText.getText().toString();
+        new HttpJsonRequest(this, "/api/v1/get_coupon/" + toString, Request.Method.GET, ((MyApplication) getApplication()).getHttpToken(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try{
+                    Coupon coupon = new Coupon(toString, response.getDouble("percentage"), response.getInt("code"));
+                    if(coupon.isAvailable()){
+                        editText.setError(null);
+                        couponArrayList.add(coupon);
+                        addCoupon.setVisibility(View.INVISIBLE);
+                        addCoupon.setEnabled(false);
+                        tot = subtotal;
+                        couponAdapter.notifyDataSetChanged();
+                        couponDialog.dismiss();
+                    } else {
+                        System.out.println("not avail");
+                        editText.setError("Il buono non è disponibile");
+                    }
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }).run();
+        return ;
     }
 
     private void scanQR() {
@@ -149,6 +184,7 @@ public class CheckoutActivity extends AppCompatActivity {
     }
 
     private void setConfirmLayout() {
+        final Activity activity = this;
         final BottomSheetBehavior confirmDialog = BottomSheetBehavior.from(findViewById(R.id.checkout_bsl_confirm));
         confirmDialog.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
 
@@ -163,7 +199,6 @@ public class CheckoutActivity extends AppCompatActivity {
                         break;
                     }
                     case BottomSheetBehavior.STATE_EXPANDED: {
-                        //la scelta migliore sarebbe disabilitare la possibilità di richiudere lo sheet
                         swipe.setText("");
                         swipeImg.setImageDrawable(null);
                         confirmDialog.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
@@ -177,7 +212,33 @@ public class CheckoutActivity extends AppCompatActivity {
                             public void onSlide(@NonNull View view, float v) {
                             }
                         });
-                        SendOrder();
+                        final Dialog favDialog = new Dialog(view.getContext());
+                        favDialog.setContentView(R.layout.dialog_preferiti);
+                        Button confirm_btn = favDialog.findViewById(R.id.carrello_btn_positive_dialogpref);
+                        Button dismiss_btn = favDialog.findViewById(R.id.carrello_btn_neutral_dialogpref);
+                        confirm_btn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                order_favourite = true;
+                                favDialog.dismiss();
+                            }
+                        });
+                        dismiss_btn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                favDialog.dismiss();
+                            }
+                        });
+                        //PROBLEMI CON HOMEPAGE.ON CREATE NON HO GLI INTENT
+                        favDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                SendOrder();
+                               /* Intent intent = new Intent(activity, HomepageActivity.class);
+                                startActivity(intent);*/
+                            }
+                        });
+                        favDialog.show();
                         break;
                     }
 
@@ -194,7 +255,7 @@ public class CheckoutActivity extends AppCompatActivity {
         try{
             JSONObject body = new JSONObject();
             body.put("pickup_time", pickup_date);
-            body.put("is_favourite", false);
+            body.put("is_favourite", order_favourite);
             body.put("supermarket_id", 2);
             JSONArray carrello = new JSONArray();
             for(ProductItem productItem : productList){
@@ -211,7 +272,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 body.put("coupons", couponArrayList.get(0).code);
             }
             System.out.println("body: "+body);
-            /*
+
             new HttpJsonRequest(getBaseContext(), "/api/v1/add_order", Request.Method.POST, body, ((MyApplication) getApplication()).getHttpToken(), new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -222,7 +283,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 public void onErrorResponse(VolleyError error) {
                     System.out.println(error.toString());
                 }
-            }).run();*/
+            }).run();
         } catch (JSONException e){
             e.printStackTrace();
         }

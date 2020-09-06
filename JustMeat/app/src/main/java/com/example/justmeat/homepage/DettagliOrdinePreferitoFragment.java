@@ -1,9 +1,11 @@
 package com.example.justmeat.homepage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.justmeat.R;
 import com.example.justmeat.homepage.adapter.ProdottoPrezzoOrdinePreferitoAdapter;
+import com.example.justmeat.marketview.ProductItem;
+import com.example.justmeat.utilities.MyApplication;
+import com.example.justmeat.whithdrawal.WithdrawalActivity;
+
+import java.util.ArrayList;
 
 public class DettagliOrdinePreferitoFragment extends Fragment {
 
@@ -53,6 +60,20 @@ public class DettagliOrdinePreferitoFragment extends Fragment {
         nomeSupermercato = view.findViewById(R.id.ordine_preferito_nome_supermercato);
         nomeOrdine.setText(ordinePreferito.getNomeOrdinePreferito());
         nomeSupermercato.setText(ordinePreferito.getNomeSupermercato());
+
+        Button ordina = view.findViewById(R.id.homepage_btn_ordina);
+        ordina.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList <ProductItem> carrello = new ArrayList<>();
+                for(ProdottoOrdinePreferito currentItem : ordinePreferito.getListaProdotti()){
+                    carrello.add(new ProductItem(currentItem.getId(), currentItem.getNome(), currentItem.getPrezzo(), currentItem.getQuantità(), (int) currentItem.getPeso()));
+                }
+                ((MyApplication)getActivity().getApplication()).setCarrelloListProduct(carrello);
+                Intent intent = new Intent(getActivity(), WithdrawalActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
 return view;
