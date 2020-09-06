@@ -3,10 +3,12 @@ package com.example.justmeat.signup;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
@@ -107,54 +109,65 @@ public class SignupActivity extends AppCompatActivity {
                 psw = tPsw.getEditText().getText().toString();
                 check_psw = tCPsw.getEditText().getText().toString();
 
-                try {
-                    JSONObject body = new JSONObject();
-                    body.put("name", name);
-                    body.put("last_name", last_name);
-                    body.put("mail", email);
-                    body.put("psw", psw);
-                    body.put("check_psw", check_psw);
+                if (!(TextUtils.isEmpty(name)) && !(TextUtils.isEmpty(last_name)) && !(TextUtils.isEmpty(email)) &&
+                        !(TextUtils.isEmpty(psw)) && !(TextUtils.isEmpty(check_psw))) {
 
-                    new HttpJsonRequest(getBaseContext(), "/auth/signup", Request.Method.POST, body,
-                            new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    try {
-                                        if(response.getString("message").equals("OK.")) {
-                                            JSONObject body = new JSONObject();
-                                            body.put("mail", email);
-                                            body.put("psw", psw);
+                    try {
+                        JSONObject body = new JSONObject();
+                        body.put("name", name);
+                        body.put("last_name", last_name);
+                        body.put("mail", email);
+                        body.put("psw", psw);
+                        body.put("check_psw", check_psw);
 
-                                            new HttpJsonRequest(getBaseContext(), "/auth/login/local", Request.Method.POST, body,
-                                                    new Response.Listener<JSONObject>() {
-                                                        @Override
-                                                        public void onResponse(JSONObject response) {
-                                                            Intent intent = new Intent(getApplicationContext(), HomepageActivity.class);
-                                                            intent.putExtra("user", response.toString());
-                                                            startActivity(intent);
-                                                        }
-                                                    }, new Response.ErrorListener() {
-                                                @Override
-                                                public void onErrorResponse(VolleyError error) {
-                                                    Log.d("asd", error.toString());
-                                                }
-                                            }).run();
-                                        } else {
+                        new HttpJsonRequest(getBaseContext(), "/auth/signup", Request.Method.POST, body,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        try {
+                                            if (response.getString("message").equals("OK.")) {
+                                                JSONObject body = new JSONObject();
+                                                body.put("mail", email);
+                                                body.put("psw", psw);
+
+                                                new HttpJsonRequest(getBaseContext(), "/auth/login/local", Request.Method.POST, body,
+                                                        new Response.Listener<JSONObject>() {
+                                                            @Override
+                                                            public void onResponse(JSONObject response) {
+                                                                Intent intent = new Intent(getApplicationContext(), HomepageActivity.class);
+                                                                intent.putExtra("user", response.toString());
+                                                                startActivity(intent);
+                                                            }
+                                                        }, new Response.ErrorListener() {
+                                                    @Override
+                                                    public void onErrorResponse(VolleyError error) {
+                                                        Log.d("asd", error.toString());
+                                                    }
+                                                }).run();
+                                            } else {
+                                                return;
+                                            }
+                                        } catch (JSONException ex) {
                                             return;
                                         }
-                                    } catch(JSONException ex) {
-                                        return;
                                     }
-                                }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d("asd", error.toString());
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d("asd", error.toString());
+                            }
                         }
+                        ).run();
+                    } catch (JSONException ex) {
+                        Log.d("asd", ex.toString());
                     }
-                    ).run();
-                } catch(JSONException ex) {
-                    Log.d("asd", ex.toString());
+                }
+                else{
+                    AlertDialog.Builder builder=new AlertDialog.Builder(SignupActivity.this);
+                    builder.setTitle("Errore")
+                            .setMessage("Completa tutti i campi")
+                            .setNegativeButton("Chiudi", null)
+                            .show();
                 }
             }
         });
