@@ -33,13 +33,14 @@ public class MarketViewActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         System.out.println(((MyApplication)getApplication()).getHttpToken());
         super.onCreate(savedInstanceState);
+        int id_negozio=getIntent().getIntExtra("idSupermercato",4);
         setContentView(R.layout.activity_marketview);
         marketImage = findViewById(R.id.marketview_img_appbar);
         carrello = new CustomArray(((MyApplication) this.getApplication()).getCarrelloListProduct());
         setBackButton();
         setCarrelloButton();
         quantityOnCart();
-        marketViewFragment = new MarketViewFragment();
+        marketViewFragment = new MarketViewFragment(id_negozio);
         this.getSupportFragmentManager().beginTransaction().replace(R.id.marketview_frame_container, marketViewFragment).commit();
     }
 

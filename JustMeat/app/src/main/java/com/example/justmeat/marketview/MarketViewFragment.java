@@ -36,7 +36,7 @@ import java.util.ArrayList;
 public class MarketViewFragment extends Fragment {
     public int activeFilter = -1; //indica che categoria è selezionata al momento, -1 è utilizzato per indicare che nessuna cat è selezionata
     public int visualizeProduct = 3; // tipo di visualizzazione prodotti 3->griglia 3 colonne; 2-> 2colonne; 1->lista
-    int id_negozio = 4; //indica quale negozio è stato selezionato, al momento la scelta è statica poi verrà utilizzato intentExtra
+    int id_negozio; //indica quale negozio è stato selezionato
     public ArrayList<ProductItem> pListFull = new ArrayList<>(); //array contente tutti i prodotti del supermercato
     public ArrayList<ProductItem> pList; //array contente la lista dei prodotti filtrati attraverso la search view
     ArrayList<CategoriaItem> catList = new ArrayList<>(); //array contente i departments del supermercato
@@ -47,6 +47,10 @@ public class MarketViewFragment extends Fragment {
     private ShimmerFrameLayout shimmerFrameLayout;
     private RecyclerView pRV;
     SearchView searchView;
+
+    public MarketViewFragment(int id_supermercato){
+        this.id_negozio=id_supermercato;
+    }
 
     @Nullable
     @Override
