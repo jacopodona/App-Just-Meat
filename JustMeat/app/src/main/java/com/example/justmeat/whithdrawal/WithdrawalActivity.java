@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.annotation.Nullable;
@@ -22,6 +23,9 @@ public class WithdrawalActivity extends AppCompatActivity {
     ArrayList<Date> calendario = new ArrayList<>();
     public int currentActiveId = -1;
 
+    int idSupermercato;
+    String nomeSpkmt;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +41,12 @@ public class WithdrawalActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        idSupermercato = getIntent().getIntExtra("idSupermercato",4);
+        nomeSpkmt = getIntent().getStringExtra("nomeSupermercato");
+
+        TextView titolo = findViewById(R.id.withdrawal_txt_nomenegozio);
+        titolo.setText(nomeSpkmt);
 
         final TimePicker timePicker = findViewById(R.id.withdrawal_tp_time);
         timePicker.setIs24HourView(true);
@@ -59,6 +69,8 @@ public class WithdrawalActivity extends AppCompatActivity {
                 System.out.println(dataSelezionata);
                 Intent intent = new Intent(v.getContext(), CheckoutActivity.class);
                 intent.putExtra("pickup_date", dataSelezionata);
+                intent.putExtra("idSupermercato", idSupermercato);
+                intent.putExtra("nomeSupermercato", nomeSpkmt);
                 startActivity(intent);
             }
         });

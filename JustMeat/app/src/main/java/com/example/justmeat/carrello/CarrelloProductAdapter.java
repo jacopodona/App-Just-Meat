@@ -40,7 +40,6 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
     @Override
     public void onBindViewHolder(@NonNull final CarrelloProductAdapter.ProductViewHolder holder, final int position) {
         final ProductItem currentItem = carrello.get(position);
-        //holder.imgProduct.setImageResource(currentItem.getImgProd());
         Glide.with(carrelloActivity)
                 .load("http://just-feet.herokuapp.com"+currentItem.getImage())
                 .override(360, 240)
@@ -79,7 +78,7 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
                 holder.txt_qt.setText(""+holder.counter);
                 double price = currentItem.getPrezzo()*holder.counter * (1-currentItem.getDiscount());
                 holder.totale.setText(String.format("%.2f",price)+" €");
-                carrelloActivity.tot += currentItem.getPrezzo();
+                carrelloActivity.tot += currentItem.getPrezzo()*(1-currentItem.getDiscount());
                 carrelloActivity.totale_txt.setText(String.format("%.2f",carrelloActivity.tot)+" €");
             }
         });
@@ -93,23 +92,9 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
                     holder.txt_qt.setText(""+holder.counter);
                     double price = currentItem.getPrezzo()*holder.counter * (1-currentItem.getDiscount());
                     holder.totale.setText(String.format("%.2f",price)+" €");
-                    carrelloActivity.tot -= currentItem.getPrezzo();
+                    carrelloActivity.tot -= currentItem.getPrezzo()*(1-currentItem.getDiscount());
                     carrelloActivity.totale_txt.setText(String.format("%.2f",carrelloActivity.tot)+" €");
                 }
-            }
-        });
-
-        holder.cardView.setOnTouchListener(new OnSwipeTouchListener(carrelloActivity){
-            @Override
-            public void onSwipeLeft() {
-                double gigi = (currentItem.getPrezzo()*holder.counter);
-                System.out.println(gigi);
-                carrelloActivity.tot -= gigi;
-                carrelloActivity.totale_txt.setText(String.format("%.2f",carrelloActivity.tot)+" €");
-                currentItem.qt = 0;
-                carrelloActivity.carrello.remove(currentItem);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, carrello.size());
             }
         });
     }
@@ -124,6 +109,7 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
         TextView nome, produttore, prezzo, totale, txt_qt, weight;
         CardView cardView;
         int counter;
+        View viewBackground, viewForeground;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -137,6 +123,16 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
             more = itemView.findViewById(R.id.carrello_btn_more);
             less = itemView.findViewById(R.id.carrello_btn_less);
             weight = itemView.findViewById(R.id.carrello_txt_weight);
+            viewBackground = itemView.findViewById(R.id.carrello_rl_background);
+            viewForeground = itemView.findViewById(R.id.carrello_cl_foreground);
         }
+    }
+
+    public void removeItem(int position){
+        ProductItem currentItem = carrello.get(position);
+        carrelloActivity.tot -= currentItem.getPrezzo()*(1-currentItem.getDiscount())*currentItem.getQt();
+        carrelloActivity.totale_txt.setText(String.format("%.2f",carrelloActivity.tot)+" €");
+        carrelloActivity.carrello.remove(position);
+        notifyItemRemoved(position);
     }
 }

@@ -103,7 +103,7 @@ public class ProductItem implements Serializable {
         return nome;
     }
 
-    public boolean getPref() {
+    public boolean isPref() {
         return pref;
     }
 

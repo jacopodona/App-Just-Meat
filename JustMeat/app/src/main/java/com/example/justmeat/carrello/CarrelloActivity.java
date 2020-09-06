@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,10 +20,14 @@ import com.example.justmeat.whithdrawal.WithdrawalActivity;
 
 import java.util.ArrayList;
 
-public class CarrelloActivity extends AppCompatActivity {
+public class CarrelloActivity extends AppCompatActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
     ArrayList<ProductItem> carrello;
     public TextView totale_txt;
     double tot;
+    CarrelloProductAdapter carrelloProductAdapter;
+    int idSupermercato;
+    String nomeSpkmt;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,9 +36,15 @@ public class CarrelloActivity extends AppCompatActivity {
         setContentView(R.layout.activity_carrello);
         carrello = ((MyApplication) this.getApplication()).getCarrelloListProduct();
 
+        idSupermercato = getIntent().getIntExtra("idSupermercato",4);
+        nomeSpkmt = getIntent().getStringExtra("nomeSupermercato");
+
+        TextView titolo = findViewById(R.id.carrello_txt_nomenegozio);
+        titolo.setText(nomeSpkmt);
+
         this.totale_txt = findViewById(R.id.carrello_txt_totale);
         for(ProductItem currentItem : carrello){
-            tot += currentItem.getPrezzo()*currentItem.qt;
+            tot += (currentItem.getPrezzo()*currentItem.qt)*(1-currentItem.getDiscount());
         }
         totale_txt.setText(String.format("%.2f",tot)+" €");
 
@@ -41,9 +52,10 @@ public class CarrelloActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        setLayoutCarrello();
+    protected void onPause() {
+        ((MyApplication) this.getApplication()).setCarrelloListProduct(carrello);
+        super.onPause();
+
     }
 
     private void setLayoutCarrello() {
@@ -70,15 +82,21 @@ public class CarrelloActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(v.getContext(), WithdrawalActivity.class);
+
+                    intent.putExtra("idSupermercato", idSupermercato);
+                    intent.putExtra("nomeSupermercato", nomeSpkmt);
                     startActivity(intent);
                 }
             });
 
             RecyclerView.LayoutManager rvLM = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false );
-            RecyclerView.Adapter rvAdapter = new CarrelloProductAdapter(this);
+            carrelloProductAdapter = new CarrelloProductAdapter(this);
 
             rv.setLayoutManager(rvLM);
-            rv.setAdapter(rvAdapter);
+            rv.setAdapter(carrelloProductAdapter);
+
+            ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
+            new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(rv);
 
             emptyCart.setVisibility(View.GONE);
             rv.setVisibility(View.VISIBLE);
@@ -101,5 +119,13 @@ public class CarrelloActivity extends AppCompatActivity {
     public void onBackPressed(){
         ((MyApplication) this.getApplication()).setCarrelloListProduct(carrello);
         super.onBackPressed();
+    }
+
+
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+        if(viewHolder instanceof CarrelloProductAdapter.ProductViewHolder){
+            carrelloProductAdapter.removeItem(viewHolder.getAdapterPosition());
+        }
     }
 }

@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -182,7 +181,6 @@ public class MarketViewFragment extends Fragment {
                     viewmode.setSelected(true);
                 }
                 showProduct(view, visualizeProduct);
-                System.out.println(visualizeProduct);
             }
         });
     }
@@ -247,13 +245,16 @@ public class MarketViewFragment extends Fragment {
                 }
                 case "Prodotti freschi" : {
 
-                }
+                }*/
                 case "Dispensa salata" : {
-
+                    catList.add(new CategoriaItem(R.drawable.category_salati, name, id));
+                    break;
                 }
                 case "Dispensa dolce" : {
+                    catList.add(new CategoriaItem(R.drawable.category_dolci, name, id));
+                    break;
 
-                }*/
+                }
                 case "Bevande" : {
                     catList.add(new CategoriaItem(R.drawable.category_alcool, name, id));
                     break;
@@ -264,6 +265,7 @@ public class MarketViewFragment extends Fragment {
                 }
                 default: catList.add(new CategoriaItem(R.drawable.category_carne, name, id));
             }
+            catList.add(new CategoriaItem(R.drawable.category_pref, "Preferiti", 0 ));
         }
     }
 
@@ -290,7 +292,6 @@ public class MarketViewFragment extends Fragment {
         new HttpJsonRequest(getContext(), "/api/v1/get_products/"+id_negozio, Request.Method.GET, httpToken, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                System.out.println(response);
                 try {
                     parseProduct(response);
                 } catch (JSONException e) {
@@ -335,7 +336,6 @@ public class MarketViewFragment extends Fragment {
         }
     }
     public void filter(){
-        System.out.println(this.activeFilter);
         SearchView searchView = (SearchView) this.getView().findViewById(R.id.marketview_search);
         if (visualizeProduct > 1){
             productGridAdapter.getFilter().filter(searchView.getQuery());

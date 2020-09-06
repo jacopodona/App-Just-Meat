@@ -50,7 +50,10 @@ public class CheckoutActivity extends AppCompatActivity {
     ArrayList<Coupon> couponArrayList;
     CouponAdapter couponAdapter;
     String pickup_date;
-    boolean order_favourite = false;
+    String order_favourite;
+
+    int idSupermercato;
+    String nomeSpkmt;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,8 +61,12 @@ public class CheckoutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_checkout);
         Intent intent = getIntent();
         pickup_date = intent.getStringExtra("pickup_date");
+        idSupermercato = getIntent().getIntExtra("idSupermercato",4);
+        nomeSpkmt = getIntent().getStringExtra("nomeSupermercato");
         couponArrayList = new ArrayList<>();
         productList = ((MyApplication)this.getApplication()).getCarrelloListProduct();
+        TextView titolo = findViewById(R.id.checkout_txt_nomenegozio);
+        titolo.setText(nomeSpkmt);
 
         setConfirmLayout();
         setProdList();
@@ -135,7 +142,6 @@ public class CheckoutActivity extends AppCompatActivity {
                         couponAdapter.notifyDataSetChanged();
                         couponDialog.dismiss();
                     } else {
-                        System.out.println("not avail");
                         editText.setError("Il buono non è disponibile");
                     }
                 }catch (JSONException e){
@@ -222,7 +228,9 @@ public class CheckoutActivity extends AppCompatActivity {
                         confirm_btn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                order_favourite = true;
+                                EditText editText = v.findViewById(R.id.carrello_txtin_dialogpref);
+                                String string = editText.getText().toString();
+                                order_favourite = string;
                                 favDialog.dismiss();
                             }
                         });
@@ -232,14 +240,35 @@ public class CheckoutActivity extends AppCompatActivity {
                                 favDialog.dismiss();
                             }
                         });
-                        //PROBLEMI CON HOMEPAGE.ON CREATE NON HO GLI INTENT
                         favDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialog) {
                                 SendOrder();
-                                /*Intent intent = new Intent(activity, HomepageActivity.class);
-                                startActivity(intent);*/
+                                User user= ((MyApplication)getApplication()).getUtente();
 
+                                JSONObject j= new JSONObject();
+                                JSONObject userJson= new JSONObject();
+                                try {
+                                    userJson.put("id", user.getId())
+                                            .put("name", user.getName())
+                                            .put("last_name", user.getLast_name())
+                                            .put("mail", user.getMail());
+                                    j.put("user", userJson);
+                                    j.put("token", ((MyApplication)getApplication()).getHttpToken());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                Log.e("aasdasd", j.toString());
+
+
+
+                                Intent intent = new Intent(activity , HomepageActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                intent.putExtra("EXIT", true);
+                                intent.putExtra("user", j.toString());
+                                startActivity(intent);
+                                finish();
                             }
                         });
                         favDialog.show();
@@ -294,7 +323,7 @@ public class CheckoutActivity extends AppCompatActivity {
             JSONObject body = new JSONObject();
             body.put("pickup_time", pickup_date);
             body.put("is_favourite", order_favourite);
-            body.put("supermarket_id", 2);
+            body.put("supermarket_id", idSupermercato);
             JSONArray carrello = new JSONArray();
             for(ProductItem productItem : productList){
                 JSONObject jsonObject = new JSONObject();

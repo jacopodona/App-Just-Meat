@@ -2,7 +2,6 @@ package com.example.justmeat.marketview;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,25 +28,28 @@ public class MarketViewActivity extends AppCompatActivity{
     boolean barcodeActive = false;
     ArrayList<ProductItem> editFavoriteProd = new ArrayList<>();
     ImageView marketImage;
+    int idSupermercato;
+    String nomeSpkmt;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         System.out.println(((MyApplication)getApplication()).getHttpToken());
         super.onCreate(savedInstanceState);
-        int id_negozio=getIntent().getIntExtra("idSupermercato",4);
+        idSupermercato = getIntent().getIntExtra("idSupermercato",4);
 
 
-        String nomeSupermercato= getIntent().getStringExtra("nomeSupermercato");
-
+        nomeSpkmt = getIntent().getStringExtra("nomeSupermercato");
 
 
         setContentView(R.layout.activity_marketview);
         marketImage = findViewById(R.id.marketview_img_appbar);
+        TextView titolo = findViewById(R.id.marketview_txt_nomenegozio);
+        titolo.setText(nomeSpkmt);
         carrello = new CustomArray(((MyApplication) this.getApplication()).getCarrelloListProduct());
         setBackButton();
         setCarrelloButton();
         quantityOnCart();
-        marketViewFragment = new MarketViewFragment(id_negozio);
+        marketViewFragment = new MarketViewFragment(idSupermercato);
         this.getSupportFragmentManager().beginTransaction().replace(R.id.marketview_frame_container, marketViewFragment).commit();
     }
 
@@ -125,6 +127,8 @@ public class MarketViewActivity extends AppCompatActivity{
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), CarrelloActivity.class);
                 ((MyApplication) context.getApplication()).setCarrelloListProduct(carrello);
+                intent.putExtra("idSupermercato", idSupermercato);
+                intent.putExtra("nomeSupermercato", nomeSpkmt);
                 startActivity(intent);
             }
         });

@@ -36,15 +36,31 @@ public class MarketViewProductGridAdapter extends RecyclerView.Adapter<MarketVie
             List<ProductItem> filteredList = new ArrayList<>();
             if (marketViewFragment.activeFilter == -1){
                 if(constraint == null || constraint.length() == 0 ){
-                        filteredList.addAll(pListFull);
-                    }  else {
-                        String filterPattern = constraint.toString().toLowerCase().trim();
-                        for (ProductItem productItem : pListFull) {
-                            if (productItem.getNome().toLowerCase().contains(filterPattern)){
-                                filteredList.add(productItem);
-                            }
+                    filteredList.addAll(pListFull);
+                }  else {
+                    String filterPattern = constraint.toString().toLowerCase().trim();
+                    for (ProductItem productItem : pListFull) {
+                        if (productItem.getNome().toLowerCase().contains(filterPattern)){
+                            filteredList.add(productItem);
                         }
+                    }
                 }
+            } else if (marketViewFragment.activeFilter == 0){
+                if(constraint == null || constraint.length() == 0 ){
+                    for (ProductItem productItem : pListFull) {
+                        if (productItem.isPref()){
+                            filteredList.add(productItem);
+                        }
+                    }
+                }  else {
+                    String filterPattern = constraint.toString().toLowerCase().trim();
+                    for (ProductItem productItem : pListFull) {
+                        if (productItem.getNome().toLowerCase().contains(filterPattern) && productItem.getCategoria() == marketViewFragment.activeFilter){
+                            filteredList.add(productItem);
+                        }
+                    }
+                }
+
             } else {
                 if(constraint == null || constraint.length() == 0 ){
                     for (ProductItem productItem : pListFull) {
