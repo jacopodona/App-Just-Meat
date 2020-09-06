@@ -158,6 +158,8 @@ public class MapFragment extends FragmentActivity implements OnMapReadyCallback,
         if(infoCardMappe!=null) {
             Intent i = new Intent(activity, MarketViewActivity.class);
             i.putExtra("idSupermercato", infoCardMappe.getId());
+
+            i.putExtra("nomeSupermercato", infoCardMappe.getNomeSupermercato());
             activity.startActivity(i);
         }
     }

@@ -56,6 +56,7 @@ public class ListaSupermercatiAdapter extends RecyclerView.Adapter<ListaSupermer
                 public void onClick(View v) {
                     Intent i = new Intent(activity, MarketViewActivity.class);
                     i.putExtra("idSupermercato",supermercato.getId());
+                    i.putExtra("nomeSupermercato", supermercato.getNome());
                     activity.startActivity(i);
                 }
             });

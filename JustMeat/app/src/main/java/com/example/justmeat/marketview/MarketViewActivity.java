@@ -2,6 +2,7 @@ package com.example.justmeat.marketview;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,6 +35,12 @@ public class MarketViewActivity extends AppCompatActivity{
         System.out.println(((MyApplication)getApplication()).getHttpToken());
         super.onCreate(savedInstanceState);
         int id_negozio=getIntent().getIntExtra("idSupermercato",4);
+
+
+        String nomeSupermercato= getIntent().getStringExtra("nomeSupermercato");
+
+
+
         setContentView(R.layout.activity_marketview);
         marketImage = findViewById(R.id.marketview_img_appbar);
         carrello = new CustomArray(((MyApplication) this.getApplication()).getCarrelloListProduct());

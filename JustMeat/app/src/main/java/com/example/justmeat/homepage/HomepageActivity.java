@@ -219,6 +219,30 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
         return true;
     }
 
+
+    private void showUscitoDialog() {
+        AlertDialog.Builder builder =new AlertDialog.Builder(this);
+        builder.setTitle("");
+        builder.setMessage("Sei sicuro di voler uscire dall'applicazione?");
+        builder.setPositiveButton("Conferma", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                finish();
+            }
+        });
+        builder.setNeutralButton("Annulla", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog=builder.create();
+        dialog.show();
+    }
+
+
+
     private void showLogoutDialog() {
         AlertDialog.Builder builder =new AlertDialog.Builder(this);
         builder.setTitle("Logout");
@@ -245,7 +269,7 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if(getSupportFragmentManager().getBackStackEntryCount()== 0){
-            showLogoutDialog();
+            showUscitoDialog();
         } else if(getSupportFragmentManager().getBackStackEntryCount()== 1){
             navigationview.setCheckedItem(R.id.homepage_nav_trova_supermercati);
             toolbar.setTitle("Trova Supermercati");
