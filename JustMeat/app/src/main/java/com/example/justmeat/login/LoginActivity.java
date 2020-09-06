@@ -150,11 +150,11 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public boolean checkEmailPassword(){
-        boolean res= true;
+    public boolean checkEmailPassword() {
+        boolean res = true;
 
-        if(email.getText().toString().equals("") || password.getText().toString().equals("")){
-            res=false;
+        if (email.getText().toString().equals("") || password.getText().toString().equals("")) {
+            res = false;
             new AlertDialog.Builder(LoginActivity.this)
                     .setTitle("Errore")
                     .setMessage("Completa tutti i campi")
@@ -162,10 +162,9 @@ public class LoginActivity extends AppCompatActivity {
                     .show();
 
         }
-
-
-
         return res;
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

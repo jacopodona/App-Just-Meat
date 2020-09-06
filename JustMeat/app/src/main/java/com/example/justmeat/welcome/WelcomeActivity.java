@@ -27,12 +27,20 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class WelcomeActivity extends AppCompatActivity {
+
+    private String nomeFile="user.json";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
+        caricaUtente();
 
 
         Button accedi_btn = findViewById(R.id.welcome_button_accedi);
@@ -85,4 +93,33 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         }
     }
+
+    private void caricaUtente() {//carica utente che ha usato l'app di recente
+        String utente=readFromMemory();
+        if(utente!=""){
+            Intent intent=new Intent(this,HomepageActivity.class);
+            intent.putExtra("user",utente);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    public String readFromMemory(){
+        String temp="";
+        try {
+            FileInputStream fin = openFileInput(nomeFile);
+            int c;
+            while( (c = fin.read()) != -1){
+                temp = temp + Character.toString((char)c);
+            }
+            fin.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Log.e("Errore read from memory","Non ho trovato il file utente");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return temp;
+    }
+
 }

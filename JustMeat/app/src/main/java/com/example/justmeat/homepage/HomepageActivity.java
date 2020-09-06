@@ -3,6 +3,7 @@ package com.example.justmeat.homepage;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,6 +33,9 @@ import com.google.android.material.navigation.NavigationView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
@@ -49,6 +53,8 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
     private User utente;
     private  NavigationView navigationview;
     private Toolbar toolbar;
+    private String nomeFile="user.json";
+    private String input;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +62,7 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
         setContentView(R.layout.activity_homepage);
 
         Intent intent = getIntent();
-        String input = intent.getStringExtra("user");
+        input = intent.getStringExtra("user");
         String name="";
         String last_name="";
         String mail="";
@@ -70,6 +76,8 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        salvaUtenteInLocale();
 
         utente=new User(id,name,last_name,mail);
 
@@ -127,6 +135,30 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
         }
 
 
+    }
+
+    private void salvaUtenteInLocale() {
+        try {
+            FileOutputStream fOut = openFileOutput(nomeFile, Context.MODE_PRIVATE);
+            fOut.write(input.toString().getBytes());
+            fOut.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void cancellaUtenteLocale(){
+        try {
+            FileOutputStream fOut = openFileOutput(nomeFile, Context.MODE_PRIVATE);
+            fOut.write("".getBytes());
+            fOut.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void inizializzaNavigationView() {
@@ -194,6 +226,7 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
         builder.setPositiveButton("Conferma", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                cancellaUtenteLocale();
                 finish();
             }
         });
