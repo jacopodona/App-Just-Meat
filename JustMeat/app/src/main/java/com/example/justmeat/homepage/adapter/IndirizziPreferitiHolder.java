@@ -15,6 +15,7 @@ public class IndirizziPreferitiHolder extends RecyclerView.ViewHolder {
     public TextView nomeIndirizzo;
     public TextView indirizzo;
     public ImageButton deleteButton;
+    public ImageButton modifyButton;
 
 
     public IndirizziPreferitiHolder(@NonNull View itemView) {
@@ -22,6 +23,7 @@ public class IndirizziPreferitiHolder extends RecyclerView.ViewHolder {
         nomeIndirizzo = itemView.findViewById(R.id.homepage_textview_nomeindirizzo);
         indirizzo = itemView.findViewById(R.id.homepage_textview_indirizzopreferito);
         deleteButton = itemView.findViewById(R.id.homepage_imagebutton_delete_indirizzo_preferito);
+        modifyButton = itemView.findViewById(R.id.homepage_imagebutton_modifica_indirizzo_preferito);
 
     }
 }

@@ -37,6 +37,8 @@ public class DettagliOrdinePreferitoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_ordine_preferito,container,false);
 
+
+
         recyclerView = view.findViewById(R.id.ordine_preferito_rec_view);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false);

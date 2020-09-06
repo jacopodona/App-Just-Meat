@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.example.justmeat.R;
 import com.example.justmeat.homepage.adapter.IndirizziPreferitiAdapter;
 import com.example.justmeat.homepage.adapter.MieiOrdiniAdapter;
+import com.example.justmeat.homepage.adapter.OrdiniPreferitiAdapter;
 import com.example.justmeat.utilities.HttpJsonRequest;
 
 import org.json.JSONException;
@@ -31,70 +32,84 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class IndirizziPreferitiFragment extends Fragment {
+
+    private String httpToken;
+    private IndirizziPreferitiAdapter adapter;
+    private RecyclerView recyclerView;
+
+    public IndirizziPreferitiFragment(String httpToken) {
+        this.httpToken = httpToken;
+        adapter = null;
+        recyclerView = null;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_indirizzi_preferiti,container,false);
+        View view = inflater.inflate(R.layout.fragment_indirizzi_preferiti, container, false);
         this.getIndirizziPreferiti();
 
 
-        List lista= new LinkedList();
-        IndirizzoPreferito m= new IndirizzoPreferito("Casa","Via Roma 12b");
+        List lista = new LinkedList();
+        IndirizzoPreferito m = new IndirizzoPreferito("Casa", "Via Roma 12b");
         lista.add(m);
-        m= new IndirizzoPreferito("Casa","Via Roma 12b");
+        m = new IndirizzoPreferito("Casa", "Via Roma 12b");
         lista.add(m);
 
-        RecyclerView recyclerView = view.findViewById(R.id.homepage_recyclerview_indirizzipreferiti);
+        recyclerView = view.findViewById(R.id.homepage_recyclerview_indirizzipreferiti);
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
 
         recyclerView.setLayoutManager(layoutManager);
 
 
-        IndirizziPreferitiAdapter adapter = new IndirizziPreferitiAdapter(lista);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setNestedScrollingEnabled(false);
-
-        ImageView imageView= view.findViewById(R.id.homepage_imageview_plusbutton_indirizzi);
+        ImageView imageView = view.findViewById(R.id.homepage_imageview_plusbutton_indirizzi);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((HomepageActivity)getActivity()).navigateTo(new AggiungiIndirizzoPreferitoFragment(), true);
+                ((HomepageActivity) getActivity()).navigateTo(new AggiungiIndirizzoPreferitoFragment(httpToken), true);
             }
         });
 
         return view;
     }
-    public void getIndirizziPreferiti(){
+
+    public void getIndirizziPreferiti() {
         final ArrayList ordiniPreferitiList = new ArrayList<JSONObject>();
-        new HttpJsonRequest(getContext(), "/api/v1/get_favourite_orders", Request.Method.GET, ((HomepageActivity)getActivity()).getHttpToken(),
+        new HttpJsonRequest(getContext(), "/api/v1/get_favourite_addresses", Request.Method.GET, httpToken,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("Fav Order", response.toString());
+                        Log.d("OK", response.toString());
+                        LinkedList<IndirizzoPreferito> listaIndirizziPreferiti = new LinkedList();
 
                         try {
-                            int numElementi=(response.getJSONObject("metadata").getInt("returned"));
-                            for(int i=0; i<numElementi;i++){
-                                try {
-                                    ordiniPreferitiList.add(response.getJSONArray("results").getJSONObject(i));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
+                            for (int c = 0; c < (response.getJSONArray("results").length()); c++) {
+                                IndirizzoPreferito indirizzoPreferito = new IndirizzoPreferito();
+                                indirizzoPreferito.setIndirizzo(response.getJSONArray("results").getJSONObject(c).getString("address"));
+                                indirizzoPreferito.setNome(response.getJSONArray("results").getJSONObject(c).getString("name"));
+                                indirizzoPreferito.setLatitude(Double.parseDouble(response.getJSONArray("results").getJSONObject(c).getString("latitude")));
+                                indirizzoPreferito.setLongitude(Double.parseDouble(response.getJSONArray("results").getJSONObject(c).getString("longitude")));
+
+
+                                listaIndirizziPreferiti.add(indirizzoPreferito);
                             }
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            adapter = new IndirizziPreferitiAdapter(listaIndirizziPreferiti, getActivity());
+                            recyclerView.setAdapter(adapter);
+                            recyclerView.setNestedScrollingEnabled(false);
+
+                        } catch (Exception e) {
+                            Log.e("Err Ordini prefe", e.toString());
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("asd", error.toString());
+                        Log.d("Err connessione", error.toString());
+
                     }
                 }).run();
-
-       // return ordiniPreferitiList;
     }
 }

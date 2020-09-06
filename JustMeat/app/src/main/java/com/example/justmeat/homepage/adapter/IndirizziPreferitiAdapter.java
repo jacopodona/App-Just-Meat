@@ -1,5 +1,6 @@
 package com.example.justmeat.homepage.adapter;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,7 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.justmeat.R;
+import com.example.justmeat.homepage.HomepageActivity;
 import com.example.justmeat.homepage.IndirizzoPreferito;
+import com.example.justmeat.homepage.ModificaIndirizzoPreferitoFragment;
 
 import java.util.List;
 
@@ -21,9 +24,11 @@ public class IndirizziPreferitiAdapter extends RecyclerView.Adapter<IndirizziPre
 
     private List<IndirizzoPreferito> listaIndirizziPreferiti;
     Context context;
+    private Activity activity;
 
-    public IndirizziPreferitiAdapter(List<IndirizzoPreferito> listaIndirizziPreferiti) {
+    public IndirizziPreferitiAdapter(List<IndirizzoPreferito> listaIndirizziPreferiti, Activity activity) {
         this.listaIndirizziPreferiti = listaIndirizziPreferiti;
+        this.activity= activity;
     }
 
     @NonNull
@@ -37,7 +42,7 @@ public class IndirizziPreferitiAdapter extends RecyclerView.Adapter<IndirizziPre
     @Override
     public void onBindViewHolder(@NonNull IndirizziPreferitiHolder holder, final int position) {
         if (listaIndirizziPreferiti != null && position < listaIndirizziPreferiti.size()) {
-            IndirizzoPreferito indirizzoPreferito = listaIndirizziPreferiti.get(position);
+            final IndirizzoPreferito indirizzoPreferito = listaIndirizziPreferiti.get(position);
 
             holder.indirizzo.setText(indirizzoPreferito.getIndirizzo());
             holder.nomeIndirizzo.setText(indirizzoPreferito.getNome());
@@ -74,6 +79,13 @@ public class IndirizziPreferitiAdapter extends RecyclerView.Adapter<IndirizziPre
                     dialog.getButton(DialogInterface.BUTTON_POSITIVE).setBackgroundTintList(myColorStateList);
                     dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setBackgroundColor(Color.WHITE);
 
+                }
+            });
+
+            holder.modifyButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((HomepageActivity) activity).navigateTo(new ModificaIndirizzoPreferitoFragment(((HomepageActivity) activity).getHttpToken(),indirizzoPreferito),true);
                 }
             });
          }
