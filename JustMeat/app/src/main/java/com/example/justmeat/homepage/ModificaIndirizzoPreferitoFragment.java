@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -42,6 +43,12 @@ public class ModificaIndirizzoPreferitoFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_aggiungi_indirizzi_salvati, container, false);
+
+        TextView titolo= view.findViewById(R.id.aggiungi_indirizzi_preferito_text);
+        titolo.setText("Modifica Indirizzo");
+
+        MaterialButton confermaButton= view.findViewById(R.id.homepage_inserisciindirizzo_conferma);
+        confermaButton.setText("Conferma modifica");
 
         nome = view.findViewById(R.id.homepage_inserisciindirizzo_nome);
         città = view.findViewById(R.id.homepage_inserisciindirizzo_città);
@@ -83,8 +90,8 @@ public class ModificaIndirizzoPreferitoFragment extends Fragment {
                 if(!(TextUtils.isEmpty(nomeval)) && !(TextUtils.isEmpty(via.getText().toString())) && !(TextUtils.isEmpty(città.getText().toString())) && !(TextUtils.isEmpty(numero.getText().toString()))){//Contreolla se i campi sono compilati
 
                     //DA AGGIUNGERE: cancella indirizzo preferito per poi aggiungerne un'altro
-
-                    cercaSuperMercati();
+                    delIndirizzoPreferito();
+                    postIndirizzoPreferito();
                     getActivity().onBackPressed();
 
                 }
@@ -106,7 +113,7 @@ public class ModificaIndirizzoPreferitoFragment extends Fragment {
 
     }
 
-    public void cercaSuperMercati(){
+    public void postIndirizzoPreferito(){
         JSONObject body=new JSONObject();
         try {
             body.put("name", nome.getText().toString());
@@ -117,6 +124,32 @@ public class ModificaIndirizzoPreferitoFragment extends Fragment {
             e.printStackTrace();
         }
         new HttpJsonRequest(getContext(), "/api/v1/add_favourite_address", Request.Method.POST,body, httpToken,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("OK", response.toString());
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Err connessione", error.toString());
+
+                    }
+                }).run();
+    }
+
+    public void delIndirizzoPreferito(){
+        JSONObject body=new JSONObject();
+        try {
+            body.put("address_id", indirizzoPreferito.getId());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        new HttpJsonRequest(getContext(), "/api/v1/del_favourite_address", Request.Method.POST,body, httpToken,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

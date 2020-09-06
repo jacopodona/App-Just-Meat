@@ -64,7 +64,7 @@ public class AggiungiIndirizzoPreferitoFragment extends Fragment {
                 indirizzoval = via.getText().toString() + ", " + numero.getText().toString() + ", " + città.getText().toString();
                 if(!(TextUtils.isEmpty(nomeval)) && !(TextUtils.isEmpty(via.getText().toString())) && !(TextUtils.isEmpty(città.getText().toString())) && !(TextUtils.isEmpty(numero.getText().toString()))){//Contreolla se i campi sono compilati
 
-                    cercaSuperMercati();
+                    postIndirizzo();
                     getActivity().onBackPressed();
                 }
                 else {
@@ -85,7 +85,7 @@ public class AggiungiIndirizzoPreferitoFragment extends Fragment {
 
     }
 
-    public void cercaSuperMercati(){
+    public void postIndirizzo(){
         JSONObject body=new JSONObject();
         try {
             body.put("name", nome.getText().toString());

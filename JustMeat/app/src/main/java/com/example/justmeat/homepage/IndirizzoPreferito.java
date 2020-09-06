@@ -4,6 +4,7 @@ public class IndirizzoPreferito {
 
     private String nome, indirizzo;
     private double latitude,longitude;
+    private int id;
 
     public IndirizzoPreferito(String nome, String indirizzo) {
         this.nome = nome;
@@ -51,5 +52,13 @@ public class IndirizzoPreferito {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

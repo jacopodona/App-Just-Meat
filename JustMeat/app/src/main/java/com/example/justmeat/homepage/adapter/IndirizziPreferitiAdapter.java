@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,17 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.example.justmeat.R;
 import com.example.justmeat.homepage.HomepageActivity;
 import com.example.justmeat.homepage.IndirizzoPreferito;
 import com.example.justmeat.homepage.ModificaIndirizzoPreferitoFragment;
+import com.example.justmeat.utilities.HttpJsonRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -59,9 +67,11 @@ public class IndirizziPreferitiAdapter extends RecyclerView.Adapter<IndirizziPre
                     .setPositiveButton("Conferma", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            delIndirizzoPreferito(listaIndirizziPreferiti.get(position));
                             listaIndirizziPreferiti.remove(position);
                             notifyItemRemoved(position);
                             notifyItemRangeChanged(position, listaIndirizziPreferiti.size());
+
                         }
                     });
                     dialog=builder.create();
@@ -94,5 +104,31 @@ public class IndirizziPreferitiAdapter extends RecyclerView.Adapter<IndirizziPre
     @Override
     public int getItemCount() {
         return listaIndirizziPreferiti.size();
+    }
+
+    public void delIndirizzoPreferito(IndirizzoPreferito indirizzoPreferito){
+        JSONObject body=new JSONObject();
+        try {
+            body.put("address_id", indirizzoPreferito.getId());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        new HttpJsonRequest(activity.getBaseContext(), "/api/v1/del_favourite_address", Request.Method.POST,body, ((HomepageActivity)activity).getHttpToken(),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("OK", response.toString());
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Err connessione", error.toString());
+
+                    }
+                }).run();
     }
 }

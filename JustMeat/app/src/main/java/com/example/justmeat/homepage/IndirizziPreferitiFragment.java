@@ -90,6 +90,7 @@ public class IndirizziPreferitiFragment extends Fragment {
                                 indirizzoPreferito.setNome(response.getJSONArray("results").getJSONObject(c).getString("name"));
                                 indirizzoPreferito.setLatitude(Double.parseDouble(response.getJSONArray("results").getJSONObject(c).getString("latitude")));
                                 indirizzoPreferito.setLongitude(Double.parseDouble(response.getJSONArray("results").getJSONObject(c).getString("longitude")));
+                                indirizzoPreferito.setId(Integer.parseInt(response.getJSONArray("results").getJSONObject(c).getString("id")));
 
 
                                 listaIndirizziPreferiti.add(indirizzoPreferito);
