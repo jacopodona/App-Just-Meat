@@ -32,4 +32,17 @@ public class IndirizzoPreferito {
     public void setIndirizzo(String indirizzo) {
         this.indirizzo = indirizzo;
     }
+
+    @Override
+    public String toString() {
+        return nome;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
 }
