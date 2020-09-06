@@ -225,11 +225,12 @@ public class CheckoutActivity extends AppCompatActivity {
                         favDialog.setContentView(R.layout.dialog_preferiti);
                         Button confirm_btn = favDialog.findViewById(R.id.carrello_btn_positive_dialogpref);
                         Button dismiss_btn = favDialog.findViewById(R.id.carrello_btn_neutral_dialogpref);
+                        final TextInputLayout textInputLayout = favDialog.findViewById(R.id.carrello_txtin_dialogpref);
                         confirm_btn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                EditText editText = v.findViewById(R.id.carrello_txtin_dialogpref);
-                                String string = editText.getText().toString();
+
+                                String string = textInputLayout.getEditText().getText().toString();
                                 order_favourite = string;
                                 favDialog.dismiss();
                             }
