@@ -22,4 +22,24 @@ public class User {
     public String getMail() {
         return mail;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
 }

@@ -89,10 +89,11 @@ public class ModificaIndirizzoPreferitoFragment extends Fragment {
                 indirizzoval = via.getText().toString() + ", " + numero.getText().toString() + ", " + città.getText().toString();
                 if(!(TextUtils.isEmpty(nomeval)) && !(TextUtils.isEmpty(via.getText().toString())) && !(TextUtils.isEmpty(città.getText().toString())) && !(TextUtils.isEmpty(numero.getText().toString()))){//Contreolla se i campi sono compilati
 
-                    //DA AGGIUNGERE: cancella indirizzo preferito per poi aggiungerne un'altro
+
                     delIndirizzoPreferito();
                     postIndirizzoPreferito();
-                    getActivity().onBackPressed();
+                    getActivity().getSupportFragmentManager().popBackStack(null, getActivity().getSupportFragmentManager().POP_BACK_STACK_INCLUSIVE);
+                    ((HomepageActivity)getActivity()).navigateTo(new IndirizziPreferitiFragment(httpToken), true);
 
                 }
                 else {

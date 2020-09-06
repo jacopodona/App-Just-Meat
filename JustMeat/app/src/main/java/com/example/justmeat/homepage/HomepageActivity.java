@@ -73,6 +73,9 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
 
         utente=new User(id,name,last_name,mail);
 
+        ((MyApplication)getApplication()).setUtente(utente);
+
+
         toolbar = findViewById(R.id.homepage_toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));

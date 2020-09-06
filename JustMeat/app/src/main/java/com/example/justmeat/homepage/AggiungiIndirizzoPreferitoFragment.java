@@ -65,7 +65,8 @@ public class AggiungiIndirizzoPreferitoFragment extends Fragment {
                 if(!(TextUtils.isEmpty(nomeval)) && !(TextUtils.isEmpty(via.getText().toString())) && !(TextUtils.isEmpty(città.getText().toString())) && !(TextUtils.isEmpty(numero.getText().toString()))){//Contreolla se i campi sono compilati
 
                     postIndirizzo();
-                    getActivity().onBackPressed();
+                    getActivity().getSupportFragmentManager().popBackStack(null, getActivity().getSupportFragmentManager().POP_BACK_STACK_INCLUSIVE);
+                    ((HomepageActivity)getActivity()).navigateTo(new IndirizziPreferitiFragment(httpToken), true);
                 }
                 else {
                     Toast.makeText(getContext(),"Compilare tutti i Campi",Toast.LENGTH_LONG).show();

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +25,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.example.justmeat.R;
+import com.example.justmeat.homepage.HomepageActivity;
+import com.example.justmeat.homepage.User;
 import com.example.justmeat.marketview.ProductItem;
 import com.example.justmeat.utilities.HttpJsonRequest;
 import com.example.justmeat.utilities.MyApplication;
@@ -234,11 +237,46 @@ public class CheckoutActivity extends AppCompatActivity {
                             @Override
                             public void onDismiss(DialogInterface dialog) {
                                 SendOrder();
-                               /* Intent intent = new Intent(activity, HomepageActivity.class);
+                                /*Intent intent = new Intent(activity, HomepageActivity.class);
                                 startActivity(intent);*/
+
                             }
                         });
                         favDialog.show();
+
+                        Button goHomeButton = view.findViewById(R.id.button);
+                        goHomeButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                User user= ((MyApplication)getApplication()).getUtente();
+
+                                JSONObject j= new JSONObject();
+                                JSONObject userJson= new JSONObject();
+                                try {
+                                    userJson.put("id", user.getId())
+                                            .put("name", user.getName())
+                                            .put("last_name", user.getLast_name())
+                                            .put("mail", user.getMail());
+                                    j.put("user", userJson);
+                                    j.put("token", ((MyApplication)getApplication()).getHttpToken());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                Log.e("aasdasd", j.toString());
+
+
+
+                                Intent intent = new Intent(activity , HomepageActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                intent.putExtra("EXIT", true);
+                                intent.putExtra("user", j.toString());
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+
                         break;
                     }
 
