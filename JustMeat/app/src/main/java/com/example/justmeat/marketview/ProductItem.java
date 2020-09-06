@@ -59,6 +59,14 @@ public class ProductItem implements Serializable {
         this.fk_weight = fk_weight;
     }
 
+    public ProductItem(int id, String name, double prezzo, int qt, int weight){
+        this.id = id;
+        this.nome = name;
+        this.prezzo = prezzo;
+        this.qt = qt;
+        this.weight = weight;
+    }
+
     public int getWeight() {
         return weight;
     }
