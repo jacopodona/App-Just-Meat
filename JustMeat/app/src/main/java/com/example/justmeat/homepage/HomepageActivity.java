@@ -114,43 +114,7 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
                 }).run();
 
 
-        new HttpJsonRequest(getBaseContext(), "/api/v1/get_supermarkets", Request.Method.GET, httpToken,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d("asd", response.toString());
-                        /*try {
-                            int numElementi=(response.getJSONObject("metadata").getInt("returned"));
-                            //Log.d("Num elementi ", numElementi+"");
 
-                            List prova = new ArrayList<JSONObject>();
-                            for(int i=0; i<numElementi;i++){
-                                try {
-                                    prova.add(response.getJSONArray("results").getJSONObject(i));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                            /*for (Object j: prova) {
-                                Log.d("Elem",j.toString());
-                            }
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }*/
-
-
-
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("asd", error.toString());
-                    }
-                }).run();
 
         if (savedInstanceState == null) {//serve per mantenere il fragment corretto aperto in caso l'activity venga ricostruita (es: cambio di orientamento distrugge e ricrea activity)
             //inizializzo il primo fragment a trova supermercati
@@ -187,21 +151,28 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
         switch (menuItem.getItemId()) {
             case R.id.homepage_nav_trova_supermercati:
                 //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new TrovaSupermercatiFragment()).commit();
+                getSupportFragmentManager().popBackStack(null, getSupportFragmentManager().POP_BACK_STACK_INCLUSIVE);
                 navigateTo(new TrovaSupermercatiFragment(httpToken),true);
                 toolbar.setTitle("Trova Supermercati");
                 break;
             case R.id.homepage_nav_miei_ordini:
                 //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new MieiOrdiniFragment(httpToken)).commit();
+
+                getSupportFragmentManager().popBackStack(null, getSupportFragmentManager().POP_BACK_STACK_INCLUSIVE);
                 navigateTo(new MieiOrdiniFragment(httpToken),true);
                 toolbar.setTitle("Miei Ordini");
                 break;
             case R.id.homepage_nav_ordini_preferiti:
                 //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new OrdiniPreferitiFragment(getDataOrdiniPreferiti())).commit();
+
+                getSupportFragmentManager().popBackStack(null, getSupportFragmentManager().POP_BACK_STACK_INCLUSIVE);
                 navigateTo(new OrdiniPreferitiFragment(httpToken),true);
                 toolbar.setTitle("Ordini Preferiti");
                 break;
             case R.id.homepage_nav_indirizzi_preferiti:
                 //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new IndirizziPreferitiFragment()).commit();
+
+                getSupportFragmentManager().popBackStack(null, getSupportFragmentManager().POP_BACK_STACK_INCLUSIVE);
                 navigateTo(new IndirizziPreferitiFragment(httpToken),true);
                 toolbar.setTitle("Indirizzi Preferiti");
                 break;
@@ -239,7 +210,11 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
             drawer.closeDrawer(GravityCompat.START);
         } else if(getSupportFragmentManager().getBackStackEntryCount()== 0){
             showLogoutDialog();
-        } else {
+        } else if(getSupportFragmentManager().getBackStackEntryCount()== 1){
+            navigationview.setCheckedItem(R.id.homepage_nav_trova_supermercati);
+            toolbar.setTitle("Trova Supermercati");
+            super.onBackPressed();
+        }else {
             super.onBackPressed();
         }
     }
