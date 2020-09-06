@@ -44,6 +44,7 @@ public class IndirizzoPreferito {
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
+    }
 
     @Override
     public String toString() {
