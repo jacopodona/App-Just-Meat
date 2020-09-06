@@ -1,111 +1,108 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:translationZ="90dp">
 
+    <TextView
+        android:id="@+id/trovasupermercati_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="40dp"
+        android:textSize="25dp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:text="Trova Supermercati vicino a te"/>
 
-
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:translationZ="90dp">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/homepage_card_search"
+        <LinearLayout
+            android:id="@+id/trovasupermercati_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            android:layout_centerInParent="true"
+            android:layout_marginTop="30dp"
+            android:layout_below="@id/trovasupermercati_message"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/homepage_cercasupermercati_posizione_button"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Usa Posizione Gps"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="22sp"
+                android:textColor="@color/black"
+                android:text="Oppure usa un indirizzo salvato"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp">
 
-            <SearchView
-                android:id="@+id/homepage_search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:iconifiedByDefault="true"
-                android:queryHint="ricerca supermercati"
-                android:layout_alignRight="@id/homepage_cercasupermercati_button"
-                android:searchIcon="@drawable/ic_search" />
+                <Spinner
+                    android:id="@+id/homepage_spinner_indirizzi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignRight="@id/homepage_cercasupermercati_indirizzi_button"
+                    android:layout_centerInParent="true" />
 
-            <ImageButton
-                android:id="@+id/homepage_cercasupermercati_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="@color/primaryColor"
-                android:src="@drawable/ic_lente_bianca"
-                android:layout_alignParentRight="true"
-                />
-
+                <ImageButton
+                    android:id="@+id/homepage_cercasupermercati_indirizzi_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:background="@color/primaryColor"
+                    android:src="@drawable/ic_lente_bianca" />
             </RelativeLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Distanza: " />
-
-            <TextView
-                android:id="@+id/homepage_textview_distanza"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:text="1 km"/>
-
-            <SeekBar
-                android:id="@+id/homepage_seekbar_distanza"
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:progress="25"
-                android:min="1"
-                android:max="100"
-                />
-
-            <ImageButton
-                android:id="@+id/homepage_imagebutton_search_on_maps"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/location"
-                android:backgroundTint="@color/primaryColor"
-                android:background="@color/primaryColor">
-
-            </ImageButton>
-
-
-
 
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/homepage_recyclerview_listasupermercati"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginHorizontal="15dp"
-            android:overScrollMode="never"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_below="@id/trovasupermercati_layout"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Distanza: " />
+
+        <TextView
+            android:id="@+id/homepage_textview_distanza"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:text="1 km" />
+
+            <SeekBar
+                android:id="@+id/homepage_seekbar_distanza"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:min="1"
+                android:progress="25" />
+
 
     </LinearLayout>
+
+</RelativeLayout>
 
 
 

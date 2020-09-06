@@ -23,11 +23,9 @@ import com.example.justmeat.R;
     Il secondo metodo che usa il boolean è per la gestione delle animazioni
     Per il progresso si usano i seguenti treshold:
         0 solo il primo cerchio è verde
-        >33 il secondo cerchio diventa verde
-        >66 il terzo diventa verde
-        >100 il quarto diventa verde (barra completa)
+        >49 il secondo cerchio diventa verde
+        >100 il terzo diventa verde (barra completa)
     Utilizza valori leggermente superiori al threshold per evitare piccoli errori grafici
-    (prova funzionante con set di valori {5,40,70,100}
 
  */
 
@@ -127,14 +125,10 @@ public class CustomProgressBar extends View {
 
         int color1=getResources().getColor(R.color.barColor);
         int color2=getResources().getColor(R.color.unfilledbarColor);
-        int color3=getResources().getColor(R.color.unfilledbarColor);
         int color4=getResources().getColor(R.color.unfilledbarColor);
 
-        if(progress>33){
+        if(progress>49){
             color2=getResources().getColor(R.color.barColor);
-        }
-        if (progress>66){
-            color3=getResources().getColor(R.color.barColor);
         }
         if(progress==100){
             color4=getResources().getColor(R.color.barColor);
@@ -158,13 +152,9 @@ public class CustomProgressBar extends View {
         progressPaint.setColor(color1);
         canvas.drawCircle(indicatorPosition1, halfHeight, halfHeight/2, progressPaint);
 
-        float indicatorPosition2 = getWidth() * 33 / 100f;
+        float indicatorPosition2 = getWidth() * 50 / 100f;
         progressPaint.setColor(color2);
         canvas.drawCircle(indicatorPosition2,halfHeight, halfHeight/2, progressPaint);
-
-        float indicatorPosition3 = getWidth() *66 / 100f;
-        progressPaint.setColor(color3);
-        canvas.drawCircle(indicatorPosition3,halfHeight, halfHeight/2, progressPaint);
 
         float indicatorPosition4 = getWidth() * 100 / 100f;
         indicatorPosition4-=halfHeight;

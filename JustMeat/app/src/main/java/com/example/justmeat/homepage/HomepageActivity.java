@@ -77,6 +77,7 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
 
+
         inizializzaNavigationView();
         caricaInfoHeader();
 
@@ -155,7 +156,7 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
             //inizializzo il primo fragment a trova supermercati
             getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new TrovaSupermercatiFragment(httpToken)).commit();
             navigationview.setCheckedItem(R.id.homepage_nav_trova_supermercati);
-            toolbar.setTitle("Trova Supermercati");
+            getSupportActionBar().setTitle("Trova Supermercati");
         }
 
 
