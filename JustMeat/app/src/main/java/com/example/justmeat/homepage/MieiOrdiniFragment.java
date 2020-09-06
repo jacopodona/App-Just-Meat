@@ -84,6 +84,7 @@ public class MieiOrdiniFragment extends Fragment {
                                     ordine.setIndirizzo(response.getJSONArray("results").getJSONObject(i).get("supermarket_address").toString());
                                     ordine.setStato(response.getJSONArray("results").getJSONObject(i).get("status").toString());
                                     ordine.setNumOrdine(Integer.parseInt(response.getJSONArray("results").getJSONObject(i).get("order_id").toString()));
+                                    ordine.setIdSupermercato(Integer.parseInt(response.getJSONArray("results").getJSONObject(i).get("supermarket_id").toString()));
 
                                     //Date
                                     SimpleDateFormat format= new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");

@@ -201,8 +201,7 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
                 break;
             case R.id.homepage_nav_indirizzi_preferiti:
                 //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new IndirizziPreferitiFragment()).commit();
-                navigateTo(new IndirizziPreferitiFragment(),true);
-                toolbar.setTitle("Indirizzi Preferiti");
+                navigateTo(new IndirizziPreferitiFragment(httpToken),true);
                 break;
             case R.id.homepage_nav_logout:
                 showLogoutDialog();

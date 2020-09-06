@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.justmeat.R;
 import com.example.justmeat.homepage.adapter.ProdottoPrezzoOrdinePreferitoAdapter;
 import com.example.justmeat.marketview.ProductItem;
@@ -38,10 +39,14 @@ public class DettagliOrdinePreferitoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_ordine_preferito,container,false);
 
+        ImageView logo= view.findViewById(R.id.ordine_preferito_img);
+        Glide.with(this.getActivity()).load("http://just-feet.herokuapp.com"+"/images/sl_"+ordinePreferito.getIdSupermercato()+".jpg")
+
+                .into(logo);
+
         recyclerView = view.findViewById(R.id.ordine_preferito_rec_view);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false);
-
         recyclerView.setLayoutManager(layoutManager);
 
         adapter = new ProdottoPrezzoOrdinePreferitoAdapter(ordinePreferito.getListaProdotti());

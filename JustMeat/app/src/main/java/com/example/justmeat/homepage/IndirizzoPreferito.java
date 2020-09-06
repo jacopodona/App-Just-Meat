@@ -4,10 +4,15 @@ public class IndirizzoPreferito {
 
     private String nome, indirizzo;
     private double latitude,longitude;
+    private int id;
 
     public IndirizzoPreferito(String nome, String indirizzo) {
         this.nome = nome;
         this.indirizzo = indirizzo;
+    }
+
+    public IndirizzoPreferito(){
+
     }
 
     public IndirizzoPreferito(String nome, String indirizzo, double latitude, double longitude) {
@@ -31,5 +36,29 @@ public class IndirizzoPreferito {
 
     public void setIndirizzo(String indirizzo) {
         this.indirizzo = indirizzo;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

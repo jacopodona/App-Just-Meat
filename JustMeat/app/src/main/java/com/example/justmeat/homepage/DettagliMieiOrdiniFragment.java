@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.bumptech.glide.Glide;
 import com.example.justmeat.R;
 import com.example.justmeat.homepage.adapter.BuoniAdapter;
 import com.example.justmeat.homepage.adapter.MieiOrdiniAdapter;
@@ -81,18 +82,13 @@ public class DettagliMieiOrdiniFragment  extends Fragment {
         DateFormat dateFormat = new SimpleDateFormat("d MMMM yyyy");
         dataOrdine.setText(dateFormat.format(ordine.getDataOrdine()));
 
-        switch (ordine.getNomeSupermercato()){
-            case "MiniPoli":
-                imageSupermercato.setImageResource(R.drawable.minipoli);
-                break;
 
-            case "Aldi":
-                imageSupermercato.setImageResource(R.drawable.aldi);
-                break;
-            default:
-                imageSupermercato.setImageResource(R.drawable.aldi);
-                break;
-        }
+        ImageView logo= view.findViewById(R.id.homepage_statoordine_textview_imgview);
+        Glide.with(this.getActivity()).load("http://just-feet.herokuapp.com"+"/images/sl_"+ordine.getIdSupermercato()+".jpg")
+
+                .into(logo);
+
+        
 
 
         indirizzoSupermercato.setText(ordine.getIndirizzo());

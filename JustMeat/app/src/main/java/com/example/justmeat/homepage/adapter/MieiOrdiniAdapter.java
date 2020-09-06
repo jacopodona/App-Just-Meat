@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.justmeat.R;
 import com.example.justmeat.homepage.DettagliMieiOrdiniFragment;
 import com.example.justmeat.homepage.DettagliOrdinePreferitoFragment;
@@ -46,18 +47,12 @@ public class MieiOrdiniAdapter extends RecyclerView.Adapter<MieiOrdiniHolder> {
 
             holder.data.setText(dateFormat.format(ordine.getDataOrdine()));
 
-            switch (ordine.getNomeSupermercato()){
-                case "MiniPoli":
-                    holder.logoSupermercato.setImageResource(R.drawable.minipoli);
-                    break;
 
-                case "Aldi":
-                    holder.logoSupermercato.setImageResource(R.drawable.aldi);
-                    break;
-                default:
-                    holder.logoSupermercato.setImageResource(R.drawable.minipoli);
-                    break;
-            }
+
+
+            Glide.with(activity).load("http://just-feet.herokuapp.com"+"/images/sl_"+ordine.getIdSupermercato()+".jpg")
+
+                    .into(holder.logoSupermercato);
 
 
             holder.nomeSupermercato.setText(ordine.getNomeSupermercato());

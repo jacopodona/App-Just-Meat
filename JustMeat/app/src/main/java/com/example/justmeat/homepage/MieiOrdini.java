@@ -6,6 +6,7 @@ public class MieiOrdini {
      private String nomeSupermercato, indirizzo, stato;
      private Date dataOrdine;
      private int numOrdine;
+     private int idSupermercato;
 
     public MieiOrdini(String nomeSupermercato, String indirizzo, String stato, Date dataOrdine, int numOrdine) {
         this.nomeSupermercato = nomeSupermercato;
@@ -60,5 +61,13 @@ public class MieiOrdini {
 
     public void setDataOrdine(Date dataOrdine) {
         this.dataOrdine = dataOrdine;
+    }
+
+    public int getIdSupermercato() {
+        return idSupermercato;
+    }
+
+    public void setIdSupermercato(int idSupermercato) {
+        this.idSupermercato = idSupermercato;
     }
 }
