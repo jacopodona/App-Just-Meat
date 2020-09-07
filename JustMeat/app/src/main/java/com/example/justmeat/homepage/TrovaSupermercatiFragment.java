@@ -143,23 +143,6 @@ public class TrovaSupermercatiFragment extends Fragment {
                                 }
                             }
                         }, Looper.getMainLooper());
-
-
-
-
-
-
-
-                /*try {
-                    Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-                    double longitude = location.getLongitude();
-                    double latitude = location.getLatitude();
-
-                }catch (Exception e){
-                    Log.e("asdasd", e.toString());
-                }
-*/
             }
         });
 

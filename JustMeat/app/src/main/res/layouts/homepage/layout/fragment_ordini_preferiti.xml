@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <TextView
+            <!--<TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="I tuoi ordini preferiti"
@@ -22,7 +22,7 @@
                 android:textSize="20dp"
                 android:textColor="@color/primaryTextColor">
 
-            </TextView>
+            </TextView>-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/homepage_recyclerview_ordinipreferiti"
