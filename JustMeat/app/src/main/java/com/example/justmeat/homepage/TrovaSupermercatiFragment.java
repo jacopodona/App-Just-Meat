@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.example.justmeat.R;
 import com.example.justmeat.homepage.adapter.ListaSupermercatiAdapter;
+import com.example.justmeat.login.LoginActivity;
 import com.example.justmeat.utilities.HttpJsonRequest;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.button.MaterialButton;
 
 import org.json.JSONArray;
@@ -107,11 +118,48 @@ public class TrovaSupermercatiFragment extends Fragment {
                     // for ActivityCompat#requestPermissions for more details.
                     return;
                 }
-                Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                double longitude = location.getLongitude();
-                double latitude = location.getLatitude();
-                ((HomepageActivity) getActivity()).navigateTo(new ListaSupermercatiFragment(httpToken,latitude,
-                        longitude, seekbar.getProgress()*1000),true);
+
+                LocationRequest locationRequest = new LocationRequest();
+                locationRequest.setInterval(10000);
+                locationRequest.setFastestInterval(3000);
+                locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+
+                LocationServices.getFusedLocationProviderClient(getActivity())
+                        .requestLocationUpdates(locationRequest, new LocationCallback() {
+
+                            @Override
+                            public void onLocationResult(LocationResult locationResult) {
+                                super.onLocationResult(locationResult);
+                                LocationServices.getFusedLocationProviderClient(getActivity())
+                                        .removeLocationUpdates(this);
+                                if(locationResult != null && locationResult.getLocations().size()>0){
+                                    int latestLocationIndex = locationResult.getLocations().size()-1;
+                                    double latitude = locationResult.getLocations().get(latestLocationIndex).getLatitude();
+                                    double longitude = locationResult.getLocations().get(latestLocationIndex).getLongitude();
+                                    LatLng currentPosition = new LatLng(latitude,longitude);
+                                    ((HomepageActivity) getActivity()).navigateTo(new ListaSupermercatiFragment(httpToken,latitude,
+                                            longitude, seekbar.getProgress()*1000),true);
+                                }
+                            }
+                        }, Looper.getMainLooper());
+
+
+
+
+
+
+
+                /*try {
+                    Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+                    double longitude = location.getLongitude();
+                    double latitude = location.getLatitude();
+
+                }catch (Exception e){
+                    Log.e("asdasd", e.toString());
+                }
+*/
             }
         });
 
