@@ -118,10 +118,12 @@ public class TrovaSupermercatiFragment extends Fragment {
         cercaIndirizzo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IndirizzoPreferito selezionato= (IndirizzoPreferito) spinner.getSelectedItem();
-                Log.e("Coordinate Indirizzo",selezionato.getLatitude()+" "+selezionato.getLongitude());
-                ((HomepageActivity) getActivity()).navigateTo(new ListaSupermercatiFragment(httpToken,selezionato.getLatitude(),
-                        selezionato.getLongitude(), seekbar.getProgress()*1000),true);
+                if(listaIndirizzoPreferito.size()!=0) {
+                    IndirizzoPreferito selezionato = (IndirizzoPreferito) spinner.getSelectedItem();
+                    Log.e("Coordinate Indirizzo", selezionato.getLatitude() + " " + selezionato.getLongitude());
+                    ((HomepageActivity) getActivity()).navigateTo(new ListaSupermercatiFragment(httpToken, selezionato.getLatitude(),
+                            selezionato.getLongitude(), seekbar.getProgress() * 1000), true);
+                }
             }
         });
 

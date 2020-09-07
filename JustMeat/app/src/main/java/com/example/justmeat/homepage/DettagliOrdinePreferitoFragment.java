@@ -63,7 +63,7 @@ public class DettagliOrdinePreferitoFragment extends Fragment {
         DecimalFormat df = new DecimalFormat("##.##");
         df.setRoundingMode(RoundingMode.DOWN);
         TextView importo= view.findViewById(R.id.ordine_preferito_importo_value);
-        importo.setText(df.format(totale)+"");
+        importo.setText(df.format(totale)+" €");
 
         TextView nomeOrdine, nomeSupermercato;
         nomeOrdine= view.findViewById(R.id.ordine_preferito_nome_ordine);
