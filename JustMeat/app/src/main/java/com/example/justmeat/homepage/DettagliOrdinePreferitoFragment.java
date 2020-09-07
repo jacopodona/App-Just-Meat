@@ -22,6 +22,8 @@ import com.example.justmeat.marketview.ProductItem;
 import com.example.justmeat.utilities.MyApplication;
 import com.example.justmeat.whithdrawal.WithdrawalActivity;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class DettagliOrdinePreferitoFragment extends Fragment {
@@ -58,8 +60,10 @@ public class DettagliOrdinePreferitoFragment extends Fragment {
         for (ProdottoOrdinePreferito p:ordinePreferito.getListaProdotti()) {
             totale= totale+p.getPrezzo();
         }
+        DecimalFormat df = new DecimalFormat("##.##");
+        df.setRoundingMode(RoundingMode.DOWN);
         TextView importo= view.findViewById(R.id.ordine_preferito_importo_value);
-        importo.setText(totale+"");
+        importo.setText(df.format(totale)+"");
 
         TextView nomeOrdine, nomeSupermercato;
         nomeOrdine= view.findViewById(R.id.ordine_preferito_nome_ordine);

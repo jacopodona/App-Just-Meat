@@ -28,6 +28,11 @@ public class MyApplication extends Application {
         return carrelloListProduct;
     }
 
+    public ArrayList<ProductItem> newCarrelloListProduct(){
+        carrelloListProduct = new ArrayList<>();
+        return carrelloListProduct;
+    }
+
     public User getUtente() {
         return utente;
     }

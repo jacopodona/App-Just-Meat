@@ -101,11 +101,7 @@ public class MieiOrdiniFragment extends Fragment {
                                     ordini.add(ordine);
 
 
-                                    adapter = new MieiOrdiniAdapter(ordini, getActivity());
-                                    recyclerView.setAdapter(adapter);
-                                    recyclerView.setNestedScrollingEnabled(false);
-                                    progressBar.setVisibility(View.GONE);
-                                    recyclerView.setVisibility(View.VISIBLE);
+
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -117,6 +113,11 @@ public class MieiOrdiniFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        adapter = new MieiOrdiniAdapter(ordini, getActivity());
+                        recyclerView.setAdapter(adapter);
+                        recyclerView.setNestedScrollingEnabled(false);
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 },
                 new Response.ErrorListener() {

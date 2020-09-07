@@ -106,16 +106,18 @@ public class OrdiniPreferitiFragment extends Fragment {
                                     listaOrdiniPreferiti.add(ordinePreferito);
                                 }
 
-                                adapter =  new OrdiniPreferitiAdapter(listaOrdiniPreferiti, getActivity());
-                                recyclerView.setAdapter(adapter);
-                                recyclerView.setNestedScrollingEnabled(false);
-                                progressBar.setVisibility(View.GONE);
-                                recyclerView.setVisibility(View.VISIBLE);
+
 
 
                             } catch (Exception e){
                                 Log.e("Err Ordini prefe", e.toString());
                             }
+
+                        adapter =  new OrdiniPreferitiAdapter(listaOrdiniPreferiti, getActivity());
+                        recyclerView.setAdapter(adapter);
+                        recyclerView.setNestedScrollingEnabled(false);
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
 
 
 

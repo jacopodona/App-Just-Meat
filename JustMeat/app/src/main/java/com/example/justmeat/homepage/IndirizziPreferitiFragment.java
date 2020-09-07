@@ -95,15 +95,16 @@ public class IndirizziPreferitiFragment extends Fragment {
                                 listaIndirizziPreferiti.add(indirizzoPreferito);
                             }
 
-                            adapter = new IndirizziPreferitiAdapter(listaIndirizziPreferiti, getActivity());
-                            recyclerView.setAdapter(adapter);
-                            recyclerView.setNestedScrollingEnabled(false);
-                            progressBar.setVisibility(View.GONE);
-                            recyclerView.setVisibility(View.VISIBLE);
+
 
                         } catch (Exception e) {
                             Log.e("Err Ordini prefe", e.toString());
                         }
+                        adapter = new IndirizziPreferitiAdapter(listaIndirizziPreferiti, getActivity());
+                        recyclerView.setAdapter(adapter);
+                        recyclerView.setNestedScrollingEnabled(false);
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 },
                 new Response.ErrorListener() {

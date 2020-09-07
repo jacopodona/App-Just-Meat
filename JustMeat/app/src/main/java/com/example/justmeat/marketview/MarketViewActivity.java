@@ -45,7 +45,7 @@ public class MarketViewActivity extends AppCompatActivity{
         marketImage = findViewById(R.id.marketview_img_appbar);
         TextView titolo = findViewById(R.id.marketview_txt_nomenegozio);
         titolo.setText(nomeSpkmt);
-        carrello = new CustomArray(((MyApplication) this.getApplication()).getCarrelloListProduct());
+        carrello = new CustomArray(((MyApplication) this.getApplication()).newCarrelloListProduct());
         setBackButton();
         setCarrelloButton();
         quantityOnCart();
