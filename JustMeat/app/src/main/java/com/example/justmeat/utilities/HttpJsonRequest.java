@@ -25,6 +25,7 @@ public class HttpJsonRequest {
      * @param body optional json request body
      * @param onResponse what to do when server has responded
      * @param onError what to do then an error occurs
+     *
      */
     public HttpJsonRequest(Context context, String partialUrl, int method, JSONObject body, final String token, Response.Listener<JSONObject> onResponse, Response.ErrorListener onError) {
         request = new JsonObjectRequest(method, Constants.CONNECTION_STRING + partialUrl, body, onResponse, onError) {

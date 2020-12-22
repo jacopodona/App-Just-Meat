@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:text="Inserisci"
+            android:text="@string/checkout_btn_positive_dialogcoupon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/checkout_btn_scanqr_dialogcoupon"
             app:layout_constraintTop_toBottomOf="@+id/checkout_intxt_dialogcoupon" />

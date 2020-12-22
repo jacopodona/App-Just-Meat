@@ -12,14 +12,18 @@ public class ProdottoPrezzoHolder extends RecyclerView.ViewHolder {
 
 public TextView nomeProdotto;
 public TextView prezzoProdotto;
+public TextView qtProdotto;
+public TextView discountProdotto;
+public TextView titleDiscount;
 
 
 
 public ProdottoPrezzoHolder(@NonNull View itemView) {
         super(itemView);
-        nomeProdotto = itemView.findViewById(R.id.homepage_stato_ordine_card_prodotto_nome);
-        prezzoProdotto = itemView.findViewById(R.id.homepage_stato_ordine_card_prodotto_prezzo);
-
-
+        nomeProdotto = itemView.findViewById(R.id.checkout_txt_prod_name);
+        prezzoProdotto = itemView.findViewById(R.id.checkout_txt_prod_price);
+        qtProdotto = itemView.findViewById(R.id.checkout_txt_prod_qt);
+        discountProdotto = itemView.findViewById(R.id.checkout_txt_prod_discount);
+        titleDiscount = itemView.findViewById(R.id.checkout_txt_title_prod_discount);
         }
 }

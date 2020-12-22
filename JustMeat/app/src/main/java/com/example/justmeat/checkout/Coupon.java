@@ -1,6 +1,6 @@
 package com.example.justmeat.checkout;
 
-class Coupon {
+public class Coupon {
     String code;
     Double percentage;
     boolean available;

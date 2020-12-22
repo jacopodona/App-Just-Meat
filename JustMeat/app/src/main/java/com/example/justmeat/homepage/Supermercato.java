@@ -4,16 +4,17 @@ import java.io.Serializable;
 
 public class Supermercato implements Serializable {
 
-    int id;
+    int id, chain;
     String nome,indirizzo;
     Double latitude, longitude;
 
-    public Supermercato(int id, String nome, String indirizzo, Double latitude, Double longitude) {
+    public Supermercato(int id, String nome, String indirizzo, Double latitude, Double longitude, int chain) {
         this.id = id;
         this.nome = nome;
         this.indirizzo = indirizzo;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.chain = chain;
     }
 
     public int getId() {
@@ -38,6 +39,10 @@ public class Supermercato implements Serializable {
 
     public Double getLongitude() {
         return longitude;
+    }
+
+    public int getChain() {
+        return chain;
     }
 
     public void setIndirizzo(String indirizzo) {

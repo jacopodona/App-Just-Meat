@@ -5,58 +5,21 @@
     android:translationZ="90dp">
 
 
-
-    <TextView
-        android:id="@+id/listasupermercati_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Supermercati nelle Vicinanze"
-        android:gravity="center"
-        android:textSize="28sp"
-        android:textColor="@color/black"
-        android:textStyle="bold"/>
-
-
-
-    <RelativeLayout
-        android:id="@+id/listasupermercati_mostramappa"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+    <ImageView
+        android:id="@+id/homepage_imagebutton_search_on_maps"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentTop="true"
-        android:layout_below="@id/listasupermercati_title"
-        android:layout_marginTop="60dp"
-        android:layout_marginHorizontal="20dp">
-
-        <TextView
-            android:id="@+id/listasupermercati_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:text="Mostra sulla Mappa"/>
-
-        <ImageButton
-            android:id="@+id/homepage_imagebutton_search_on_maps"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="25dp"
-            android:layout_toEndOf="@+id/listasupermercati_textview"
-            android:background="@color/primaryColor"
-            android:backgroundTint="@color/primaryColor"
-            android:src="@drawable/ic_mappa" />
-
-    </RelativeLayout>
-
-
-
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_mapbutton" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/homepage_recyclerview_listasupermercati"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/listasupermercati_mostramappa"
+        android:layout_below="@id/homepage_imagebutton_search_on_maps"
         android:layout_marginHorizontal="15dp"
         android:layout_marginTop="20dp"
         android:overScrollMode="never"
@@ -68,6 +31,14 @@
         android:layout_height="201dp"
         android:layout_centerInParent="true"
         android:indeterminate="true" />
+
+    <ImageView
+        android:id="@+id/listasupermercati_img_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_nomarketavailable"/>
 
 </RelativeLayout>
 

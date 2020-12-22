@@ -10,7 +10,7 @@
         android:id="@+id/statoordinesupermercato_backbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_margin="15dp"
         android:src="@drawable/statoordinesupermercato_backbutton" />
@@ -28,9 +28,10 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/statoordinesupermercato_title_idordine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ID Ordine:"
+                android:text="@string/statoordinesupermercato_title_idordine"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
@@ -38,8 +39,7 @@
                 android:id="@+id/statoordinesupermercato_id_ordine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:text="XYZ"
+                android:layout_marginStart="8dp"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
@@ -53,17 +53,17 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/statoordinesupermercato_title_statoordine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Stato Ordine:"
+                android:text="@string/statoordinesupermercato_title_statoordine"
                 android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/statoordinesupermercato_stato_ordine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:text="In Attesa"
+                android:layout_marginStart="8dp"
                 android:textSize="25sp" />
         </LinearLayout>
 
@@ -75,17 +75,17 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/statoordinesupermercato_title_negozio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Supermercato:"
+                android:text="@string/statoordinesupermercato_title_negozio"
                 android:textSize="23sp" />
 
             <TextView
                 android:id="@+id/statoordinesupermercato_negozio_ordine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:text="MiniPoli"
+                android:layout_marginStart="8dp"
                 android:textSize="23sp" />
         </LinearLayout>
 
@@ -97,17 +97,17 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/statoordinesupermercato_title_pickuptime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ritiro:"
+                android:text="@string/statoordinesupermercato_title_pickuptime"
                 android:textSize="23sp" />
 
             <TextView
                 android:id="@+id/statoordinesupermercato_pickuptime_ordine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:text="1 Gennaio 1970 17:00"
+                android:layout_marginStart="8dp"
                 android:textSize="23sp" />
         </LinearLayout>
 
@@ -119,26 +119,27 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/statoordinesupermercato_title_numprodotti"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Numero Prodotti:"
+                android:text="@string/statoordinesupermercato_title_numprodotti"
                 android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/statoordinesupermercato_num_prodotti"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:text="XYZ"
+                android:layout_marginStart="8dp"
                 android:textSize="20sp" />
 
         </LinearLayout>
 
         <TextView
+            android:id="@+id/statoordinesupermercato_title_lista"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Lista Prodotti:"
+            android:text="@string/statoordinesupermercato_title_lista"
             android:textSize="20sp" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -155,6 +156,6 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:text="Modifica Stato Ordine" />
+        android:text="@string/statoordinesupermercato_modifica_button" />
 
 </RelativeLayout>

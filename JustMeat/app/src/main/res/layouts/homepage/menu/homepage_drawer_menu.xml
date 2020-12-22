@@ -12,16 +12,17 @@
         <item android:id="@+id/homepage_nav_ordini_preferiti"
             android:icon="@drawable/ic_star"
             android:title="Ordini Preferiti" />
-        <item android:id="@+id/homepage_nav_indirizzi_preferiti"
-            android:icon="@drawable/ic_indirizzi"
-            android:title="Indirizzi preferiti" />
+        <item
+            android:id="@+id/homepage_nav_fidcard"
+            android:icon="@drawable/ic_credit_card"
+            android:title="Tessere Fedeltà" />
     </group>
 
-    <item android:title="Imposazioni Account">
+    <item android:title="Impostazioni Account">
 
         <menu>
             <item android:id="@+id/homepage_nav_logout"
-                android:icon="@drawable/ic_impostazioni"
+                android:icon="@drawable/ic_logout"
                 android:title="Logout" />
         </menu>
 

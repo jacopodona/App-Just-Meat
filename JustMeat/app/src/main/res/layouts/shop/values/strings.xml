@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="shop_titolo">Ordini Prenotati</string>
+    <string name="statoordinesupermercato_title_idordine">ID Ordine:</string>
+    <string name="statoordinesupermercato_title_statoordine">Stato Ordine:</string>
+    <string name="statoordinesupermercato_title_negozio">Supermercato:</string>
+    <string name="statoordinesupermercato_title_pickuptime">Ritiro:</string>
+    <string name="statoordinesupermercato_title_numprodotti">Numero prodotti:</string>
+    <string name="statoordinesupermercato_title_lista">Lista prodotti</string>
+    <string name="statoordinesupermercato_modifica_button">Modifica stato ordine</string>
+    <string name="shop_card_ordinesupermercato_title_id">ID Ordine: </string>
+    <string name="shop_card_ordinesupermercato_title_stato">Stato Ordine: </string>
+</resources>

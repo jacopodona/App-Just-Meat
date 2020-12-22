@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="map_key" templateMergeStrategy="preserve" translatable="false"> AIzaSyBp5ue6w0W7ZDffGiMZKoqa94N_E2SCILw</string>
+    <string name="addfidcard_btn_neutral">Annulla</string>
+    <string name="addfidcard_btn_confirm">Aggiungi</string>
+    <string name="addfidcard_txt_title">Tessera Fedeltà</string>
+    <string name="homepage_statoordine_txt_title_coupon">Sconti</string>
+    <string name="homepage_statoordine_txt_title_subtot">Subtotale</string>
+    <string name="homepage_statoordine_txt_title_tot">Totale</string>
+    <string name="homepage_btn_currentLocation">Usa la mia posizione</string>
+    <string name="homepage_txt_faketextedit">Inserisci una posizione</string>
+    <string name="infobox_btn_goto">Vai al supermercato</string>
+</resources>

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primaryColor">#dd4470</color>
-    <color name="primaryLightColor">#ff789e</color>
-    <color name="primaryDarkColor">#a60045</color>
+    <color name="primaryColor">#d93060</color>
+    <color name="primaryLightColor">#dd4470</color>
+    <color name="primaryDarkColor">#cc0055</color>
     <color name="primaryTextColor">#000000</color>
     <color name="colorFacebook">#0000BF</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="barColor">#00FF00</color>
     <color name="unfilledbarColor">#D3D3D3</color>
+    <color name="logo_color">#ff4470</color>
 </resources>

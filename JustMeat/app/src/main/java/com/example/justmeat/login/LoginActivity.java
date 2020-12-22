@@ -1,14 +1,13 @@
 package com.example.justmeat.login;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -22,6 +21,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
@@ -30,11 +30,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.example.justmeat.utilities.Constants.GOOGLE_SIGNIN;
-
 public class LoginActivity extends AppCompatActivity {
 
     private TextInputEditText email, password;
+    GoogleSignInClient googleSignInClient;
+    int RC_SIGN_IN = 18;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +43,24 @@ public class LoginActivity extends AppCompatActivity {
 
         email= findViewById(R.id.email);
         password = findViewById(R.id.password);
+
+        //sezione accesso tramite google
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        googleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        SignInButton signInButton = findViewById(R.id.google);
+        signInButton.setSize(SignInButton.SIZE_WIDE);
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent signInIntent = googleSignInClient.getSignInIntent();
+                startActivityForResult(signInIntent, RC_SIGN_IN);
+            }
+        });
+
+        //normal login
 
         MaterialButton accedi = findViewById(R.id.login_button_send);
         accedi.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +105,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
 
-
             }
         });
 
@@ -97,22 +114,26 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), SignupActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-        final GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        MaterialButton google = findViewById(R.id.google);
-        google.setOnClickListener(new View.OnClickListener() {
+        MaterialButton accediShop=findViewById(R.id.welcome_accedi_shop);
+        accediShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                startActivityForResult(signInIntent, GOOGLE_SIGNIN);
+                Intent intent = new Intent(v.getContext(), ShopActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if (account != null) {
+
+
+    }
+
+    private void updateUI(final GoogleSignInAccount account) {
+        if(account != null){
             try {
                 JSONObject body = new JSONObject();
                 body.put("mail", account.getEmail());
@@ -126,7 +147,9 @@ public class LoginActivity extends AppCompatActivity {
                             public void onResponse(JSONObject response) {
                                 Intent intent = new Intent(getApplicationContext(), HomepageActivity.class);
                                 intent.putExtra("user", response.toString());
+                                intent.putExtra("google-account", account);
                                 startActivity(intent);
+                                finish();
                             }
                         }, new Response.ErrorListener() {
                     @Override
@@ -138,16 +161,9 @@ public class LoginActivity extends AppCompatActivity {
             } catch (JSONException ex) {
                 return;
             }
+        } else {
+            System.out.println("not signed");
         }
-
-        MaterialButton accediShop=findViewById(R.id.welcome_accedi_shop);
-        accediShop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), ShopActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     public boolean checkEmailPassword() {
@@ -166,50 +182,21 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == GOOGLE_SIGNIN) {
+        if(requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
-        }
+         }
     }
 
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+    private void handleSignInResult(Task<GoogleSignInAccount> task) {
         try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            String name = account.getGivenName();
-            String email = account.getEmail();
-            String password = account.getId();
-            String lastName = account.getFamilyName();
-
-            try {
-                JSONObject body = new JSONObject();
-                body.put("name", name);
-                body.put("last_name", lastName);
-                body.put("mail", email);
-                body.put("id", password);
-
-                new HttpJsonRequest(this, "/auth/login/other", Request.Method.POST, body,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                Intent intent = new Intent(getApplicationContext(), HomepageActivity.class);
-                                intent.putExtra("user", response.toString());
-                                startActivity(intent);
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("asd", error.toString());
-                    }
-                }
-                ).run();
-            } catch (JSONException ex) {
-                return;
-            }
-        } catch (ApiException e) {
-            Log.d("asd", "signInResult:failed code=" + e.getStatusCode());
+            GoogleSignInAccount account = task.getResult(ApiException.class);
+            updateUI(account);
+        }catch (ApiException e){
+            Log.d("error1","fail code="+e.getStatusCode());
+            updateUI(null);
         }
     }
 }

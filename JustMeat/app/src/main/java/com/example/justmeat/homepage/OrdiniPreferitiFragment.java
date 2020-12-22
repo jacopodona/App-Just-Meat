@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
@@ -19,20 +18,15 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.example.justmeat.R;
-import com.example.justmeat.homepage.adapter.MieiOrdiniAdapter;
 import com.example.justmeat.homepage.adapter.OrdiniPreferitiAdapter;
+import com.example.justmeat.marketview.ProductItem;
 import com.example.justmeat.utilities.HttpJsonRequest;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
-import java.util.List;
 
 public class OrdiniPreferitiFragment extends Fragment {
 
@@ -59,17 +53,11 @@ public class OrdiniPreferitiFragment extends Fragment {
 
         getOrdiniPreferiti(getContext());
 
-
-
         recyclerView = view.findViewById(R.id.homepage_recyclerview_ordinipreferiti);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false);
 
         recyclerView.setLayoutManager(layoutManager);
-
-
-
-
 
         return view;
     }
@@ -87,25 +75,31 @@ public class OrdiniPreferitiFragment extends Fragment {
                         LinkedList<OrdinePreferito> listaOrdiniPreferiti= new LinkedList();
 
                             try {
-                                for (int c = 0; c<(response.getJSONArray("results").length()); c++) {
-                                    OrdinePreferito ordinePreferito= new OrdinePreferito();
-                                    ordinePreferito.setIdOrdinePreferito(Integer.parseInt(response.getJSONArray("results").getJSONObject(c).getString("order_id")));
-                                    ordinePreferito.setIdSupermercato(Integer.parseInt(response.getJSONArray("results").getJSONObject(c).getString("supermarket_id")));
-                                    ordinePreferito.setNomeSupermercato(response.getJSONArray("results").getJSONObject(c).getString("supermarket_name"));
-                                    ordinePreferito.setNomeOrdinePreferito(response.getJSONArray("results").getJSONObject(c).getString("favourite"));
+                                JSONArray results = response.getJSONArray("results");
+                                for(int pos = 0; pos < results.length(); pos++){
+                                    ArrayList<ProductItem> productItems = new ArrayList<>();
+                                    JSONObject ordineJSONObject = results.getJSONObject(pos);
+                                    int order_id = ordineJSONObject.getInt("order_id");
+                                    int supermarket = ordineJSONObject.getInt("supermarket_id");
+                                    String nomeSpkmt = ordineJSONObject.getString("supermarket_name");
+                                    String favourite = ordineJSONObject.getString("favourite");
 
-                                    for(int i=0; i<response.getJSONArray("results").getJSONObject(c).getJSONArray("products").length(); i++){
-                                        ProdottoOrdinePreferito prodottoOrdinePreferito = new ProdottoOrdinePreferito();
-                                        prodottoOrdinePreferito.setId(Integer.parseInt(response.getJSONArray("results").getJSONObject(c).getJSONArray("products").getJSONObject(i).getString("id")));
-                                        prodottoOrdinePreferito.setNome(response.getJSONArray("results").getJSONObject(c).getJSONArray("products").getJSONObject(i).getString("name"));
-                                        prodottoOrdinePreferito.setPeso(Double.parseDouble(response.getJSONArray("results").getJSONObject(c).getJSONArray("products").getJSONObject(i).getString("weight")));
-                                        prodottoOrdinePreferito.setPrezzo(Double.parseDouble(response.getJSONArray("results").getJSONObject(c).getJSONArray("products").getJSONObject(i).getString("price")));
-                                        prodottoOrdinePreferito.setQuantità(Integer.parseInt(response.getJSONArray("results").getJSONObject(c).getJSONArray("products").getJSONObject(i).getString("quantity")));
-                                        ordinePreferito.getListaProdotti().add(prodottoOrdinePreferito);
+
+                                    JSONArray products = ordineJSONObject.getJSONArray("products");
+                                    for (int i = 0; i < products.length(); i++){
+                                        JSONObject currentJSONObject = products.getJSONObject(i);
+
+                                        int id = currentJSONObject.getInt("id");
+                                        String name = currentJSONObject.getString("name");
+                                        int peso = currentJSONObject.getInt("weight");
+                                        Double prezzo = currentJSONObject.getDouble("price");
+                                        int qt = currentJSONObject.getInt("quantity");
+
+                                        productItems.add(new ProductItem(id, name, prezzo, qt, peso));
                                     }
+                                    OrdinePreferito ordinePreferito = new OrdinePreferito(order_id, supermarket, nomeSpkmt, favourite, productItems);
                                     listaOrdiniPreferiti.add(ordinePreferito);
                                 }
-
 
 
 

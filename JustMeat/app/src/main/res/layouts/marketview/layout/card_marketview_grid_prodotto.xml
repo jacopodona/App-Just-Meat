@@ -21,7 +21,6 @@
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/tagliata"
             tools:layout_editor_absoluteX="0dp" />
 
         <TextView

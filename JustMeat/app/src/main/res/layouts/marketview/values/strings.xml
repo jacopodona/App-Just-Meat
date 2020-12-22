@@ -4,4 +4,5 @@
     <string name="fragment_prodotto_descrizione">Descrizione</string>
     <string name="fragment_prodotto_quantita">Seleziona quantità:</string>
     <string name="title_modal_sort">Ordina per</string>
+
 </resources>

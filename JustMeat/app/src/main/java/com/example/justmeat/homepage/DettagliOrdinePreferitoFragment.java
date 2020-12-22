@@ -22,8 +22,6 @@ import com.example.justmeat.marketview.ProductItem;
 import com.example.justmeat.utilities.MyApplication;
 import com.example.justmeat.whithdrawal.WithdrawalActivity;
 
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class DettagliOrdinePreferitoFragment extends Fragment {
@@ -52,18 +50,16 @@ public class DettagliOrdinePreferitoFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new ProdottoPrezzoOrdinePreferitoAdapter(ordinePreferito.getListaProdotti());
+        adapter = new ProdottoPrezzoOrdinePreferitoAdapter(ordinePreferito.getProductItems());
         recyclerView.setAdapter(adapter);
         recyclerView.setNestedScrollingEnabled(false);
 
         double totale=0.00;
-        for (ProdottoOrdinePreferito p:ordinePreferito.getListaProdotti()) {
-            totale= totale+p.getPrezzo();
+        for (ProductItem p:ordinePreferito.getProductItems()) {
+            totale= totale + p.getPrezzo();
         }
-        DecimalFormat df = new DecimalFormat("##.##");
-        df.setRoundingMode(RoundingMode.DOWN);
         TextView importo= view.findViewById(R.id.ordine_preferito_importo_value);
-        importo.setText(df.format(totale)+" €");
+        importo.setText(String.format("%.2f",totale)+" €");
 
         TextView nomeOrdine, nomeSupermercato;
         nomeOrdine= view.findViewById(R.id.ordine_preferito_nome_ordine);
@@ -75,12 +71,11 @@ public class DettagliOrdinePreferitoFragment extends Fragment {
         ordina.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList <ProductItem> carrello = new ArrayList<>();
-                for(ProdottoOrdinePreferito currentItem : ordinePreferito.getListaProdotti()){
-                    carrello.add(new ProductItem(currentItem.getId(), currentItem.getNome(), currentItem.getPrezzo(), currentItem.getQuantità(), (int) currentItem.getPeso()));
-                }
+                ArrayList <ProductItem> carrello = ordinePreferito.getProductItems();
                 ((MyApplication)getActivity().getApplication()).setCarrelloListProduct(carrello);
                 Intent intent = new Intent(getActivity(), WithdrawalActivity.class);
+                intent.putExtra("idSupermercato", ordinePreferito.getIdSupermercato());
+                intent.putExtra("nomeSupermercato", ordinePreferito.getNomeSupermercato());
                 startActivity(intent);
             }
         });

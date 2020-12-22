@@ -1,176 +1,81 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/primaryColor">
 
-    <TextView
-        android:id="@+id/trovasupermercati_message"
-        android:layout_width="wrap_content"
+     <Button
+         android:id="@+id/homepage_btn_currentLocation"
+         android:layout_width="0dp"
+         android:layout_height="wrap_content"
+         android:layout_marginStart="32dp"
+         android:layout_marginEnd="32dp"
+         android:layout_marginBottom="60dp"
+         android:textStyle="bold"
+         android:text="@string/homepage_btn_currentLocation"
+         app:backgroundTint="@color/maximumyellowred"
+         android:textColor="@color/greyWeb"
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHorizontal_bias="0.0"
+         app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/homepage_btn_writeLocation"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="40dp"
-        android:gravity="center"
-        android:text="Trova Supermercati vicino a te"
-        android:textColor="@color/black"
-        android:textSize="25dp" />
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/homepage_btn_currentLocation"
+        app:layout_constraintEnd_toEndOf="@+id/homepage_btn_currentLocation"
+        app:layout_constraintStart_toStartOf="@+id/homepage_btn_currentLocation"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/trovasupermercati_layout"
-        android:layout_centerInParent="true"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginTop="30dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Distanza: " />
-
-        <TextView
-            android:id="@+id/homepage_textview_distanza"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:text="1 km" />
-
-        <SeekBar
-            android:id="@+id/homepage_seekbar_distanza"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout3"
+            android:layout_margin="4dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="100"
-            android:min="1"
-            android:progress="25" />
+            android:layout_height="wrap_content">
 
+            <ImageView
+                android:id="@+id/homepage_img_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/location" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/homepage_txt_faketextedit"
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/homepage_txt_faketextedit"
+                app:layout_constraintBottom_toBottomOf="@+id/homepage_img_location"
+                app:layout_constraintStart_toEndOf="@+id/homepage_img_location"
+                app:layout_constraintTop_toTopOf="@+id/homepage_img_location" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
+     <ImageView
+         android:id="@+id/imageView2"
+         android:layout_width="0dp"
+         android:layout_height="0dp"
+         android:layout_marginTop="24dp"
+         android:layout_marginBottom="24dp"
+         app:layout_constraintBottom_toTopOf="@+id/homepage_btn_writeLocation"
+         app:layout_constraintEnd_toEndOf="@+id/homepage_btn_writeLocation"
+         app:layout_constraintStart_toStartOf="@+id/homepage_btn_writeLocation"
+         app:layout_constraintTop_toTopOf="parent"
+         app:srcCompat="@drawable/ic_placeholder_homepage" />
 
-    <LinearLayout
-        android:id="@+id/trovasupermercati_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/trovasupermercati_message"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginTop="60dp"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="10dp"
-            app:strokeColor="@color/primaryDarkColor"
-            app:strokeWidth="2dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginVertical="20dp"
-
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Utilizza la posizione GPS"
-                    android:textColor="@color/black"
-                    android:textSize="20dp"></TextView>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/homepage_cercasupermercati_posizione_button"
-                    android:layout_width="170dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
-                    android:text="GPS"
-                    app:cornerRadius="20dp" />
-
-            </LinearLayout>
-
-
-        </com.google.android.material.card.MaterialCardView>
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Oppure"
-            android:textColor="@color/black"
-            android:textSize="22sp" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            app:cardCornerRadius="10dp"
-            app:strokeColor="@color/primaryDarkColor"
-            app:strokeWidth="2dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginVertical="20dp"
-                android:layout_marginHorizontal="20dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Scegli tra i tuoi indirizzi salvati"
-                    android:textColor="@color/black"
-                    android:textSize="20dp"></TextView>
-
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="20dp"
-                    app:cardCornerRadius="10dp"
-                    app:strokeColor="@color/primaryDarkColor"
-                    app:strokeWidth="2dp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <Spinner
-                            android:id="@+id/homepage_spinner_indirizzi"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true" />
-
-                        <ImageButton
-                            android:id="@+id/homepage_cercasupermercati_indirizzi_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            android:background="@color/primaryColor"
-                            android:src="@drawable/ic_lente_bianca" />
-                    </RelativeLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-
-            </LinearLayout>
-
-
-        </com.google.android.material.card.MaterialCardView>
-
-
-    </LinearLayout>
-
-
-</LinearLayout>
+ </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 

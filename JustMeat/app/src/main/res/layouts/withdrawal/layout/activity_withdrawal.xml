@@ -74,7 +74,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="TextView"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/white"
             android:textStyle="bold"
@@ -86,7 +85,7 @@
         <ImageView
             android:id="@+id/withdrawal_btn_back"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="24dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="24dp"
             android:adjustViewBounds="true"
@@ -98,17 +97,19 @@
             app:srcCompat="@drawable/back_button" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/withdrawal_btn_home"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="30dp"
             android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
             android:adjustViewBounds="true"
-            app:layout_constraintBottom_toBottomOf="@+id/withdrawal_txt_nomenegozio"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/withdrawal_txt_nomenegozio"
-            app:layout_constraintTop_toTopOf="@+id/withdrawal_txt_nomenegozio"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_home" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

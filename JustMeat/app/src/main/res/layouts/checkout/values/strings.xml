@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="title_day">Seleziona il giorno di ritiro</string>
-    <string name="title_time">Imposta l\'orario di ritiro</string>
-    <string name="swipe">Scorri per confermare l\'ordine</string>
-    <string name="conferma_ordine">Il tuo ordine è stato confermato</string>
-    <string name="back_home">Torna alla home</string>
+    <string name="title_time">Imposta l\'ora rio di ritiro</string>
+    <string name="checkout_txt_swipe">Scorri per confermare l\'ordine</string>
+    <string name="checkout_txt_confermaordine">Il tuo ordine è stato confermato</string>
+    <string name="checkout_btn_swipebackhome">Torna alla home</string>
+    <string name="checkout_txt_title_subtot">Subtotale</string>
+    <string name="checkout_txt_title_coupons">Sconti</string>
+    <string name="checkout_txt_title_totale">Totale</string>
+    <string name="checkout_btn_positive_dialogcoupon">Inserisci</string>
+    <string name="carrello_txtin_dialogpref">Nome lista</string>
 </resources>

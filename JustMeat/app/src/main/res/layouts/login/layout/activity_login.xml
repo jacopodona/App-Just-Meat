@@ -20,16 +20,14 @@
             android:layout_marginHorizontal="30dp">
 
             <TextView
-                android:id="@+id/text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
-                android:text="@string/login_text"
+                android:text="@string/welcome_txt_title"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/black"
-                android:textSize="25dp"
-                />
+                android:textSize="25sp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/emailbox"
@@ -75,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:backgroundTint="@color/primaryColor"
-                android:text="@string/login_accedi"
+                android:text="@string/login_button_send"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
@@ -125,29 +123,20 @@
                 />
 
 
-
-
-            <com.google.android.material.button.MaterialButton
+            <com.google.android.gms.common.SignInButton
                 android:id="@+id/google"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:text="@string/login_google"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@android:color/black"
-                app:cornerRadius="20dp"
-
-                app:strokeColor="@android:color/darker_gray" />
+                android:layout_gravity="center"
+                android:layout_marginTop="40dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/welcome_accedi_shop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Accesso per Negozi"
+                android:text="@string/welcome_accedi_shop"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                app:cornerRadius="20dp"
-                />
+                app:cornerRadius="20dp" />
 
 
 

@@ -1,5 +1,7 @@
 package com.example.justmeat.carrello;
 
+
+import android.content.DialogInterface;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StrikethroughSpan;
@@ -10,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -94,6 +97,20 @@ class CarrelloProductAdapter extends RecyclerView.Adapter<CarrelloProductAdapter
                     holder.totale.setText(String.format("%.2f",price)+" €");
                     carrelloActivity.tot -= currentItem.getPrezzo()*(1-currentItem.getDiscount());
                     carrelloActivity.totale_txt.setText(String.format("%.2f",carrelloActivity.tot)+" €");
+                } else if(holder.counter == 1){
+                    new AlertDialog.Builder(carrelloActivity)
+                            .setTitle("Rimuovere Articolo")
+                            .setMessage("Sei sicuro di voler rimuovere l'articolo dal carrello?")
+                            .setPositiveButton("Rimuovi", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    removeItem(position);
+                                    carrelloActivity.checkEmptyCart();
+                                }
+                            })
+                            .setNegativeButton("Annulla", null)
+                            .show();
+
                 }
             }
         });

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_description">Il tuo supermercato tascabile</string>
-
-    <string name="welcome_signup_button">Sei nuovo? Crea un account</string>
+    <string name="welcome_button_accedi">Accedi</string>
+    <string name="welcome_signup_button">Sei nuovo? Registrati</string>
     <string name="welcome_or">Oppure</string>
     <string name="welcome_signin_button">Sei già cliente? Accedi</string>
 </resources>

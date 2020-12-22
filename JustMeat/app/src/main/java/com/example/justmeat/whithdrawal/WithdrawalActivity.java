@@ -10,6 +10,7 @@ import android.widget.TimePicker;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,6 +32,7 @@ public class WithdrawalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_withdrawal);
         setActivityLayout();
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.primaryDarkColor));
     }
 
     private void setActivityLayout() {

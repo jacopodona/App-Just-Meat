@@ -1,9 +1,8 @@
 package com.example.justmeat.homepage;
 
-import com.example.justmeat.homepage.adapter.OrdiniPreferitiAdapter;
+import com.example.justmeat.marketview.ProductItem;
 
-import java.util.Date;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class OrdinePreferito {
 
@@ -11,53 +10,33 @@ public class OrdinePreferito {
     private int idSupermercato;
     private String nomeSupermercato;
     private String nomeOrdinePreferito;
-    private LinkedList<ProdottoOrdinePreferito> listaProdotti;
+    ArrayList<ProductItem> productItems;
 
-    public OrdinePreferito(){
-        this.listaProdotti= new LinkedList<>();
-
+    public OrdinePreferito(int order_id, int supermarket, String nomeSpkmt, String favourite, ArrayList<ProductItem> productItems) {
+        this.idOrdinePreferito = order_id;
+        this.idSupermercato = supermarket;
+        this.nomeSupermercato = nomeSpkmt;
+        this.nomeOrdinePreferito = favourite;
+        this.productItems = productItems;
     }
 
     public int getIdOrdinePreferito() {
         return idOrdinePreferito;
     }
 
-    public void setIdOrdinePreferito(int idOrdinePreferito) {
-        this.idOrdinePreferito = idOrdinePreferito;
-    }
-
     public int getIdSupermercato() {
         return idSupermercato;
-    }
-
-    public void setIdSupermercato(int idSupermercato) {
-        this.idSupermercato = idSupermercato;
     }
 
     public String getNomeSupermercato() {
         return nomeSupermercato;
     }
 
-    public void setNomeSupermercato(String nomeSupermercato) {
-        this.nomeSupermercato = nomeSupermercato;
-    }
-
     public String getNomeOrdinePreferito() {
         return nomeOrdinePreferito;
     }
 
-    public void setNomeOrdinePreferito(String nomeOrdinePreferito) {
-        this.nomeOrdinePreferito = nomeOrdinePreferito;
+    public ArrayList<ProductItem> getProductItems() {
+        return productItems;
     }
-
-    public LinkedList<ProdottoOrdinePreferito> getListaProdotti() {
-        return listaProdotti;
-    }
-
-    public void setListaProdotti(LinkedList<ProdottoOrdinePreferito> listaProdotti) {
-        this.listaProdotti = listaProdotti;
-    }
-
-
-
 }

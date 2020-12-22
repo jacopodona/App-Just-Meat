@@ -8,11 +8,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.justmeat.R;
-import com.example.justmeat.homepage.DettagliMieiOrdiniFragment;
 import com.example.justmeat.homepage.DettagliOrdinePreferitoFragment;
 import com.example.justmeat.homepage.HomepageActivity;
-import com.example.justmeat.homepage.MieiOrdini;
 import com.example.justmeat.homepage.OrdinePreferito;
 
 import java.util.List;
@@ -24,7 +23,7 @@ public class OrdiniPreferitiAdapter extends RecyclerView.Adapter<OrdiniPreferiti
 
     public OrdiniPreferitiAdapter(List<OrdinePreferito> listaOrdiniPreferiti, Activity activity) {
         this.listaOrdiniPreferiti = listaOrdiniPreferiti;
-        this.activity=activity;
+        this.activity = activity;
     }
 
     @NonNull
@@ -49,11 +48,14 @@ public class OrdiniPreferitiAdapter extends RecyclerView.Adapter<OrdiniPreferiti
                     ((HomepageActivity)activity).navigateTo(new DettagliOrdinePreferitoFragment(ordine),true);
                 }
             });
+
+            Glide.with(activity).load("http://just-feet.herokuapp.com"+"/images/sl_"+ordine.getIdSupermercato()+".jpg")
+                    .into(holder.logo);
+
         }
     }
 
     @Override
     public int getItemCount() {
         return listaOrdiniPreferiti.size();
-    }
-}
+    }}

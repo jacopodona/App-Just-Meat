@@ -13,24 +13,22 @@
         android:background="@color/white">
 
         <TextView
+            android:id="@+id/card_listaordini_nomeprodotto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nome Prodotto"
-            android:id="@+id/card_listaordini_nomeprodotto"
+            android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
             android:layout_marginLeft="5dp"
-            android:textSize="18sp"
-            android:layout_alignParentLeft="true"/>
+            android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/card_listaordini_prezzo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Prezzo"
-            android:layout_marginRight="5dp"
-            android:id="@+id/card_listaordini_prezzo"
+            android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
-            android:textSize="18sp"
-            android:layout_alignParentRight="true"/>
+            android:layout_marginRight="5dp"
+            android:textSize="18sp" />
 
     </RelativeLayout>
 

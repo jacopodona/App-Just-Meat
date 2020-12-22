@@ -2,22 +2,17 @@ package com.example.justmeat.homepage;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,23 +23,17 @@ import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.example.justmeat.R;
 import com.example.justmeat.homepage.adapter.BuoniAdapter;
-import com.example.justmeat.homepage.adapter.MieiOrdiniAdapter;
 import com.example.justmeat.homepage.adapter.ProdottoPrezzoAdapter;
+import com.example.justmeat.marketview.ProductItem;
 import com.example.justmeat.utilities.HttpJsonRequest;
-import com.google.android.material.card.MaterialCardView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import java.math.RoundingMode;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class DettagliMieiOrdiniFragment  extends Fragment {
 
@@ -54,7 +43,7 @@ public class DettagliMieiOrdiniFragment  extends Fragment {
     private ProdottoPrezzoAdapter adapter;
     private BuoniAdapter adapterBuoni;
     private View view;
-    private MaterialCardView maps;
+    private ImageView maps;
 
 
     public DettagliMieiOrdiniFragment(MieiOrdini ordine){
@@ -76,7 +65,7 @@ public class DettagliMieiOrdiniFragment  extends Fragment {
         TextView dataOrdine=view.findViewById(R.id.homepage_statoordine_textview_data);
         ImageView imageSupermercato= view.findViewById(R.id.homepage_statoordine_textview_imgview);
         TextView indirizzoSupermercato = view.findViewById(R.id.homepage_statoordine_textview_indirizzo);
-        maps=view.findViewById(R.id.homepage_button_aprisupermercatoinmaps);
+        maps = view.findViewById(R.id.homepage_button_aprisupermercatoinmaps);
 
 
         //statoOrdine.setText(ordine.getStato());
@@ -86,11 +75,9 @@ public class DettagliMieiOrdiniFragment  extends Fragment {
 
 
         ImageView logo= view.findViewById(R.id.homepage_statoordine_textview_imgview);
-        Glide.with(this.getActivity()).load("http://just-feet.herokuapp.com"+"/images/sl_"+ordine.getIdSupermercato()+".jpg")
-
+        Glide.with(this.getActivity())
+                .load("http://just-feet.herokuapp.com"+"/images/sl_"+ordine.getIdSupermercato()+".jpg")
                 .into(logo);
-
-        
 
 
         indirizzoSupermercato.setText(ordine.getIndirizzo());
@@ -120,14 +107,14 @@ public class DettagliMieiOrdiniFragment  extends Fragment {
             }
         });
 
-        recyclerView = view.findViewById(R.id.homepage_stato_ordine_rec_view);
+        recyclerView = view.findViewById(R.id.homepage_statoordine_rv_prod);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false);
 
         recyclerView.setLayoutManager(layoutManager);
 
         //rec view Buoni
-        recyclerViewBuoni = view.findViewById(R.id.stato_ordine_rec_view_buoni);
+        recyclerViewBuoni = view.findViewById(R.id.homepage_statoordine_rv_coupon);
         recyclerViewBuoni.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManagerBuoni = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false);
 
@@ -138,8 +125,9 @@ public class DettagliMieiOrdiniFragment  extends Fragment {
 
 
     public void getOrdine(Context context){
-
-        final LinkedList prodotti= new <Prodotto>LinkedList();
+        final ArrayList<ProductItem> products = new ArrayList<>();
+        final ArrayList<Double> coupons = new ArrayList<>();
+        System.out.println("/api/v1/get_order/"+ordine.getNumOrdine());
 
         new HttpJsonRequest(context, "/api/v1/get_order/"+ordine.getNumOrdine(), Request.Method.GET, ((HomepageActivity)getActivity()).getHttpToken(),
                 new Response.Listener<JSONObject>() {
@@ -148,68 +136,67 @@ public class DettagliMieiOrdiniFragment  extends Fragment {
                         Log.d("Order", response.toString());
 
                         try {
+                            JSONObject results = response.getJSONObject("results");
                             //Prendo i buoni
-                            LinkedList<Buono> listaBuoni= new LinkedList();
-                            for (int c = 0; c<((JSONArray)response.getJSONObject("results").getJSONArray("coupons_discounts")).length(); c++) {
-                                try {
-                                    Buono buono= new Buono();
-                                    buono.setPercentuale((int)(Double.parseDouble(response.getJSONObject("results").getJSONArray("coupons_discounts").get(c).toString())*100));
-                                    listaBuoni.add(buono);
 
-                                    buono= new Buono();
-                                    buono.setPercentuale(10);
-                                    listaBuoni.add(buono);
-
-
-
-
-                                } catch (Exception e){
-                                    Log.e("Err buoni", e.toString());
-                                }
-
+                            JSONArray arrayCoupons = results.getJSONArray("coupons");
+                            for (int pos = 0; pos < arrayCoupons.length(); pos++) {
+                                JSONObject currentCoupon = arrayCoupons.getJSONObject(pos);
+                                coupons.add(currentCoupon.getDouble("coupon_discount"));
                             }
 
-                            int numElementi=(response.getJSONObject("metadata").getInt("returned"));
                             double subtotale=0;
 
-                            for(int i=0; i<numElementi;i++){
+                            JSONArray arrayProducts = results.getJSONArray("products");
+                            for(int pos = 0; pos < arrayProducts.length(); pos++){
+                                JSONObject product = arrayProducts.getJSONObject(pos);
+                                Double sconto;
+                                String name = product.getString("product_name");
+                                Double prezzo = product.getDouble("price");
+                                int qt = product.getInt("quantity");
 
-                                Prodotto prodotto = new Prodotto();
-                                prodotto.setNomeProdotto(response.getJSONObject("results").getJSONArray("products").getJSONObject(i).get("product_name").toString());
-                                prodotto.setPrezzo(Double.parseDouble((response.getJSONObject("results").getJSONArray("products").getJSONObject(i).get("price").toString())));
-                                prodotti.add(prodotto);
-                                subtotale= subtotale+prodotto.getPrezzo();
-                                adapter = new ProdottoPrezzoAdapter(prodotti);
-                                recyclerView.setAdapter(adapter);
-                                recyclerView.setNestedScrollingEnabled(false);
-                            }
-                            TextView subtotaleTextView= view.findViewById(R.id.stato_ordine_subtotale_value);
-                            subtotaleTextView.setText(subtotale+" €");
+                                if(product.optInt("loyalty", 0) == 1){
+                                    //TODO  manca un controllo sulla carta
+                                     sconto = 0.0;
+                                } else {
+                                    sconto = product.getDouble("discount");
+                                }
+                                products.add(new ProductItem(name, prezzo, qt, sconto));
 
-
-
-                            //Calcolo valore buono
-                            double totale=subtotale;
-                            for (Buono b:listaBuoni) {
-                                b.setValoreBuono((totale*b.getPercentuale())/100);
-                                totale= totale-b.getValoreBuono();
+                                subtotale = subtotale+(prezzo * qt * (1 - sconto));
 
                             }
+                            TextView subtotaleTextView= view.findViewById(R.id.homepage_statoordine_txt_value_subtot);
+                            subtotaleTextView.setText(String.format("%.2f",subtotale)+" €");
 
-                            DecimalFormat df = new DecimalFormat("##.##");
-                            df.setRoundingMode(RoundingMode.DOWN);
+                            adapter = new ProdottoPrezzoAdapter(products);
+                            recyclerView.setAdapter(adapter);
+                            recyclerView.setNestedScrollingEnabled(false);
 
-                            TextView totaleTextView= view.findViewById(R.id.stato_ordine_totale_value);
-                            totaleTextView.setText(df.format(totale)+" €");
 
-                            adapterBuoni = new BuoniAdapter(listaBuoni);
-                            recyclerViewBuoni.setAdapter(adapterBuoni);
-                            recyclerViewBuoni.setNestedScrollingEnabled(false);
+                            double totale = subtotale;
+                            for (Double b:coupons) {
+                                totale = totale * (1 - b);
+                            }
+
+                            TextView totaleTextView= view.findViewById(R.id.homepage_statoordine_txt_tot);
+                            totaleTextView.setText(String.format("%.2f",totale)+" €");
+
+                            if(coupons.size() > 0){
+                                adapterBuoni = new BuoniAdapter(coupons, subtotale);
+                                recyclerViewBuoni.setAdapter(adapterBuoni);
+                                recyclerViewBuoni.setNestedScrollingEnabled(false);
+                            } else {
+                                view.findViewById(R.id.homepage_statoordine_txt_title_coupon).setVisibility(View.INVISIBLE);
+                                subtotaleTextView.setVisibility(View.INVISIBLE);
+                                view.findViewById(R.id.homepage_statoordine_txt_title_subtot).setVisibility(View.INVISIBLE);
+                            }
 
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                     }
                 },
                 new Response.ErrorListener() {
@@ -246,26 +233,6 @@ public class DettagliMieiOrdiniFragment  extends Fragment {
         }
     }
 
-    public class Buono{
-        private int percentuale;
-        private double valoreBuono;
-
-        public int getPercentuale() {
-            return percentuale;
-        }
-
-        public void setPercentuale(int percentuale) {
-            this.percentuale = percentuale;
-        }
-
-        public double getValoreBuono() {
-            return valoreBuono;
-        }
-
-        public void setValoreBuono(double valoreBuono) {
-            this.valoreBuono = valoreBuono;
-        }
-    }
 
 
 }

@@ -5,27 +5,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.example.justmeat.R;
-import com.example.justmeat.carrello.CarrelloActivity;
-import com.example.justmeat.checkout.CheckoutActivity;
 import com.example.justmeat.homepage.HomepageActivity;
 import com.example.justmeat.login.LoginActivity;
-import com.example.justmeat.marketview.MarketViewActivity;
 import com.example.justmeat.signup.SignupActivity;
-import com.example.justmeat.whithdrawal.WithdrawalActivity;
-import com.example.justmeat.utilities.HttpJsonRequest;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -34,10 +25,15 @@ import java.io.IOException;
 public class WelcomeActivity extends AppCompatActivity {
 
     private String nomeFile="user.json";
+    ImageView nome, logo, change_back, logoyellow;
+    ConstraintLayout base;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_welcome);
+
+
         setContentView(R.layout.activity_welcome);
 
         caricaUtente();
@@ -63,38 +59,12 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         });
 
-
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if(account != null) {
-            try {
-                JSONObject body = new JSONObject();
-                body.put("mail", account.getEmail());
-                body.put("id", account.getId());
-                body.put("name", account.getGivenName());
-                body.put("last_name", account.getFamilyName());
-
-                new HttpJsonRequest(getBaseContext(), "/auth/login/other", Request.Method.POST, body,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                Intent intent = new Intent(getApplicationContext(), HomepageActivity.class);
-                                intent.putExtra("user", response.toString());
-                                startActivity(intent);
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("asd", error.toString());
-                    }
-                }
-                ).run();
-            } catch(JSONException ex) {
-                return;
-            }
-        }
     }
 
+
+
     private void caricaUtente() {//carica utente che ha usato l'app di recente
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         String utente=readFromMemory();
         if(utente!=""){
             Intent intent=new Intent(this,HomepageActivity.class);

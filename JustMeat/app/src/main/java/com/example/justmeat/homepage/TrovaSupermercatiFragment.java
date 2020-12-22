@@ -1,72 +1,59 @@
 package com.example.justmeat.homepage;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
-import android.widget.SeekBar;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.example.justmeat.R;
-import com.example.justmeat.homepage.adapter.ListaSupermercatiAdapter;
-import com.example.justmeat.login.LoginActivity;
-import com.example.justmeat.utilities.HttpJsonRequest;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.button.MaterialButton;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.Arrays;
+import java.util.List;
 
-import java.util.ArrayList;
+import static android.app.Activity.RESULT_OK;
 
 public class TrovaSupermercatiFragment extends Fragment {
-
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 17;
+    int REQUEST_CHECK_SETTINGS = 33;
+    private static int AUTOCOMPLETE_REQUEST_CODE = 13;
+    LocationRequest request;
+    FusedLocationProviderClient fusedLocationProviderClient;
     private String httpToken;
-    private SeekBar seekbar;
-    private TextView progressText;
-    private ArrayList<IndirizzoPreferito> listaIndirizzoPreferito;
-    private ArrayAdapter<IndirizzoPreferito> adapterSpinner;
-    private MaterialButton cercaPosizione;
-    private Spinner spinner;
-    private ImageButton cercaIndirizzo;
     private int range;
-    private final double latitudinetrento = 46.0793;
-    private final double longitudinetrento = 11.1302;
-
-    private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
 
     public TrovaSupermercatiFragment(String httpToken) {
         this.httpToken = httpToken;
@@ -78,145 +65,116 @@ public class TrovaSupermercatiFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trova_supermercati, container, false);
 
-        listaIndirizzoPreferito = new ArrayList<>();
+        Button currentLocation = view.findViewById(R.id.homepage_btn_currentLocation);
+        CardView enterLocation = view.findViewById(R.id.homepage_btn_writeLocation);
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this.getActivity());
 
-        seekbar = (SeekBar) view.findViewById(R.id.homepage_seekbar_distanza);
-        progressText = (TextView) view.findViewById(R.id.homepage_textview_distanza);
-        cercaPosizione = view.findViewById(R.id.homepage_cercasupermercati_posizione_button);
-        cercaIndirizzo = view.findViewById(R.id.homepage_cercasupermercati_indirizzi_button);
-        spinner = view.findViewById(R.id.homepage_spinner_indirizzi);
-        progressText.setText("" + seekbar.getProgress() + " km");
-
-        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                progressText.setText("" + progress + " km");
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-
-        cercaPosizione.setOnClickListener(new View.OnClickListener() {
+        enterLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return;
-                }
-
-                LocationRequest locationRequest = new LocationRequest();
-                locationRequest.setInterval(10000);
-                locationRequest.setFastestInterval(3000);
-                locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-
-                LocationServices.getFusedLocationProviderClient(getActivity())
-                        .requestLocationUpdates(locationRequest, new LocationCallback() {
-
-                            @Override
-                            public void onLocationResult(LocationResult locationResult) {
-                                super.onLocationResult(locationResult);
-                                LocationServices.getFusedLocationProviderClient(getActivity())
-                                        .removeLocationUpdates(this);
-                                if(locationResult != null && locationResult.getLocations().size()>0){
-                                    int latestLocationIndex = locationResult.getLocations().size()-1;
-                                    double latitude = locationResult.getLocations().get(latestLocationIndex).getLatitude();
-                                    double longitude = locationResult.getLocations().get(latestLocationIndex).getLongitude();
-                                    LatLng currentPosition = new LatLng(latitude,longitude);
-                                    ((HomepageActivity) getActivity()).navigateTo(new ListaSupermercatiFragment(httpToken,latitude,
-                                            longitude, seekbar.getProgress()*1000),true);
-                                }
-                            }
-                        }, Looper.getMainLooper());
+                placeAutocomplete();
             }
         });
-
-        cercaIndirizzo.setOnClickListener(new View.OnClickListener() {
+        currentLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(listaIndirizzoPreferito.size()!=0) {
-                    IndirizzoPreferito selezionato = (IndirizzoPreferito) spinner.getSelectedItem();
-                    Log.e("Coordinate Indirizzo", selezionato.getLatitude() + " " + selezionato.getLongitude());
-                    ((HomepageActivity) getActivity()).navigateTo(new ListaSupermercatiFragment(httpToken, selezionato.getLatitude(),
-                            selezionato.getLongitude(), seekbar.getProgress() * 1000), true);
+                if (ContextCompat.checkSelfPermission(
+                        TrovaSupermercatiFragment.this.getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(
+                            TrovaSupermercatiFragment.this.getActivity(),
+                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION
+                    );
+                } else {
+                    getCurrentLocation();
                 }
             }
         });
-
-        new HttpJsonRequest(getContext(), "/api/v1/get_favourite_addresses", Request.Method.GET, httpToken,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d("OK", response.toString());
-                        try {
-                            JSONArray jsonArray=response.getJSONArray("results");
-                            for(int i=0;i<jsonArray.length();i++){
-                                JSONObject indirizzo=jsonArray.getJSONObject(i);
-                                int id=indirizzo.getInt("id");
-                                String nome=indirizzo.getString("name");
-                                String address=indirizzo.getString("address");
-                                double latitude=indirizzo.getDouble("latitude");
-                                double longitude=indirizzo.getDouble("longitude");
-                                listaIndirizzoPreferito.add(new IndirizzoPreferito(nome,address,latitude,longitude));
-                            }
-                            adapterSpinner=new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item,listaIndirizzoPreferito);
-                            adapterSpinner.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
-                            spinner.setAdapter(adapterSpinner);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("Err connessione", error.toString());
-
-                    }
-                }).run();
-
 
         return view;
     }
 
+    private void getCurrentLocation() {
+        request = new LocationRequest()
+                .setInterval(10000)
+                .setFastestInterval(5000)
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(request);
+
+        SettingsClient client = LocationServices.getSettingsClient(TrovaSupermercatiFragment.this.getActivity());
+        Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
+        task.addOnSuccessListener(TrovaSupermercatiFragment.this.getActivity(), new OnSuccessListener<LocationSettingsResponse>() {
+            @SuppressLint("MissingPermission")
+            @Override
+            public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+                fusedLocationProviderClient.requestLocationUpdates(request, locationCallback, null);
+            }
+        });
+        task.addOnFailureListener(TrovaSupermercatiFragment.this.getActivity(), new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                if (e instanceof ResolvableApiException){
+                    try{
+                        ResolvableApiException resolvable = (ResolvableApiException) e;
+                        resolvable.startResolutionForResult(TrovaSupermercatiFragment.this.getActivity(), REQUEST_CHECK_SETTINGS);
+                    } catch (IntentSender.SendIntentException sendEx){
+
+                    }
+                }
+            }
+        });
+    }
+
+    private LocationCallback locationCallback = new LocationCallback(){
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            if (locationResult == null){
+                return;
+            }
+            for (Location location : locationResult.getLocations()) {
+                ((HomepageActivity) getActivity()).navigateTo(new ListaSupermercatiFragment(httpToken, location.getLatitude(),
+                    location.getLongitude()), true);
+
+            }
+            fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+        }
+    };
+
+    private void placeAutocomplete() {
+        String apiKey = getString(R.string.maps_api_key);
+        if(!Places.isInitialized()){
+            Places.initialize(getActivity().getApplicationContext(), apiKey);
+        }
+        PlacesClient placesClient = Places.createClient(this.getContext());
+
+        List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
+
+        Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+                .setCountry("IT")
+                .build(this.getActivity());
+        startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+    }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode== REQUEST_CODE_LOCATION_PERMISSION && grantResults.length>0){
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
-
-            }else{
-                //Toast.makeText(getContext(), "permissio denied", Toast.LENGTH_SHORT).show();
-                AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
-                builder.setTitle("Necessari permessi");
-                builder.setMessage("Per il corretto funzionamento di questa funzione sono necessari i permessi al GPS");
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                AlertDialog dialog=builder.create();
-                dialog.show();
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+            if(resultCode == RESULT_OK) {
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                ((HomepageActivity) getActivity()).navigateTo(new ListaSupermercatiFragment(httpToken, place.getLatLng().latitude,
+                        place.getLatLng().longitude), true);
+                System.out.println("selezionato: "+place.getLatLng().toString());
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                Status status = Autocomplete.getStatusFromIntent(data);
+                System.out.println(status.toString());
+            }
+            return;
+        }
+        if(requestCode == REQUEST_CHECK_SETTINGS){
+            if(resultCode == Activity.RESULT_OK){
+                getCurrentLocation();
             }
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

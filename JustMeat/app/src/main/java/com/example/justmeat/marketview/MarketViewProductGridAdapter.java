@@ -138,7 +138,6 @@ public class MarketViewProductGridAdapter extends RecyclerView.Adapter<MarketVie
             stringPrezzo.setSpan(new StrikethroughSpan(), 0, defaultPrezzo.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             holder.price.setText(stringPrezzo);
         } else {
-
             holder.price.setText(String.format("%.2f",currentItem.getPrezzo())+"€");
         }
 
@@ -171,7 +170,8 @@ public class MarketViewProductGridAdapter extends RecyclerView.Adapter<MarketVie
         });
 
         if(currentItem.getDiscount()>0){
-            holder.discount.setText((currentItem.getDiscount()*100) +"%");
+            int sconto = (int)(currentItem.getDiscount()*100);
+            holder.discount.setText( sconto +"%");
         } else {
             holder.discount.setVisibility(View.INVISIBLE);
         }

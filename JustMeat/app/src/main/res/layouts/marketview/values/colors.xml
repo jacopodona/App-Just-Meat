@@ -2,6 +2,7 @@
 <resources>
     <color name="cerise">#DD4470</color>
     <color name="greyWeb">#7f7f7f</color>
+    <color name="orangePeel">#F59700</color>
     <color name="maximumyellowred">#FFC872 </color>
     <color name="peach">#ffe4b9</color>
 </resources>

@@ -8,23 +8,15 @@
     android:padding="16dp">
 
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/homepage_img_utente"
-        android:src="@drawable/account_place"/>
-    
     <TextView
+        android:id="@+id/homepage_textview_nomecognome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/homepage_textview_nomecognome"
-        android:text="Nome Cognome"
         android:paddingTop="8dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/homepage_textview_email"
-        android:text="email"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>

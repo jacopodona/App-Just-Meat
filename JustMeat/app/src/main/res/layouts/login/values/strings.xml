@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="login_accedi">Accedi</string>
-    <string name="login_text">Accedi</string>
+    <string name="login_button_send">Accedi</string>
     <string name="login_google">Accedi con Google</string>
     <string name="login_facebook">Accedi con Facebook</string>
     <string name="login_email">Email</string>
     <string name="login_password">Password</string>
     <string name="login_text1">Nuovo utente?</string>
     <string name="login_text2">Crea un Account</string>
+    <string name="welcome_accedi_shop">Accesso per Negozi</string>
+    <string name="welcome_txt_title">Bentornato, Accedi!</string>
 </resources>

@@ -1,7 +1,6 @@
 package com.example.justmeat.homepage;
 
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,7 +10,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -26,8 +24,15 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.example.justmeat.R;
+import com.example.justmeat.login.LoginActivity;
 import com.example.justmeat.utilities.HttpJsonRequest;
 import com.example.justmeat.utilities.MyApplication;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONException;
@@ -36,15 +41,7 @@ import org.json.JSONObject;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.logging.SimpleFormatter;
 
 public class HomepageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -52,7 +49,7 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
     private String httpToken;
     private User utente;
     private  NavigationView navigationview;
-    private Toolbar toolbar;
+    public Toolbar toolbar;
     private String nomeFile="user.json";
     private String input;
 
@@ -92,9 +89,6 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
         inizializzaNavigationView();
         caricaInfoHeader();
 
-
-
-
         // Get httpToken
         JSONObject user = null;
         this.httpToken = null;
@@ -131,7 +125,7 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
             //inizializzo il primo fragment a trova supermercati
             getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new TrovaSupermercatiFragment(httpToken)).commit();
             navigationview.setCheckedItem(R.id.homepage_nav_trova_supermercati);
-            getSupportActionBar().setTitle("Trova Supermercati");
+            getSupportActionBar().setTitle("");
         }
 
 
@@ -150,6 +144,22 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
     }
 
     private void cancellaUtenteLocale(){
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        final GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+
+        if(account != null){
+            googleSignInClient.signOut().addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    System.out.println("uscito da google");
+                }
+            });
+        }
+
         try {
             FileOutputStream fOut = openFileOutput(nomeFile, Context.MODE_PRIVATE);
             fOut.write("".getBytes());
@@ -188,7 +198,7 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
                 //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new TrovaSupermercatiFragment()).commit();
                 getSupportFragmentManager().popBackStack(null, getSupportFragmentManager().POP_BACK_STACK_INCLUSIVE);
                 navigateTo(new TrovaSupermercatiFragment(httpToken),true);
-                toolbar.setTitle("Trova Supermercati");
+                toolbar.setTitle("");
                 break;
             case R.id.homepage_nav_miei_ordini:
                 //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new MieiOrdiniFragment(httpToken)).commit();
@@ -204,12 +214,11 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
                 navigateTo(new OrdiniPreferitiFragment(httpToken),true);
                 toolbar.setTitle("Ordini Preferiti");
                 break;
-            case R.id.homepage_nav_indirizzi_preferiti:
-                //getSupportFragmentManager().beginTransaction().replace(R.id.homepage_fragment_container, new IndirizziPreferitiFragment()).commit();
 
+            case R.id.homepage_nav_fidcard:
                 getSupportFragmentManager().popBackStack(null, getSupportFragmentManager().POP_BACK_STACK_INCLUSIVE);
-                navigateTo(new IndirizziPreferitiFragment(httpToken),true);
-                toolbar.setTitle("Indirizzi Preferiti");
+                navigateTo(new CarteFedeltaFragment(), true);
+                toolbar.setTitle("Carte Fedeltà");
                 break;
             case R.id.homepage_nav_logout:
                 showLogoutDialog();
@@ -219,7 +228,6 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
         return true;
     }
 
-
     private void showUscitoDialog() {
         AlertDialog.Builder builder =new AlertDialog.Builder(this);
         builder.setTitle("");
@@ -227,7 +235,6 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
         builder.setPositiveButton("Conferma", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 finish();
             }
         });
@@ -241,8 +248,6 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
         dialog.show();
     }
 
-
-
     private void showLogoutDialog() {
         AlertDialog.Builder builder =new AlertDialog.Builder(this);
         builder.setTitle("Logout");
@@ -251,6 +256,8 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 cancellaUtenteLocale();
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
@@ -272,7 +279,7 @@ public class HomepageActivity extends AppCompatActivity implements NavigationVie
             showUscitoDialog();
         } else if(getSupportFragmentManager().getBackStackEntryCount()== 1){
             navigationview.setCheckedItem(R.id.homepage_nav_trova_supermercati);
-            toolbar.setTitle("Trova Supermercati");
+            toolbar.setTitle("");
             super.onBackPressed();
         }else {
             super.onBackPressed();

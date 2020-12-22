@@ -1,62 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/hamepage_card_spmkt_listasupermercati"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="20dp"
-    app:cardCornerRadius="4dp">
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    android:layout_marginVertical="10dp"
+    app:cardCornerRadius="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/homepage_imageview_logosupermercato_listasupermercati"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </ImageView>
+
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/linearLayout"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/card_supermercato_shopping_button"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/homepage_imageview_logosupermercato_listasupermercati"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/homepage_imageview_logosupermercato_listasupermercati"
-                android:layout_width="100dp"
-                android:scaleType="fitXY"
-                android:layout_height="match_parent"
-                android:src="@drawable/aldi">
-
-            </ImageView>
-
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/homepage_imageview_nomesupermercato_listasupermercati"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginLeft="0dp">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="25sp"
+                android:textStyle="bold">
 
-                <TextView
-                    android:id="@+id/homepage_imageview_nomesupermercato_listasupermercati"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:layout_marginTop="10dp"
-                    android:textSize="25dp"
-                    android:text="Aldi">
+            </TextView>
 
-                </TextView>
+            <TextView
+                android:id="@+id/homepage_imageview_indirizzosupermercato_listasupermercati"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-                <TextView
-                    android:id="@+id/homepage_imageview_indirizzosupermercato_listasupermercati"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                android:textSize="15dp">
 
-                    android:textSize="15dp"
-                    android:text="Via rossi, 15, Bolzaano">
-
-                </TextView>
-
-
-
-
-
-            </LinearLayout>
-
-
+            </TextView>
 
 
         </LinearLayout>
@@ -66,23 +68,17 @@
             android:layout_width="50dp"
             android:layout_height="match_parent"
 
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
 
-            android:layout_marginEnd="0dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginTop="0dp"
+            android:background="@color/primaryColor"
             android:src="@drawable/ic_shopping"
-            android:background="@color/primaryColor">
-
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
 
         </ImageButton>
-
-
-
-    </RelativeLayout>
-
-
-</com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

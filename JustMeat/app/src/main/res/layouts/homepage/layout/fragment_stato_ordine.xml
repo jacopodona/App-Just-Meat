@@ -1,211 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/homepage_statoordine_textview_stato"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/primaryTextColor"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homepage_statoordine_textview_imgview"></TextView>
+
+    <TextView
+        android:id="@+id/homepage_statoordine_textview_data"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/homepage_statoordine_textview_imgview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/homepage_statoordine_textview_imgview"
+        app:layout_constraintTop_toBottomOf="@+id/homepage_statoordine_textview_indirizzo"></TextView>
+
+    <ImageView
+        android:id="@+id/homepage_statoordine_textview_imgview"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/aldi"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+    <TextView
+        android:id="@+id/homepage_statoordine_textview_indirizzo"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:textColor="@color/primaryTextColor"
+        app:layout_constraintBottom_toTopOf="@+id/homepage_statoordine_textview_data"
+        app:layout_constraintEnd_toStartOf="@+id/homepage_button_aprisupermercatoinmaps"
+        app:layout_constraintStart_toEndOf="@+id/homepage_statoordine_textview_imgview"
+        app:layout_constraintTop_toTopOf="@+id/homepage_statoordine_textview_imgview"
+        app:layout_constraintVertical_bias="0.48000002">
+
+    </TextView>
+
+    <com.example.justmeat.homepage.CustomProgressBar
+        android:id="@+id/homepage_customProgressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homepage_statoordine_textview_stato">
 
+    </com.example.justmeat.homepage.CustomProgressBar>
 
-        <TextView
-            android:id="@+id/homepage_statoordine_textview_stato"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:text="Pronto per il ritiro"
-            android:textColor="@color/primaryTextColor"
-            android:textSize="20dp"
-            android:textStyle="bold"></TextView>
+    <ImageView
+        android:id="@+id/homepage_button_aprisupermercatoinmaps"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/homepage_statoordine_textview_indirizzo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/homepage_statoordine_textview_indirizzo"
+        app:srcCompat="@drawable/ic_mapbutton" />
 
-        <TextView
-            android:id="@+id/homepage_statoordine_textview_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:text="Mercoledì 08/04/2020 h19:00"
-            android:textColor="@color/primaryTextColor"
-            android:textSize="15dp"></TextView>
-
-        <ImageView
-            android:id="@+id/homepage_statoordine_textview_imgview"
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
-            android:layout_gravity="center"
-            android:src="@drawable/aldi"></ImageView>
-
-        <TextView
-            android:id="@+id/homepage_statoordine_textview_indirizzo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="0dp"
-            android:text="Via Roma, 14, Trento"
-            android:textColor="@color/primaryTextColor"
-            android:textSize="15dp">
-
-        </TextView>
-
-        <com.example.justmeat.homepage.CustomProgressBar
-            android:id="@+id/homepage_customProgressBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp">
-
-        </com.example.justmeat.homepage.CustomProgressBar>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/homepage_button_aprisupermercatoinmaps"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            app:strokeColor="@color/black"
-            app:strokeWidth="1dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="15dp"
-                    android:src="@drawable/aldi" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="Apri Supermercato in Maps"
-                    android:textSize="20sp" />
-            </RelativeLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/homepage_stato_ordine_rec_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </androidx.recyclerview.widget.RecyclerView>
-
-            </LinearLayout>
-
-
-        </androidx.core.widget.NestedScrollView>
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/homepage_statoordine_rv_prod"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homepage_customProgressBar" />
 
-        <Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/primaryColor">
+    <TextView
+        android:id="@+id/homepage_statoordine_txt_title_subtot"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/homepage_statoordine_txt_title_subtot"
+        app:layout_constraintStart_toStartOf="@+id/homepage_statoordine_rv_prod"
+        app:layout_constraintTop_toBottomOf="@+id/homepage_statoordine_rv_prod" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+    <TextView
+        android:id="@+id/homepage_statoordine_txt_value_subtot"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/homepage_statoordine_txt_title_subtot"
+        app:layout_constraintEnd_toEndOf="@+id/homepage_statoordine_rv_prod"
+        app:layout_constraintTop_toTopOf="@id/homepage_statoordine_txt_title_subtot" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/homepage_statoordine_txt_title_coupon"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/homepage_statoordine_txt_title_coupon"
+        app:layout_constraintStart_toStartOf="@+id/homepage_statoordine_txt_title_subtot"
+        app:layout_constraintTop_toBottomOf="@+id/homepage_statoordine_txt_title_subtot" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="15dp"
-                        android:gravity="center"
-                        android:text="Subtotale"
-                        android:textColor="@color/white"
-                        android:textSize="15dp"></TextView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/homepage_statoordine_rv_coupon"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/homepage_statoordine_rv_prod"
+        app:layout_constraintStart_toStartOf="@+id/homepage_statoordine_rv_prod"
+        app:layout_constraintTop_toBottomOf="@+id/homepage_statoordine_txt_title_coupon" >
 
-                    <TextView
-                        android:id="@+id/stato_ordine_subtotale_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="30dp"
-                        android:gravity="center"
-                        android:text="0.0 €"
-                        android:textColor="@color/white"
-                        android:textSize="20dp"></TextView>
-                </RelativeLayout>
+    </androidx.recyclerview.widget.RecyclerView>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/stato_ordine_rec_view_buoni"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/homepage_statoordine_txt_title_tot"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/homepage_statoordine_txt_title_tot"
+        app:layout_constraintStart_toStartOf="@+id/homepage_statoordine_rv_coupon"
+        app:layout_constraintTop_toBottomOf="@+id/homepage_statoordine_rv_coupon" />
 
-                </androidx.recyclerview.widget.RecyclerView>
-
-            </LinearLayout>
-
-
-        </Toolbar>
-
-        <Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/primaryColor"
-
-
-            >
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="15dp"
-                    android:gravity="center"
-                    android:text="Importo"
-                    android:textColor="@color/white"
-                    android:textSize="20dp"
-                    android:textStyle="bold"></TextView>
-
-                <TextView
-                    android:id="@+id/stato_ordine_totale_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="30dp"
-                    android:gravity="center"
-                    android:text="0.0 €"
-                    android:textColor="@color/white"
-                    android:textSize="20dp"
-                    android:textStyle="bold"></TextView>
-            </RelativeLayout>
+    <TextView
+        android:id="@+id/homepage_statoordine_txt_tot"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/homepage_statoordine_rv_coupon"
+        app:layout_constraintTop_toBottomOf="@+id/homepage_statoordine_rv_coupon" />
 
 
-        </Toolbar>
-    </LinearLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

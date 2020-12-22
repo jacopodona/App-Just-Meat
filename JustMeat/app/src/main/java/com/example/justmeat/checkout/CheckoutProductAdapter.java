@@ -41,12 +41,10 @@ public class CheckoutProductAdapter extends RecyclerView.Adapter <CheckoutProduc
             holder.title_discount.setVisibility(View.VISIBLE);
             double discountPrezzo =price * currentItem.getDiscount();
             holder.discount.setText("-"+String.format("%.2f",discountPrezzo)+" €");
-            holder.prodprice.setText(String.format("%.2f",price)+" €");
         } else {
             holder.title_discount.setVisibility(View.INVISIBLE);
-            holder.prodprice.setText(String.format("%.2f",price)+" €");
         }
-
+        holder.prodprice.setText(String.format("%.2f",price)+" €");
         holder.prodname.setText(currentItem.getNome());
         System.out.println(""+checkoutActivity.subtotal);
     }

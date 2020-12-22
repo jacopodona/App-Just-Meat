@@ -8,16 +8,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.justmeat.R;
-import com.example.justmeat.homepage.DettagliMieiOrdiniFragment;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class BuoniAdapter extends RecyclerView.Adapter<BuoniHolder> {
 
-    private List buoni;
+    private ArrayList<Double> buoni;
+    Double subtotale;
 
-    public BuoniAdapter(List buoni) {
+    public BuoniAdapter(ArrayList<Double> buoni, Double subtotale) {
         this.buoni = buoni;
+        this.subtotale = subtotale;
     }
 
     @NonNull
@@ -30,13 +31,12 @@ public class BuoniAdapter extends RecyclerView.Adapter<BuoniHolder> {
     @Override
     public void onBindViewHolder(@NonNull BuoniHolder holder, int position) {
         if (buoni != null && position < buoni.size()) {
-            DettagliMieiOrdiniFragment.Buono buono = (DettagliMieiOrdiniFragment.Buono)buoni.get(position);
+            Double coupon = buoni.get(position);
 
-            holder.buono.setText("Buono -"+buono.getPercentuale()+"%");
-            holder.valoreBuono.setText("-"+buono.getValoreBuono()+" €");
+            holder.buono.setText("Buono -"+coupon*100+"%");
 
-
-
+            Double valoreBuono = subtotale*coupon;
+            holder.valoreBuono.setText("-"+valoreBuono+" €");
         }
     }
 

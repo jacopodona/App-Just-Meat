@@ -191,7 +191,7 @@ public class MarketViewFragment extends Fragment {
         RecyclerView.LayoutManager cRVLM;
 
         cRV = view.findViewById(R.id.marketview_rv_categorie);
-        cRVLM= new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        cRVLM = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
 
         cRVA = new CategoriaAdapter(this);
         cRV.setLayoutManager(cRVLM);
@@ -265,8 +265,8 @@ public class MarketViewFragment extends Fragment {
                 }
                 default: catList.add(new CategoriaItem(R.drawable.category_carne, name, id));
             }
-            catList.add(new CategoriaItem(R.drawable.category_pref, "Preferiti", 0 ));
         }
+        catList.add(new CategoriaItem(R.drawable.category_pref, "Preferiti", 0 ));
     }
 
     private void showProduct(View view, int column){
@@ -321,7 +321,16 @@ public class MarketViewFragment extends Fragment {
             id = currentJSONObj.getInt("id");
             nome = currentJSONObj.getString("name");
             prezzo = currentJSONObj.getDouble("price");
-            discount = currentJSONObj.getDouble("discount");
+            if(currentJSONObj.optInt("loyalty", 0) == 1){
+                if (((MarketViewActivity)getActivity()).card_id != 0){
+                    discount = currentJSONObj.getDouble("discount");
+                } else {
+                    discount = 0.0;
+                }
+            } else{
+                discount = currentJSONObj.getDouble("discount");
+            }
+
             image = currentJSONObj.getString("image");
             description = currentJSONObj.getString("description");
             department = currentJSONObj.getInt("department");

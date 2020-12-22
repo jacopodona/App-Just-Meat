@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -29,17 +30,17 @@ public class MarketViewActivity extends AppCompatActivity{
     ArrayList<ProductItem> editFavoriteProd = new ArrayList<>();
     ImageView marketImage;
     int idSupermercato;
+    public int card_id;
     String nomeSpkmt;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.primaryDarkColor));
         System.out.println(((MyApplication)getApplication()).getHttpToken());
         super.onCreate(savedInstanceState);
         idSupermercato = getIntent().getIntExtra("idSupermercato",4);
-
-
+        card_id = getIntent().getIntExtra("loyalty",0);
         nomeSpkmt = getIntent().getStringExtra("nomeSupermercato");
-
 
         setContentView(R.layout.activity_marketview);
         marketImage = findViewById(R.id.marketview_img_appbar);
@@ -51,6 +52,12 @@ public class MarketViewActivity extends AppCompatActivity{
         quantityOnCart();
         marketViewFragment = new MarketViewFragment(idSupermercato);
         this.getSupportFragmentManager().beginTransaction().replace(R.id.marketview_frame_container, marketViewFragment).commit();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        quantityOnCart();
     }
 
     @Override
@@ -129,6 +136,7 @@ public class MarketViewActivity extends AppCompatActivity{
                 ((MyApplication) context.getApplication()).setCarrelloListProduct(carrello);
                 intent.putExtra("idSupermercato", idSupermercato);
                 intent.putExtra("nomeSupermercato", nomeSpkmt);
+                intent.putExtra("loyalty", card_id);
                 startActivity(intent);
             }
         });

@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -58,6 +59,8 @@ public class CheckoutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.primaryDarkColor));
         setContentView(R.layout.activity_checkout);
         Intent intent = getIntent();
         pickup_date = intent.getStringExtra("pickup_date");
@@ -84,6 +87,44 @@ public class CheckoutActivity extends AppCompatActivity {
     }
 
     private void setCheckoutLayout() {
+        ImageView backButton = findViewById(R.id.checkout_btn_back);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        ImageView homeButton = findViewById(R.id.checkout_btn_home);
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User user= ((MyApplication)getApplication()).getUtente();
+
+                JSONObject j= new JSONObject();
+                JSONObject userJson= new JSONObject();
+                try {
+                    userJson.put("id", user.getId())
+                            .put("name", user.getName())
+                            .put("last_name", user.getLast_name())
+                            .put("mail", user.getMail());
+                    j.put("user", userJson);
+                    j.put("token", ((MyApplication)getApplication()).getHttpToken());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Log.e("aasdasd", j.toString());
+
+                Intent intent = new Intent(CheckoutActivity.this , HomepageActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("EXIT", true);
+                intent.putExtra("user", j.toString());
+                startActivity(intent);
+                finish();
+            }
+        });
+
         ImageView divider = findViewById(R.id.checkout_img_divider);
         divider.setEnabled(false);
 
@@ -145,6 +186,7 @@ public class CheckoutActivity extends AppCompatActivity {
                         editText.setError("Il buono non è disponibile");
                     }
                 }catch (JSONException e){
+                    editText.setError("Il buono non è disponibile");
                     e.printStackTrace();
                 }
 
@@ -203,13 +245,13 @@ public class CheckoutActivity extends AppCompatActivity {
                 ImageView swipeImg = view.findViewById(R.id.checkout_img_swipe);
                 switch (i) {
                     case BottomSheetBehavior.STATE_COLLAPSED: {
-                        swipe.setText(R.string.swipe);
-                        swipeImg.setImageDrawable(getResources().getDrawable(R.drawable.ic_keyboard_arrow_up_black_24dp));
+                        swipe.setVisibility(View.VISIBLE);
+                        swipeImg.setVisibility(View.VISIBLE);
                         break;
                     }
                     case BottomSheetBehavior.STATE_EXPANDED: {
-                        swipe.setText("");
-                        swipeImg.setImageDrawable(null);
+                        swipe.setVisibility(View.INVISIBLE);
+                        swipeImg.setVisibility(View.INVISIBLE);
                         confirmDialog.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
                             @Override
                             public void onStateChanged(@NonNull View view, int i) {
@@ -262,8 +304,6 @@ public class CheckoutActivity extends AppCompatActivity {
 
                                 Log.e("aasdasd", j.toString());
 
-
-
                                 Intent intent = new Intent(activity , HomepageActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 intent.putExtra("EXIT", true);
@@ -274,7 +314,9 @@ public class CheckoutActivity extends AppCompatActivity {
                         });
                         favDialog.show();
 
-                        Button goHomeButton = view.findViewById(R.id.button);
+
+
+                        Button goHomeButton = view.findViewById(R.id.checkout_btn_swipebackhome);
                         goHomeButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +28,10 @@ public class CarrelloActivity extends AppCompatActivity implements RecyclerItemT
     CarrelloProductAdapter carrelloProductAdapter;
     int idSupermercato;
     String nomeSpkmt;
+    Button gotoCheckout;
+    ImageView emptyCart;
+    TextView totTitle;
+    RecyclerView rv;
 
 
     @Override
@@ -35,7 +40,7 @@ public class CarrelloActivity extends AppCompatActivity implements RecyclerItemT
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carrello);
         carrello = ((MyApplication) this.getApplication()).getCarrelloListProduct();
-
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.primaryDarkColor));
         idSupermercato = getIntent().getIntExtra("idSupermercato",4);
         nomeSpkmt = getIntent().getStringExtra("nomeSupermercato");
 
@@ -59,10 +64,10 @@ public class CarrelloActivity extends AppCompatActivity implements RecyclerItemT
     }
 
     private void setLayoutCarrello() {
-        Button gotoCheckout = findViewById(R.id.carrello_btn_checkout);
-        ImageView emptyCart = findViewById(R.id.carrello_img_emptycart);
-        TextView totTitle = findViewById(R.id.carrello_txt_totaletitle);
-        RecyclerView rv = findViewById(R.id.carrello_rv);
+        gotoCheckout = findViewById(R.id.carrello_btn_checkout);
+        emptyCart = findViewById(R.id.carrello_img_emptycart);
+        totTitle = findViewById(R.id.carrello_txt_totaletitle);
+        rv = findViewById(R.id.carrello_rv);
 
         if(carrello.isEmpty()){
             emptyCart.setVisibility(View.VISIBLE);
@@ -126,6 +131,24 @@ public class CarrelloActivity extends AppCompatActivity implements RecyclerItemT
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if(viewHolder instanceof CarrelloProductAdapter.ProductViewHolder){
             carrelloProductAdapter.removeItem(viewHolder.getAdapterPosition());
+            checkEmptyCart();
+        }
+    }
+
+    public void checkEmptyCart(){
+        if(carrello.isEmpty()){
+            emptyCart.setVisibility(View.VISIBLE);
+            rv.setVisibility(View.GONE);
+            totale_txt.setVisibility(View.GONE);
+            totTitle.setVisibility(View.GONE);
+
+            gotoCheckout.setText("Continua lo shopping");
+            gotoCheckout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
         }
     }
 }

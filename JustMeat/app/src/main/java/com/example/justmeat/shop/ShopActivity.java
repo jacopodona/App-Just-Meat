@@ -1,9 +1,5 @@
 package com.example.justmeat.shop;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +8,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -26,7 +26,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 
 public class ShopActivity extends AppCompatActivity {
 
@@ -45,7 +44,6 @@ public class ShopActivity extends AppCompatActivity {
         //listaOrdini = new ArrayList<>();
 
         progressBar=findViewById(R.id.shop_loading);
-        close = findViewById(R.id.shop_imageview_close);
 
         context = this;
         listaOrdini=new ArrayList<>();
